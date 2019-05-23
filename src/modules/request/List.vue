@@ -22,7 +22,7 @@
         </span>
         <span class="footer">
           <label class="text-primary action-link"><b>Ref. 112233</b></label>
-          <label class="pull-right">Total Borrowred: PHP 12, 000.00</label>
+          <label class="pull-right">Total Borrowed: PHP 12, 000.00</label>
         </span>
       </div>
     </div>
