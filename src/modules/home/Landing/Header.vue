@@ -4,7 +4,7 @@
       <span class="logo">
         <a class="navbar-brand" v-on:click="redirect('/')">
           <img src="../../../assets/img/logo_white.png" style="margin-bottom: 5px;">
-          <label>GoDIGIT</label>
+          <label>PAY<b>HIRAM</b></label>
         </a>
       </span>
       <span class="menu">
@@ -12,7 +12,6 @@
           <i class="fa fa-bars" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" onclick="void(0)"></i>
         </span>
         <ul class="header-primary-menu">
-          <li class="nav-item" v-on:click="redirect('/signup_partner')"><a class="nav-link">Be our Partner</a></li>
           <li class="nav-item" v-on:click="redirect('/signup')"><a class="nav-link">Register</a></li>
           <li class="nav-item" v-on:click="redirect('/login')"><a class="nav-link">Login</a></li>
         </ul>
@@ -20,7 +19,6 @@
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item" v-on:click="redirect('/signup_partner')"><a class="nav-link">Be our Partner</a></li>
         <li class="nav-item" v-on:click="redirect('/signup')"><a class="nav-link">Register</a></li>
         <li class="nav-item" v-on:click="redirect('/login')"><a class="nav-link">Login</a></li>
       </ul>

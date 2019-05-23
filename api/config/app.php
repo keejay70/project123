@@ -169,6 +169,14 @@ return [
          * Package Service Providers...
          */
 
+
+        Increment\Account\AccountServiceProvider::class,
+        Increment\Common\Comment\CommentServiceProvider::class,
+        Increment\Common\Rating\RatingServiceProvider::class,
+        Increment\Common\Image\ImageServiceProvider::class,
+        Increment\Common\Tutorial\TutorialServiceProvider::class,
+        Increment\Messenger\MessengerServiceProvider::class,
+
         /*
          * Application Service Providers...
          */

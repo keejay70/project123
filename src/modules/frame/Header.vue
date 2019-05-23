@@ -3,16 +3,15 @@
     <div class="system-header">
       <a class="navbar-brand" v-on:click="redirect('dashboard')">
         <img src="../../assets/img/logo_white.png" class="logo-brand">
-        <label class="navbar-brand hide-on-mobile"><b class="text-white">GoDIGIT</b></label>
+        <label class="navbar-brand hide-on-mobile"><b class="text-white">PAYHIRAM</b></label>
       </a>
     </div>
     <nav class="header-navbar">
-      <span class="navbar-menu-toggler-md" v-bind:class="{'active-menu': menuFlag === true}" data-toggle="collapse" data-target="#ClassWorx" aria-controls="ClassWorx" aria-expanded="false" aria-label="Toggle navigation" v-on:click="makeActive('menu')">
+      <span class="navbar-menu-toggler-md" v-bind:class="{'active-menu': menuFlag === true}" data-toggle="collapse" data-target="#idfactory" aria-controls="idfactory" aria-expanded="false" aria-label="Toggle navigation" v-on:click="makeActive('menu')">
           <i class="fa fa-bars" aria-hidden="true"></i>
       </span>
       <span class="left-menu-icons">
         <label class="account-type  hide-on-mobile bg-warning" v-if="user !== null">{{user.type}}</label>
-        <label class="account-type  hide-on-mobile bg-danger" v-if="user !== null && user.plan !== null">{{user.plan.title.toUpperCase()}}</label>
       </span>
       <span class="right-menu-icons">
         <div class="dropdown"> 
@@ -25,7 +24,7 @@
                 <span class="account-picture text-center">
                   <span class="profile-photo-header">
                     <span class="profile-image-holder-header"  v-if="user.profile !== null">
-                      <img v-bind:src="config.BACKEND_URL + user.profile.profile_url">
+                      <img v-bind:src="config.BACKEND_URL + user.profile.url">
                     </span>
                     <i class="fa fa-user-circle-o" v-else></i>
                   </span>
@@ -39,9 +38,9 @@
                 <i class="fa fa-cog"></i>
                 <label>My Profile</label>
               </span>
-              <span class="dropdown-item" v-on:click="redirect('/plan')">
-                <i class="fa fa-tag"></i>
-                <label>My Plan</label>
+              <span class="dropdown-item" v-on:click="redirect('/referrals')">
+                <i class="fa fa-users"></i>
+                <label>Invite Friends</label>
               </span>
               <span class="dropdown-item dropdown-item-menu-title">
                 <label>Documents</label>
@@ -70,15 +69,17 @@
             <span class="nav-item" data-toggle="dropdown" id="notifications" aria-haspopup="true" aria-expanded="false">
               <span>
                 <i class="fas fa-envelope" style="font-size: 22px;margin-top: 2px;"></i>
-                <!-- <label class="badge badge-danger" style="margin-left: -15px;" v-if="parseInt(user.messages.current) > 0">{{user.messages.current}}</label> -->
+                <label class="badge badge-danger" style="margin-left: -15px;" v-if="parseInt(user.messages.totalUnreadMessages) > 0">{{user.messages.totalUnreadMessages}}</label>
               </span>
               <span class="dropdown-menu dropdown-menu-right dropdown-menu-notification" aria-labelledby="notifications">
                 <span class="notification-header" @click="redirect('/messenger')">
-                  View Messages
+                  Recent
+                  <label class="badge badge-danger">{{user.messages.totalUnreadMessages}}</label>
                 </span>
-                <span class="notification-item" v-for="item, index in user.messages.data" v-if="user.messages.data !== null">
+                <span class="notification-item" v-for="item, index in user.messages.data" v-if="user.messages.data !== null" @click="redirect('/messenger/' + item.title.username)">
                   <span class="notification-title">
-                        {{item.title.username}}
+                    {{item.title.username}}
+                    <label class="badge badge-danger" style="margin-left: 5px;" v-if="parseInt(item.total_unread_messages) > 0">{{item.total_unread_messages}}</label>
                   </span>
                   <span class="notification-description">{{item.description}}</span>
                   <span class="notification-date">Posted on {{item.created_at_human}}</span>
@@ -99,19 +100,15 @@
                   Notifications
                 </span>
                 <span class="notification-item" v-for="item, index in user.notifications.data" v-if="user.notifications.data !== null && item.status !== 'ac_viewed'" v-on:click="executeNotifItem(item)">
-                  <span class="notification-title">{{item.title}}</span>
+                  <span class="notification-title">
+                    {{item.title}}
+                  </span>
                   <span class="notification-description">{{item.description}}</span>
                   <span class="notification-date">Posted on {{item.created_at}}</span>
                 </span>
               </span>
             </span>
         </div>
-        <span class="nav-item" @click="redirect('/checkout')" v-if="user.checkout > 0 && user.checkout !== null">
-          <span>
-            <i class="fa fa-shopping-cart"></i>
-            <label class="badge badge-danger" style="margin-left: -15px;" v-if="user.checkout > 0 && user.checkout !== null">{{user.checkout}}</label>
-          </span>
-        </span>
 
       </span>
 
@@ -189,7 +186,7 @@ body{
 
   .system-header{
     float: left;
-    height: 8vh;
+    height: 50px;
     font-size: 24px;
     width: 18%;
     background: #028170;
@@ -200,7 +197,7 @@ body{
   
   .header-navbar{
     background: #22b173;
-    height: 8vh;
+    height: 50px;
     float: left;
     width: 82%;
     position: fixed;
@@ -223,7 +220,7 @@ body{
 
 -----------------------------------------------*/
   .header-navbar-nav{
-      height: 8vh;
+      height: 50px;
       float: left;
       color: #fff;
       width: 15%;
@@ -259,14 +256,15 @@ body{
 }
 .nav-item{
   width: 5%;
-  height: 8vh;
+  height: 50px;
   text-align: center;
   float: right;
   color: #fff;
   display: inline;
+  padding-top: 0px !important;
 }
 .left-menu-icons, right-menu-icons{
-  height: 8vh;
+  height: 50px;
   float: left;
   width: 50%;
   position: fixed;

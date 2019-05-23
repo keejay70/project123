@@ -3,6 +3,9 @@ import {router} from '../../router/index'
 import ROUTER from '../../router'
 import {Howl} from 'howler'
 import Vue from 'vue'
+import Echo from 'laravel-echo'
+import Pusher from 'pusher-js'
+import Config from '../../config.js'
 export default {
   user: {
     userID: 0,
@@ -11,44 +14,54 @@ export default {
     type: null,
     status: null,
     profile: null,
-    cart: 0,
-    plan: null,
     notifications: {
       data: null,
       current: null,
       prevCurrent: null
     },
+    notifSetting: null,
     messages: {
       data: null,
-      current: 1,
-      prevCurrent: null
+      totalUnreadMessages: 0
     }
   },
   messenger: {
-    flag: null
+    messages: null,
+    badge: 0,
+    messengerGroupId: null
+  },
+  support: {
+    messages: null,
+    badge: 0,
+    messengerGroupId: null
   },
   notifTimer: {
     timer: null,
     speed: 1000
-  },
-  google: {
-    code: null
   },
   tokenData: {
     token: null,
     tokenTimer: false,
     verifyingToken: false
   },
+  otpDataHolder: {
+    userInfo: null,
+    data: null
+  },
+  google: {
+    code: null,
+    scope: null
+  },
+  echo: null,
   currentPath: false,
-  setUser(userID, username, email, type, status, profile, checkout, plan){
+  setUser(userID, username, email, type, status, profile, notifSetting){
     if(userID === null){
       username = null
       email = null
       type = null
       status = null
       profile = null
-      checkout = 0
-      plan = null
+      notifSetting = null
     }
     this.user.userID = userID * 1
     this.user.username = username
@@ -56,8 +69,7 @@ export default {
     this.user.type = type
     this.user.status = status
     this.user.profile = profile
-    this.user.checkout = checkout
-    this.user.plan = plan
+    this.user.notifSetting = notifSetting
     localStorage.setItem('account_id', this.user.userID)
   },
   setToken(token){
@@ -92,14 +104,15 @@ export default {
           }]
         }
         vue.APIRequest('accounts/retrieve', parameter).then(response => {
-          let profile = response.data[0].account_profile
-          let checkout = response.data[0].checkout
-          let plan = response.data[0].plan
-          this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, checkout, plan)
-          ROUTER.push('/templates')
+          if(response.data.length > 0){
+            this.otpDataHolder.userInfo = userInfo
+            this.otpDataHolder.data = response.data
+            this.checkOtp(response.data[0].notification_settings)
+          }
         })
         // this.retrieveNotifications(userInfo.id)
         this.retrieveMessages(userInfo.id, userInfo.account_type)
+        this.connect()
         if(callback){
           callback(userInfo)
         }
@@ -126,12 +139,12 @@ export default {
         }
         vue.APIRequest('accounts/retrieve', parameter).then(response => {
           let profile = response.data[0].account_profile
-          let checkout = response.data[0].checkout
-          let plan = response.data[0].plan
-          this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, checkout, plan)
+          let notifSetting = response.data[0].notification_settings
+          this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, notifSetting)
         }).done(response => {
           this.tokenData.verifyingToken = false
           let location = window.location.href
+          this.connect()
           if(this.currentPath){
             // ROUTER.push(this.currentPath)
           }else{
@@ -140,6 +153,7 @@ export default {
         })
         // this.retrieveNotifications(userInfo.id)
         this.retrieveMessages(userInfo.id, userInfo.account_type)
+        this.getGoogleCode()
       }, (response) => {
         this.setToken(null)
         this.tokenData.verifyingToken = false
@@ -158,10 +172,11 @@ export default {
   deaunthenticate(){
     localStorage.removeItem('usertoken')
     localStorage.removeItem('account_id')
+    localStorage.removeItem('google_code')
+    localStorage.removeItem('google_scope')
     this.setUser(null)
     let vue = new Vue()
     vue.APIRequest('authenticate/invalidate')
-    this.clearMessenger()
     this.clearNotifTimer()
     this.tokenData.token = null
     ROUTER.go('/')
@@ -192,6 +207,7 @@ export default {
     }
     vue.APIRequest('messenger_groups/retrieve_summary', parameter).then(response => {
       this.user.messages.data = response.data
+      this.user.messages.totalUnreadMessages = response.total_unread_messages
     })
   },
   startNotifTimer(accountId){
@@ -209,35 +225,110 @@ export default {
       this.notifTimer.timer = null
     }
   },
-  clearMessenger(){
-    if(this.messenger.flag !== null){
-      this.messenger.flag = null
-    }
-  },
   playNotificationSound(){
     let audio = require('../../assets/audio/notification.mp3')
     let sound = new Howl({
       src: [audio]
     })
-    if(this.user.notifications.prevCurrent === null){
-      sound.play()
-      this.user.notifications.prevCurrent = this.user.notifications.current
-    }else if(this.user.notifications.prevCurrent < this.user.notifications.current){
-      sound.play()
-      this.user.notifications.prevCurrent = this.user.notifications.current
-    }
+    sound.play()
   },
   checkPlan(){
-    if(this.user.plan.title === 'Expired' && this.user.type !== 'ADMIN'){
-      ROUTER.push('/plan')
+    if(this.user.plan !== null){
+      if(this.user.plan.title === 'Expired' && this.user.type !== 'ADMIN'){
+        ROUTER.push('/plan')
+      }
     }
   },
   redirect(path){
-    if(path.includes('messenger') === false){
-      this.clearMessenger()
-    }else{
-      this.messenger.flag = true
-    }
     ROUTER.push(path)
+  },
+  validateEmail(email){
+    let reg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+.[a-zA-Z0-9]*$/
+    if(reg.test(email) === false){
+      return false
+    }else{
+      return true
+    }
+  },
+  checkOtp(setting){
+    if(setting !== null){
+      if(parseInt(setting.email_otp) === 1 || parseInt(setting.sms_otp) === 1){
+        // ask otp code here
+        $('#otpModal').modal({
+          backdrop: 'static',
+          keyboard: true,
+          show: true
+        })
+      }else{
+        this.proceedToLogin()
+      }
+    }else{
+      this.proceedToLogin()
+    }
+  },
+  proceedToLogin(){
+    let userInfo = this.otpDataHolder.userInfo
+    let data = this.otpDataHolder.data
+    let profile = data[0].account_profile
+    let notifSetting = data[0].notification_settings
+    this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, notifSetting)
+    ROUTER.push('/dashboard')
+  },
+  setGoogleCode(code, scope){
+    localStorage.setItem('google_code', code)
+    localStorage.setItem('google_scope', scope)
+    this.google.code = code
+    this.google.scope = scope
+  },
+  getGoogleCode(){
+    this.google.code = localStorage.getItem('google_code')
+    this.google.scope = localStorage.getItem('google_scope')
+  },
+  connect(){
+    if(!this.echo){
+      this.echo = new Echo({
+        broadcaster: 'pusher',
+        key: Config.PUSHER_KEY,
+        cluster: 'ap1',
+        encrypted: true,
+        auth: {
+          headers: {
+            Authorization: 'Bearer' + this.tokenData.token
+          }
+        }
+      })
+      $.ajaxSetup({
+        beforeSend: function() {}
+      })
+    }
+    this.echo.channel('idfactory').listen('Message', (response) => {
+      if(parseInt(response.message.account_id) !== this.user.userID && response.message.type === 'support'){
+        this.playNotificationSound()
+        if(this.support.messengerGroupId !== parseInt(response.message.messenger_group_id) && this.support.messengerGroupId !== null){
+          this.support.badge++
+        }
+        if(!this.support.messages){
+          this.support.messages = []
+          this.support.messages.push(response.message)
+        }else{
+          if(this.support.messengerGroupId === parseInt(response.message.messenger_group_id)){
+            this.support.messages.push(response.message)
+          }
+        }
+      }else if(parseInt(response.message.account_id) !== this.user.userID && response.message.type !== 'support'){
+        this.playNotificationSound()
+        if(this.messenger.messengerGroupId !== parseInt(response.message.messenger_group_id) && this.messenger.messengerGroupId !== null){
+          this.messenger.badge++
+        }
+        if(!this.messenger.messages){
+          this.messenger.messages = []
+          this.messenger.messages.push(response.message)
+        }else{
+          if(this.messenger.messengerGroupId === parseInt(response.message.messenger_group_id)){
+            this.messenger.messages.push(response.message)
+          }
+        }
+      }
+    })
   }
 }
