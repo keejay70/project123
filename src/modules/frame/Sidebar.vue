@@ -409,10 +409,12 @@ export default {
       user: AUTH.user,
       config: CONFIG,
       menu: [
-        {id: 1, users: 'ALL', parent_id: 0, description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false}
+        {id: 1, users: 'ALL', parent_id: 0, description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
+        {id: 2, users: 'INVESTOR', parent_id: 0, description: 'Request List', icon: 'fa fa-file', path: 'requests', flag: false, subMenu: null}
       ],
       menuOff: [
-        {id: 1, users: 'ALL', parent_id: 0, description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null}
+        {id: 1, users: 'ALL', parent_id: 0, description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
+        {id: 2, users: 'INVESTOR', parent_id: 0, description: 'Request List', icon: 'fa fa-file', path: 'requests', flag: false, subMenu: null}
       ],
       toggleSidebar: 'fa fa-toggle-on',
       hide: '',

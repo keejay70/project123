@@ -77,6 +77,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/requests/',
+    name: 'requests',
+    component: resolve => require(['modules/request/List.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }

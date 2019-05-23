@@ -11,7 +11,7 @@
           <i class="fa fa-bars" aria-hidden="true"></i>
       </span>
       <span class="left-menu-icons">
-        <label class="account-type  hide-on-mobile bg-warning" v-if="user !== null">{{user.type}}</label>
+        <!-- <label class="account-type  hide-on-mobile bg-warning" v-if="user !== null">{{user.type}}</label> -->
       </span>
       <span class="right-menu-icons">
         <div class="dropdown"> 
