@@ -14,13 +14,22 @@
           </span>
           <br v-if="errorMessage !== null">
           <div class="form-group">
-            <label for="exampleInputEmail1">Amount</label>
+            <label for="exampleInputEmail1">I want to borrow the amount of</label>
             <input type="text" class="form-control" v-model="newRequest.amount">
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Number of months</label>
-            <input type="text" class="form-control" v-model="newRequest.months">
+            <label for="exampleInputEmail1">I will pay within</label>
+            <select class="form-control" v-model="newRequest.months_payable">
+              <option v-for="item in 12" v-bind:value="item">{{item}} Month{{(item === 1) ? '' : 's'}}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">The reason I borrow is</label>
+            <textarea rows="10" v-model="newRequest.reason" class="form-control">
+              
+            </textarea>
           </div>
 
         </div>
@@ -35,7 +44,8 @@
 <style scoped>
 
 .form-control{
-  height: 45px !important;
+  min-height: 45px !important;
+  overflow-y: hidden;
 }
 .input-group{
   margin-bottom: 10px !important;
@@ -59,8 +69,11 @@ export default {
       errorMessage: null,
       newRequest: {
         amount: null,
-        months: null,
-        interest: null
+        months_payable: null,
+        interest: 2,
+        reason: null,
+        status: 0,
+        account_id: null
       }
     }
   },
@@ -72,6 +85,12 @@ export default {
       $('#createRequestModal').modal('hide')
     },
     submit(){
+      this.newRequest.account_id = this.user.userID
+      $('#loading').css({display: 'block'})
+      this.APIRequest('requests/create', this.newRequest).then(response => {
+        $('#loading').css({display: 'none'})
+        this.hideModal()
+      })
     }
   }
 }

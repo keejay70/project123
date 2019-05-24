@@ -4,25 +4,25 @@
       <div class="rl-container-header">
         <label><b>Requests</b></label>
       </div>
-      <div class="rl-container-item">
+      <div class="rl-container-item" v-for="item, index in data" v-if="data !== null">
         <span class="header">
           <label>
             <i class="fas fa-user-circle" style="color: #555; padding-right: 5px;"></i>
-            Kennette Canales
+            {{item.account.username}}
           </label>
-          <label><i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>May 20, 2019</label>
-          <label class="pull-right">
-            <i v-bind:class="{'far': stars === 0 || i > stars, 'fas text-warning': i <= stars}" class="fa-star" v-for="i in 5"></i>
+          <label><i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>{{item.created_at_human}}</label>
+          <label class="pull-right" v-if="item.rating.total > 0">
+            <i v-bind:class="{'far': item.rating.avg === 0 || i > item.rating.avg, 'fas text-warning': i <= item.rating.avg}" class="fa-star" v-for="i in 5"></i>
           </label>
         </span>
         <span class="body">
           <label>
-            I want to use it as my allowance this month.
+            Requested the amount of <b>PHP {{item.amount}}</b> with the interest rate of {{item.interest}}% per month and payable within {{item.months_payable}} Month(s) for the reason of {{item.reason}}.
           </label>
         </span>
         <span class="footer">
-          <label class="text-primary action-link"><b>Ref. 112233</b></label>
-          <label class="pull-right">Total Borrowed: PHP 12, 000.00</label>
+          <label class="text-primary action-link" @click="redirect('/request/' + item.code)"><b>Reference #{{item.id}}</b></label>
+          <label class="pull-right">Total Borrowed: PHP {{item.total}}</label>
         </span>
       </div>
     </div>
@@ -75,11 +75,16 @@
 .rl-container-item .header label{
   margin-bottom: 0px;
 }
-.rl-container-item .body,{
+.rl-container-item .body{
   width: 100%;
   float: left;
   min-height: 50px;
   overflow-y: hidden;
+}
+
+.rl-container-item .body label{
+  margin-bottom: 0px;
+  width: 100%;
 }
 
 .rl-container-item .footer{
@@ -120,10 +125,14 @@ import ROUTER from '../../router'
 import AUTH from '../../services/auth'
 import CONFIG from '../../config.js'
 export default{
+  mounted(){
+    this.retrieve()
+  },
   data(){
     return {
       user: AUTH.user,
-      stars: 3
+      stars: 3,
+      data: null
     }
   },
   components: {
@@ -135,6 +144,27 @@ export default{
     },
     showRequestModal(){
       $('#createRequestModal').modal('show')
+    },
+    retrieve(){
+      let parameter = {
+        condition: [{
+          value: 0,
+          column: 'status',
+          clause: '='
+        }],
+        sort: {
+          'created_at': 'desc'
+        }
+      }
+      $('#loading').css({display: 'block'})
+      this.APIRequest('requests/retrieve', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        if(response.data.length > 0){
+          this.data = response.data
+        }else{
+          this.data = null
+        }
+      })
     }
   }
 
