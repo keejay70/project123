@@ -5,7 +5,7 @@
        <system-header></system-header>
        <system-sidebar></system-sidebar>
        <support-messenger></support-messenger>
-       <tutorial></tutorial>
+       <!-- <tutorial></tutorial> -->
       </div>
       <div v-else>
         <login-header></login-header>

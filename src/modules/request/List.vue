@@ -6,23 +6,34 @@
       </div>
       <div class="rl-container-item" v-for="item, index in data" v-if="data !== null">
         <span class="header">
-          <label>
+          <label class="action-link">
             <i class="fas fa-user-circle" style="color: #555; padding-right: 5px;"></i>
             {{item.account.username}}
           </label>
           <label><i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>{{item.created_at_human}}</label>
-          <label class="pull-right" v-if="item.rating.total > 0">
-            <i v-bind:class="{'far': item.rating.avg === 0 || i > item.rating.avg, 'fas text-warning': i <= item.rating.avg}" class="fa-star" v-for="i in 5"></i>
+        </span>
+        <span class="summary-header">
+          <label>
+            <b>PHP {{item.amount}}</b>
+          </label>
+          <label>
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>{{item.interest}}% interest per Month for {{item.months_payable}} Month(s)
           </label>
         </span>
         <span class="body">
           <label>
-            Requested the amount of <b>PHP {{item.amount}}</b> with the interest rate of {{item.interest}}% per month and payable within {{item.months_payable}} Month(s) for the reason of {{item.reason}}.
+           {{item.reason}}
           </label>
         </span>
         <span class="footer">
-          <label class="text-primary action-link" @click="redirect('/request/' + item.code)"><b>Reference #{{item.id}}</b></label>
-          <label class="pull-right">Total Borrowed: PHP {{item.total}}</label>
+          <label>
+            <i v-bind:class="{'far': item.rating.avg === 0 || i > item.rating.avg, 'fas text-warning': i <= item.rating.avg}" class="fa-star" v-for="i in 5"></i>
+          </label>
+          <label>
+            Total Borrowed: PHP {{item.total}}
+          </label>
+          <button class="btn btn-primary pull-right">Invest</button>
+          <button class="btn btn-warning pull-right" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
         </span>
       </div>
     </div>
@@ -72,13 +83,19 @@
   line-height: 50px;
   color: #555;
 }
-.rl-container-item .header label{
+.rl-container-item .summary-header{
+  width: 100%;
+  float: left;
+  line-height: 20px;
+  color: #555; 
+}
+.rl-container-item .header label, .rl-container-item .summary-header label{
   margin-bottom: 0px;
 }
 .rl-container-item .body{
   width: 100%;
   float: left;
-  min-height: 50px;
+  min-height: 10px;
   overflow-y: hidden;
 }
 
@@ -164,6 +181,15 @@ export default{
         }else{
           this.data = null
         }
+      })
+    },
+    bookmark(id){
+      let parameter = {
+        account_id: this.user.userID,
+        request_id: id
+      }
+      this.APIRequest('bookmarks/create', parameter).then(response => {
+        //
       })
     }
   }

@@ -112,3 +112,19 @@ Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
 
+// Bookmark
+$route = env('PACKAGE_ROUTE', '').'/bookmarks/';
+$controller = 'BookmarkController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
+
+// Ledger
+$route = env('PACKAGE_ROUTE', '').'/ledgers/';
+$controller = 'LedgerController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
+
