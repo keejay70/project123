@@ -6,7 +6,7 @@
       </div>
       <div class="rl-container-item" v-for="item, index in data" v-if="data !== null">
         <span class="header">
-          <label class="action-link text-primary">
+          <label class="action-link text-primary" @click="showProfileModal(item)">
             <i class="fas fa-user-circle" style="color: #555; padding-right: 5px;"></i>
             {{item.account.username}}
           </label>
@@ -48,6 +48,7 @@
     </div>
     <create-request></create-request>
     <invest :item="selecteditem"></invest>
+    <profile :item="selecteditem"></profile>
   </div>
 </template>
 <style scoped>
@@ -163,7 +164,8 @@ export default{
   },
   components: {
     'create-request': require('modules/request/Create.vue'),
-    'invest': require('modules/request/Invest.vue')
+    'invest': require('modules/request/Invest.vue'),
+    'profile': require('modules/request/Profile.vue')
   },
   methods: {
     redirect(parameter){
@@ -175,6 +177,10 @@ export default{
     showInvestmentModal(item){
       this.selecteditem = item
       $('#createInvestmentModal').modal('show')
+    },
+    showProfileModal(item){
+      this.selecteditem = item
+      $('#profileModal').modal('show')
     },
     retrieve(){
       let parameter = {
