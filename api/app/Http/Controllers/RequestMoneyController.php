@@ -40,7 +40,7 @@ class RequestMoneyController extends APIController
     		foreach ($result as $key) {
     			$this->response['data'][$i]['rating'] = app($this->ratingClass)->getRatingByPayload('profile', $result[$i]['account_id']);
     			$this->response['data'][$i]['account'] = $this->retrieveAccountDetails($result[$i]['account_id']);
-          $this->response['data'][$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y h:i a');
+          $this->response['data'][$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
           $this->response['data'][$i]['total'] = $this->getTotalBorrowed($result[$i]['account_id']);
     			$i++;
     		}
@@ -51,5 +51,15 @@ class RequestMoneyController extends APIController
     public function getTotalBorrowed($accountId){
     	$result = RequestMoney::where('account_id', '=', $accountId)->where('status', '=', 1)->sum('amount');
     	return $result;
+    }
+
+    public function total(){
+      $result = RequestMoney::where('status', '=', 0)->sum('amount');
+      return $result;
+    }
+
+    public function approved(){
+      $result = RequestMoney::where('status', '=', 1)->sum('amount');
+      return $result;
     }
 }

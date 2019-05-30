@@ -1,47 +1,17 @@
 <template>
   <div class="dashboard-wrapper">
-    <div class="dashboard-left-container">
-      <div class="dl-container-item bg-primary">
-        <label class="header"><b>Account Balance</b></label>
-        <label class="content">PHP 10, 000.00</label>
-        <span style="margin-bottom: 5px;">
-          <button class="btn btn-primary">Withdraw</button>
-          <button class="btn btn-warning pull-right" style="margin-top: 4px;">Invest</button>
-        </span>
-      </div>
-
-      <div class="dl-container-item">
-        <label class="header"><b>Requested Amount</b></label>
-        <label class="content">PHP 10, 000.00</label>
-        <span style="margin-bottom: 5px;">
-          <button class="btn btn-primary" @click="redirect('/requests')">Visit</button>
-        </span>
-      </div>
-
-      <div class="dl-container-item">
-        <label class="header"><b>Approved Amount</b></label>
-        <label class="content">PHP 10, 000.00</label>
-      </div>
-
-      <div class="dl-container-item">
-        <label class="header"><b>Available Funds</b></label>
-        <label class="content">PHP 10, 000.00</label>
-      </div>
+    <div class="dashboard-left-container" v-if="data !== null">
+      <ledgers :data="data.ledger"></ledgers>
+      <requests :data="data.total_requests"></requests>
+      <approved :data="data.approved"></approved>
+      <available :data="data.available"></available>
     </div>
     <div class="dashboard-right-container">
       <div class="dr-container-header">
-        <label><b>Transactions</b></label>
+        <label><b>Summary</b></label>
         <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="showRequestModal()">Request</button>
       </div>
-      <div class="dr-container-item">
-        <span class="header">May 20, 2019</span>
-        <span class="body">
-          <label>
-            You have invested the amount of <b>PHP 2, 000.00</b> for this reference <b class="text-primary action-link">#112233</b>.
-          </label>
-        </span>
-        <span class="footer"></span>
-      </div>
+      <summary-ledger></summary-ledger>
     </div>
     <create-request></create-request>
   </div>
@@ -145,13 +115,22 @@ import ROUTER from '../../router'
 import AUTH from '../../services/auth'
 import CONFIG from '../../config.js'
 export default{
+  mounted(){
+    this.retrieve()
+  },
   data(){
     return {
-      user: AUTH.user
+      user: AUTH.user,
+      data: null
     }
   },
   components: {
-    'create-request': require('modules/request/Create.vue')
+    'create-request': require('modules/request/Create.vue'),
+    'ledgers': require('modules/dashboard/Ledger.vue'),
+    'requests': require('modules/dashboard/Requests.vue'),
+    'available': require('modules/dashboard/Available.vue'),
+    'approved': require('modules/dashboard/Approved.vue'),
+    'summary-ledger': require('modules/dashboard/Summary.vue')
   },
   methods: {
     redirect(parameter){
@@ -159,6 +138,18 @@ export default{
     },
     showRequestModal(){
       $('#createRequestModal').modal('show')
+    },
+    retrieve(){
+      let parameter = {
+        account_id: this.user.userID
+      }
+      this.APIRequest('ledgers/dashboard', parameter).then(response => {
+        if(response !== null){
+          this.data = response
+        }else{
+          this.data = null
+        }
+      })
     }
   }
 
