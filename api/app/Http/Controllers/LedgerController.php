@@ -16,7 +16,7 @@ class LedgerController extends APIController
       return response()->json(array(
         'ledger' => $this->retrievePersonal($data['account_id']),
         'available' => $this->available(),
-        'approved' => app('App\Http\Controllers\RequestMoneyController')->approved(),
+        'approved' => app('App\Http\Controllers\InvestmentController')->approved(),
         'total_requests' => app('App\Http\Controllers\RequestMoneyController')->total()
       ));
     }
@@ -42,7 +42,7 @@ class LedgerController extends APIController
     }
 
     public function available(){
-      $result = Ledger::where('deleted_at', '!', null)->sum('amount');
+      $result = Ledger::sum('amount');
       return $result;
     }
 }

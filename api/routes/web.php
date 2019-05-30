@@ -130,3 +130,11 @@ Route::post($route.'summary', $controller."summary");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
 
+// Investment
+$route = env('PACKAGE_ROUTE', '').'/investments/';
+$controller = 'InvestmentController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
+

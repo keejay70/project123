@@ -6,18 +6,25 @@
       </div>
       <div class="rl-container-item" v-for="item, index in data" v-if="data !== null">
         <span class="header">
-          <label class="action-link">
+          <label class="action-link text-primary">
             <i class="fas fa-user-circle" style="color: #555; padding-right: 5px;"></i>
             {{item.account.username}}
           </label>
-          <label><i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>{{item.created_at_human}}</label>
+          <label>
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>Cebu City
+          </label>
+          <label class="pull-right">{{item.created_at_human}}</label>
         </span>
         <span class="summary-header">
-          <label>
+          <label class="text-primary">
             <b>PHP {{item.amount}}</b>
           </label>
           <label>
             <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>{{item.interest}}% interest per Month for {{item.months_payable}} Month(s)
+          </label>
+
+          <label>
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>Needed on: {{item.needed_on_human}}
           </label>
         </span>
         <span class="body">
@@ -32,7 +39,7 @@
           <label>
             Total Borrowed: PHP {{item.total}}
           </label>
-          <button class="btn btn-primary pull-right">Invest</button>
+          <button class="btn btn-primary pull-right" @click="showInvestmentModal(item)">Invest</button>
           <button class="btn btn-warning pull-right" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
         </span>
       </div>
@@ -40,6 +47,7 @@
     <div class="request-list-right-container">
     </div>
     <create-request></create-request>
+    <invest :item="selecteditem"></invest>
   </div>
 </template>
 <style scoped>
@@ -149,11 +157,13 @@ export default{
     return {
       user: AUTH.user,
       stars: 3,
-      data: null
+      data: null,
+      selecteditem: null
     }
   },
   components: {
-    'create-request': require('modules/request/Create.vue')
+    'create-request': require('modules/request/Create.vue'),
+    'invest': require('modules/request/Invest.vue')
   },
   methods: {
     redirect(parameter){
@@ -161,6 +171,10 @@ export default{
     },
     showRequestModal(){
       $('#createRequestModal').modal('show')
+    },
+    showInvestmentModal(item){
+      this.selecteditem = item
+      $('#createInvestmentModal').modal('show')
     },
     retrieve(){
       let parameter = {
