@@ -2,18 +2,14 @@
   <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
       <div class="modal-content">
-        <div class="modal-header bg-primary">
-          <h5 class="modal-title" id="exampleModalLabel">Profile</h5>
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="exampleModalLabel">Profile</h5>
           <button type="button" class="close" @click="hideModal()" aria-label="Close">
-            <span aria-hidden="true" class="text-white">&times;</span>
+            <span aria-hidden="true" class="text-primary">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <preview></preview>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" @click="hideModal()">Close</button>
-            <button type="button" class="btn btn-primary" @click="submit()">Submit</button>
+          <preview :item="item"></preview>
         </div>
       </div>
     </div>

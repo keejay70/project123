@@ -1,6 +1,6 @@
 <template>
   <div class="profile-preview-wrapper">
-    <profile-header></profile-header>
+    <profile-header :item="item"></profile-header>
   </div>
 </template>
 <style scoped>
@@ -27,6 +27,7 @@ export default{
       data: null
     }
   },
+  props: ['item'],
   components: {
     'profile-header': require('modules/profile/Header.vue')
   },

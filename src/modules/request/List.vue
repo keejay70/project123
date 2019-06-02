@@ -34,7 +34,7 @@
         </span>
         <span class="footer">
           <label>
-            <i v-bind:class="{'far': item.rating.avg === 0 || i > item.rating.avg, 'fas text-warning': i <= item.rating.avg}" class="fa-star" v-for="i in 5"></i>
+            <ratings :payload="'profile'" :payloadValue="item.account_id"></ratings>
           </label>
           <label>
             Total Borrowed: PHP {{item.total}}
@@ -165,7 +165,8 @@ export default{
   components: {
     'create-request': require('modules/request/Create.vue'),
     'invest': require('modules/request/Invest.vue'),
-    'profile': require('modules/request/Profile.vue')
+    'profile': require('modules/request/Profile.vue'),
+    'ratings': require('components/increment/generic/rating/DirectRatings.vue')
   },
   methods: {
     redirect(parameter){

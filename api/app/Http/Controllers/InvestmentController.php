@@ -16,10 +16,6 @@ class InvestmentController extends APIController
       );
     }
 
-    public function create(Request $request){
-      $data = $request->all();
-    }
-
     public function invested($requestId){
       $total = 0;
       $i = 0;
