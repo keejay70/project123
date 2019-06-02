@@ -1,16 +1,14 @@
 <template>
   <div class="profile-preview-wrapper">
-    <div class="container"></div>
+    <profile-header></profile-header>
   </div>
 </template>
 <style scoped>
 .profile-preview-wrapper{
   width: 100%;
   float: left;
-  min-height: 400px;
+  min-height: 100px;
   overflow-y: hidden;
-  margin-top: 25px;
-  margin-bottom: 100px;
 }
 @media (max-width: 992px){
 }
@@ -28,6 +26,9 @@ export default{
       user: AUTH.user,
       data: null
     }
+  },
+  components: {
+    'profile-header': require('modules/profile/Header.vue')
   },
   methods: {
     redirect(parameter){

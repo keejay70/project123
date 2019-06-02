@@ -9,6 +9,7 @@
           </button>
         </div>
         <div class="modal-body">
+          <preview></preview>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" @click="hideModal()">Close</button>
@@ -32,6 +33,9 @@ export default {
     }
   },
   props: ['item'],
+  components: {
+    'preview': require('modules/profile/Preview.vue')
+  },
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
