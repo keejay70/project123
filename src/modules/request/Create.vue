@@ -21,7 +21,7 @@
           <div class="form-group">
             <label for="exampleInputEmail1">I will pay with an interest rate of</label>
             <select class="form-control" v-model="newRequest.interest">
-              <option v-for="item in 28" v-bind:value="item">{{item + 1}}% per month</option>
+              <option v-for="item in 29" v-bind:value="item">{{item + 1}}% per month</option>
             </select>
           </div>
 
@@ -75,7 +75,7 @@ export default {
       config: CONFIG,
       errorMessage: null,
       newRequest: {
-        amount: null,
+        amount: 1000,
         months_payable: null,
         interest: 2,
         reason: null,
