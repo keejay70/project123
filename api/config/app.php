@@ -185,7 +185,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        LaravelQRCode\Providers\QRCodeServiceProvider::class,
     ],
 
     /*
@@ -236,7 +235,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth'   => Tymon\JWTAuthFacades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuthFacades\JWTFactory::class,
-        'QRCode' => LaravelQRCode\Facades\QRCode::class
     ],
 
 ];
