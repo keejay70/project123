@@ -78,17 +78,25 @@ export default {
     },
     submit(){
       let amount = parseFloat(this.newInvestment.amount)
-      if(amount < this.config.MINIMUM_INVESTMENT){
+      let remainingAmount = parseFloat(this.item.amount) - amount
+      if(remainingAmount < this.config.MINIMUM_INVESTMENT && remainingAmount > 0){
+        this.errorMessage = 'Remaining amount should not be less than the minimum amount of investment.'
+      }else if(amount < this.config.MINIMUM_INVESTMENT){
         this.errorMessage = 'The minimum investment is PHP ' + this.config.MINIMUM_INVESTMENT + '.'
       }else if(amount <= parseFloat(this.item.amount)){
         this.errorMessage = null
         this.newInvestment.account_id = this.user.userID
         this.newInvestment.request_id = this.item.id
+        this.newInvestment.minimum = this.config.MINIMUM_INVESTMENT
         $('#loading').css({display: 'block'})
         this.APIRequest('investments/create', this.newInvestment).then(response => {
           $('#loading').css({display: 'none'})
-          this.hideModal()
-          this.$parent.retrieve()
+          if(response.data !== null){
+            this.hideModal()
+            this.$parent.retrieve()
+          }else{
+            this.errorMessage = response.error
+          }
         })
       }else{
         this.errorMessage = 'Amount must be less than to the borrowed amount.'

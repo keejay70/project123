@@ -55,10 +55,17 @@ class RequestMoneyController extends APIController
     	return $this->response();
     }
 
+    public function updateStatus($id){
+      RequestMoney::where('id', '=', $id)->update(array(
+        'status' => 1,
+        'updated_at' => Carbon::now()
+      ));
+    }
+
     public function getAmount($requestId){
       $result = RequestMoney::where('id', '=', $requestId)->get();
       return sizeof($result) > 0 ? floatval($result[0]['amount']) : null;
-    }    
+    }   
 
     public function getTotalBorrowed($accountId){
     	$result = RequestMoney::where('account_id', '=', $accountId)->where('status', '=', 1)->sum('amount');

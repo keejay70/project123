@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Investment;
+use Carbon\Carbon;
 class InvestmentController extends APIController
 {
 
@@ -14,6 +15,47 @@ class InvestmentController extends APIController
       $this->notRequired = array(
         'message'
       );
+    }
+
+    public function create(Request $request){
+      $response = array(
+        'data'  => null,
+        'error' => null,
+        'timestamps' => Carbon::now()
+      );
+      $data = $request->all();
+      $amount = floatval($data['amount']);
+      $remainingAmount = app($this->requestClass)->getAmount($data['request_id']);
+      $invested = $this->invested($data['request_id']);
+      $remainingAmount = ($remainingAmount) ? ($remainingAmount - $invested['total']) : null;
+      if($remainingAmount){
+        if($remainingAmount < $amount){
+          $response['error'] = 'Remaining amount is less than the invested amount. Refresh and adjust your investment now.';
+        }else{
+          $left = $remainingAmount - $amount;
+          if($left < floatval($data['minimum']) && $left > 0){
+            $response['error'] = 'Remaining amount should not be less than the minimum investment amount';
+          }else{
+            // make investment here.
+            $invest = new Investment();
+            $invest->account_id = $data['account_id'];
+            $invest->request_id = $data['request_id'];
+            $invest->amount = $data['amount'];
+            $invest->message = $data['message'];
+            $invest->created_at = Carbon::now();
+            $invest->save();
+            $response['data'] = $invest->id;
+            $response['error'] = null;
+            if($left <= 0){
+              app($this->requestClass)->updateStatus($data['request_id']);
+            }
+          }
+        }
+      }else{
+        $response['error'] = 'I\'m sorry the request was already approved.';
+      }
+
+      return response()->json($response);
     }
 
     public function invested($requestId){
