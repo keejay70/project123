@@ -33,6 +33,11 @@
           </div>
 
           <div class="form-group">
+            <label for="exampleInputEmail1">I need this on</label>
+            <input type="date" class="form-control" v-model="newRequest.needed_on">
+          </div>
+
+          <div class="form-group">
             <label for="exampleInputEmail1">The reason I borrow is</label>
             <textarea rows="10" v-model="newRequest.reason" class="form-control">
               
@@ -76,10 +81,11 @@ export default {
       errorMessage: null,
       newRequest: {
         amount: 1000,
-        months_payable: null,
+        months_payable: 1,
         interest: 2,
         reason: null,
         status: 0,
+        needed_on: null,
         account_id: null
       }
     }
