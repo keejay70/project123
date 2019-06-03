@@ -16,7 +16,7 @@
 
           <div class="form-group">
             <label for="exampleInputEmail1">Write a reason</label>
-            <textarea rows="20" v-model="newReport.message" class="form-control" placeholder="Optional">
+            <textarea rows="20" v-model="newReport.message" class="form-control" placeholder="Type your message here.">
               
             </textarea>
           </div>
@@ -57,7 +57,6 @@ export default {
       config: CONFIG,
       errorMessage: null,
       newReport: {
-        amount: 0,
         message: null,
         account_id: null,
         request_id: null
@@ -73,21 +72,18 @@ export default {
       $('#createReportModal').modal('hide')
     },
     submit(){
-      let amount = parseFloat(this.newInvestment.amount)
-      if(amount < this.config.MINIMUM_INVESTMENT){
-        this.errorMessage = 'The minimum investment is PHP ' + this.config.MINIMUM_INVESTMENT + '.'
-      }else if(amount <= parseFloat(this.item.amount)){
+      if(this.newReport.message !== null && this.newReport.message !== ''){
         this.errorMessage = null
-        this.newInvestment.account_id = this.user.userID
-        this.newInvestment.request_id = this.item.id
+        this.newReport.account_id = this.user.userID
+        this.newReport.request_id = this.item.id
         $('#loading').css({display: 'block'})
-        this.APIRequest('investments/create', this.newInvestment).then(response => {
+        this.APIRequest('reports/create', this.newReport).then(response => {
           $('#loading').css({display: 'none'})
           this.hideModal()
           this.$parent.retrieve()
         })
       }else{
-        this.errorMessage = 'Amount must be less than to the borrowed amount.'
+        this.errorMessage = 'Please fill up the required fields.'
       }
     }
   }
