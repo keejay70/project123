@@ -4,6 +4,7 @@
     <basic :item="item" v-if="item.account !== null"></basic>
     <social :item="item" v-if="item.account !== null"></social>
     <ids :item="item" v-if="item.account !== null"></ids>
+    <reviews :item="item" v-if="item.account !== null"></reviews>
   </div>
 </template>
 <style scoped>
@@ -35,7 +36,8 @@ export default{
     'profile-header': require('modules/profile/Header.vue'),
     'basic': require('modules/profile/Basic.vue'),
     'social': require('modules/profile/Social.vue'),
-    'ids': require('modules/profile/Ids.vue')
+    'ids': require('modules/profile/Ids.vue'),
+    'reviews': require('modules/profile/Reviews.vue')
   },
   methods: {
     redirect(parameter){

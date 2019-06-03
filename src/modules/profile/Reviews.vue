@@ -1,6 +1,6 @@
 <template>
   <div class="incre-row">
-    <label class="title"><b>Basic</b></label>
+    <label class="title"><b>Reviews</b></label>
     <div class="incre-row">
       <table class="table borderless">
         <tbody>
