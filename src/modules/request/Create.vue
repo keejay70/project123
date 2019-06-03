@@ -19,6 +19,13 @@
           </div>
 
           <div class="form-group">
+            <label for="exampleInputEmail1">I will pay with an interest rate of</label>
+            <select class="form-control" v-model="newRequest.interest">
+              <option v-for="item in 28" v-bind:value="item">{{item + 1}}% per month</option>
+            </select>
+          </div>
+
+          <div class="form-group">
             <label for="exampleInputEmail1">I will pay within</label>
             <select class="form-control" v-model="newRequest.months_payable">
               <option v-for="item in 12" v-bind:value="item">{{item}} Month{{(item === 1) ? '' : 's'}}</option>
