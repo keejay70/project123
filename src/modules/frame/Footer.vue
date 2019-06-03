@@ -1,24 +1,16 @@
 <template>
-    <footer>
-        <div class="footer-below">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                    <!-- <i class="fa fa-copyright" aria-hidden="true"></i>  -->
-                    <!-- <b>Talk Fluent Spanish</b> 2018 -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+  <div class="apps-footer">
+    A product of <a href="http://increment.ltd" target="_BLANK" class="action-link"><b class="text-primary">Increment Techonologies</b></a>
+  </div>
 </template>
 <style type="text/css">
-footer {
+.apps-footer {
+  position: absolute;
   width:100%;
-  height:30px;   /* Height of the footer */
-  float: left;
+  height:30px;
+  bottom: 0px;
   background: #fff;
-  padding: 10px 0 10px 0;
+  left: 25px;
   font-size: 12px;
 }
 </style>
