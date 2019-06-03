@@ -3,7 +3,7 @@
     <div class="system-header">
       <a class="navbar-brand" v-on:click="redirect('dashboard')">
         <img src="../../assets/img/logo_white.png" class="logo-brand">
-        <label class="navbar-brand hide-on-mobile"><b class="text-white">PAYHIRAM</b></label>
+        <label class="navbar-brand hide-on-mobile text-white" v-html="config.APP_NAME_VHTML"></label>
       </a>
     </div>
     <nav class="header-navbar">
