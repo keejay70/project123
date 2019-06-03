@@ -84,6 +84,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/history/',
+    name: 'history',
+    component: resolve => require(['modules/history/List.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }

@@ -410,11 +410,13 @@ export default {
       config: CONFIG,
       menu: [
         {id: 1, users: 'ALL', parent_id: 0, description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
-        {id: 2, users: 'ALL', parent_id: 0, description: 'Requested', icon: 'fa fa-file', path: 'requests', flag: false, subMenu: null}
+        {id: 2, users: 'ALL', parent_id: 0, description: 'Requested', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
+        {id: 3, users: 'ALL', parent_id: 0, description: 'History', icon: 'fa fa-history', path: 'history', flag: false, subMenu: null}
       ],
       menuOff: [
         {id: 1, users: 'ALL', parent_id: 0, description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
-        {id: 2, users: 'ALL', parent_id: 0, description: 'Requested', icon: 'fa fa-file', path: 'requests', flag: false, subMenu: null}
+        {id: 2, users: 'ALL', parent_id: 0, description: 'Requested', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
+        {id: 3, users: 'ALL', parent_id: 0, description: 'History', icon: 'fa fa-history', path: 'history', flag: false, subMenu: null}
       ],
       toggleSidebar: 'fa fa-toggle-on',
       hide: '',
