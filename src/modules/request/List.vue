@@ -19,8 +19,7 @@
               <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown">
               </i>
               <div class="dropdown-menu dropdown-more-options" aria-labelledby="dropdownMenuButton" >
-                <span class="dropdown-item action-link">Report</span>
-                <span class="dropdown-item text-danger action-link">Delete</span>
+                <span class="dropdown-item action-link" @click="showReportModal(item)">Report</span>
               </div>
             </div>
           </label>
@@ -62,6 +61,7 @@
     <create-request></create-request>
     <invest :item="selecteditem"></invest>
     <profile :item="selecteditem"></profile>
+    <report :item="selecteditem"></report>
   </div>
 </template>
 <style scoped>
@@ -184,6 +184,7 @@ export default{
     'create-request': require('modules/request/Create.vue'),
     'invest': require('modules/request/Invest.vue'),
     'profile': require('modules/request/Profile.vue'),
+    'report': require('modules/request/Report.vue'),
     'ratings': require('components/increment/generic/rating/DirectRatings.vue')
   },
   methods: {
@@ -200,6 +201,10 @@ export default{
     showProfileModal(item){
       this.selecteditem = item
       $('#profileModal').modal('show')
+    },
+    showReportModal(item){
+      this.selecteditem = item
+      $('#createReportModal').modal('show')
     },
     retrieve(){
       let parameter = {

@@ -2,7 +2,8 @@
   <div class="profile-preview-wrapper" v-if="item !== null">
     <profile-header :item="item" v-if="item.account !== null"></profile-header>
     <basic :item="item" v-if="item.account !== null"></basic>
-    <social :item="item" v-if="item.account !== null"></social>
+    <educations :item="item" v-if="item.account !== null"></educations>
+    <works :item="item" v-if="item.account !== null"></works>
     <ids :item="item" v-if="item.account !== null"></ids>
     <reviews :item="item" v-if="item.account !== null"></reviews>
   </div>
@@ -35,9 +36,10 @@ export default{
   components: {
     'profile-header': require('modules/profile/Header.vue'),
     'basic': require('modules/profile/Basic.vue'),
-    'social': require('modules/profile/Social.vue'),
+    'works': require('modules/profile/Works.vue'),
     'ids': require('modules/profile/Ids.vue'),
-    'reviews': require('modules/profile/Reviews.vue')
+    'reviews': require('modules/profile/Reviews.vue'),
+    'educations': require('modules/profile/Educations.vue')
   },
   methods: {
     redirect(parameter){
