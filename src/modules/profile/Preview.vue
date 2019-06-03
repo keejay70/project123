@@ -1,6 +1,9 @@
 <template>
-  <div class="profile-preview-wrapper">
-    <profile-header :item="item"></profile-header>
+  <div class="profile-preview-wrapper" v-if="item !== null">
+    <profile-header :item="item" v-if="item.account !== null"></profile-header>
+    <basic :item="item" v-if="item.account !== null"></basic>
+    <social :item="item" v-if="item.account !== null"></social>
+    <ids :item="item" v-if="item.account !== null"></ids>
   </div>
 </template>
 <style scoped>
@@ -29,7 +32,10 @@ export default{
   },
   props: ['item'],
   components: {
-    'profile-header': require('modules/profile/Header.vue')
+    'profile-header': require('modules/profile/Header.vue'),
+    'basic': require('modules/profile/Basic.vue'),
+    'social': require('modules/profile/Social.vue'),
+    'ids': require('modules/profile/Ids.vue')
   },
   methods: {
     redirect(parameter){

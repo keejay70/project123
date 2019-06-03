@@ -14,7 +14,13 @@
         <b v-if="item.account.information.last_name !== null">{{item.account.information.last_name}}</b>
       </h2>
       <h2 v-else class="text-primary">{{item.account.username}}</h2>
-      <label>Cebu City</label>
+      <label v-if="item.account.information !== null"><b>{{item.account.information.address}}</b></label>
+      <label class="text-warning">
+        <i class="fab fa-facebook action-link"></i>
+        <i class="fab fa-twitter action-link"></i>
+        <i class="fab fa-instagram action-link"></i>
+        <i class="fab fa-linkedin action-link"></i>
+      </label>
     </div>
   </div>
 </template>
@@ -39,6 +45,17 @@
 }
 .image img{
   border-radius: 50%;
+}
+.incre-row h2, .incre-row label{
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+  margin-bottom: 0px;
+}
+.incre-row label i{
+  font-size: 24px;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 label{
   width: 100%;
