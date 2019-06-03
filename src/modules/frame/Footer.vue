@@ -10,7 +10,7 @@
   height:30px;
   bottom: 0px;
   background: #fff;
-  left: 25px;
+  left: 10px;
   font-size: 12px;
 }
 </style>
