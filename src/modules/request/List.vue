@@ -13,7 +13,19 @@
           <label>
             <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>Cebu City
           </label>
-          <label class="pull-right">{{item.created_at_human}}</label>
+          <label class="pull-right">
+            <div class="dropdown" id="dropdownMenuButtonDropdown">
+              <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown">
+              </i>
+              <div class="dropdown-menu dropdown-more-options" aria-labelledby="dropdownMenuButton" >
+                <span class="dropdown-item action-link">Report</span>
+                <span class="dropdown-item text-danger action-link">Delete</span>
+              </div>
+            </div>
+          </label>
+        </span>
+        <span class="summary-header">
+          {{item.created_at_human}}
         </span>
         <span class="summary-header">
           <label class="text-primary">
@@ -133,6 +145,10 @@
   min-height: 50px;
   overflow-y: hidden;
   margin-left: 2%;
+}
+.dropdown-item{
+  height: 40px !important;
+  line-height: 40px;
 }
 
 @media (max-width: 992px){
