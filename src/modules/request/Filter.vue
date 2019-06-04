@@ -16,9 +16,9 @@
     <ul class="pagination pull-right" v-if="parseInt(size) > 10">
       <li class="page-item page-link" @click="first()"><i class="fa fa-step-backward"></i></li>
       <li class="page-item page-link" @click="prev()"><i class="fa fa-angle-left"></i></li>
-      <li class="page-item page-link">{{parseInt(size / limit)}}</li>
-      <li class="page-item page-link">{{parseInt(size / limit)}}</li>
-      <li class="page-item page-link">{{parseInt(size / limit)}}</li>
+      <li class="page-item page-link" @click="setOffset(parseInt(offset + limit))">{{parseInt(offset + limit)}}</li>
+      <li class="page-item page-link" @click="setOffset(parseInt(offset + (limit * 2)))">{{parseInt(offset + (limit * 2))}}</li>
+      <li class="page-item page-link" @click="setOffset(parseInt(offset + (limit * 3)))">{{parseInt(offset + (limit * 3))}}</li>
       <li class="page-item page-link" @click="next()"><i class="fa fa-angle-right"></i></li>
       <li class="page-item page-link" @click="last()"><i class="fa fa-step-forward"></i></li>
     </ul>
@@ -82,18 +82,19 @@ export default{
       filterOptions: [{
         title: 'Newest first', sort: {column: 'created_at', value: 'asc'}
       }, {
-        title: 'Lowest interest first', sort: {column: 'interest:', value: 'asc'}
+        title: 'Lowest interest first', sort: {column: 'interest', value: 'asc'}
       }, {
-        title: 'Highest interest first', sort: {column: 'interest:', value: 'desc'}
+        title: 'Highest interest first', sort: {column: 'interest', value: 'desc'}
       }, {
-        title: 'Lowest amount first', sort: {column: 'amount:', value: 'asc'}
+        title: 'Lowest amount first', sort: {column: 'amount', value: 'asc'}
       }, {
-        title: 'Highest amount first', sort: {column: 'amount:', value: 'desc'}
+        title: 'Highest amount first', sort: {column: 'amount', value: 'desc'}
       }, {
-        title: 'Needed on first', sort: {column: 'needed_on:', value: 'asc'}
+        title: 'Needed on first', sort: {column: 'needed_on', value: 'asc'}
       }],
       limit: 10,
-      activeIndex: null
+      activeIndex: null,
+      offset: this.$parent.activePage
     }
   },
   props: ['size'],
@@ -102,6 +103,9 @@ export default{
       this.filterBy = params
       this.activeIndex = index
       this.$parent.retrieve(this.filterOptions[index].sort)
+    },
+    setOffset(offset){
+      this.$parent.activePage = offset
     },
     first(){
       this.$parent.activePage = 0
