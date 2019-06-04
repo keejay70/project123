@@ -1,17 +1,17 @@
 <template>
-  <div class="dashboard-wrapper">
-    <div class="dashboard-left-container" v-if="data !== null">
-      <ledgers :data="data.ledger"></ledgers>
-      <requests :data="data.total_requests"></requests>
-      <approved :data="data.approved"></approved>
-      <available :data="data.available"></available>
+  <div class="dashboard-wrapper" v-if="data !== null">
+    <div class="dashboard-left-container">
+      <ledgers :data="data.ledger.ledger"></ledgers>
+      <requests :data="data.ledger.total_requests"></requests>
+      <approved :data="data.ledger.approved"></approved>
+      <available :data="data.ledger.available"></available>
     </div>
     <div class="dashboard-right-container">
       <div class="dr-container-header">
         <label><b>Ledger Summary</b></label>
         <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="showRequestModal()">Request</button>
       </div>
-      <summary-ledger></summary-ledger>
+      <summary-ledger :data="data.data"></summary-ledger>
     </div>
     <create-request></create-request>
   </div>
@@ -141,9 +141,13 @@ export default{
     },
     retrieve(){
       let parameter = {
-        account_id: this.user.userID
+        account_id: this.user.userID,
+        offset: 0,
+        limit: 5
       }
-      this.APIRequest('ledgers/dashboard', parameter).then(response => {
+      $('#loading').css({display: 'none'})
+      this.APIRequest('ledgers/summary', parameter).then(response => {
+        $('#loading').css({display: 'none'})
         if(response !== null){
           this.data = response
         }else{

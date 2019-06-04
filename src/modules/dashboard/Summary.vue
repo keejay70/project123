@@ -48,33 +48,15 @@ import AUTH from '../../services/auth'
 import CONFIG from '../../config.js'
 export default{
   mounted(){
-    this.retrieve()
   },
   data(){
     return {
-      user: AUTH.user,
-      data: null
+      user: AUTH.user
     }
   },
+  props: ['data'],
   components: {
     'empty': require('components/increment/generic/empty/Empty.vue')
-  },
-  methods: {
-    retrieve(){
-      let parameter = {
-        account_id: this.user.userID,
-        offset: 0,
-        limit: 5
-      }
-      this.APIRequest('ledgers/summary', parameter).then(response => {
-        if(response.data.length > 0){
-          this.data = response.data
-        }else{
-          this.data = null
-        }
-      })
-    }
   }
-
 }
 </script>

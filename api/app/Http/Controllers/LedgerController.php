@@ -11,14 +11,13 @@ class LedgerController extends APIController
       $this->model = new Ledger();
     }
 
-    public function dashboard(Request $request){
-      $data = $request->all();
-      return response()->json(array(
-        'ledger' => $this->retrievePersonal($data['account_id']),
+    public function dashboard($accountId){
+      return array(
+        'ledger' => $this->retrievePersonal($accountId),
         'available' => $this->available(),
         'approved' => app('App\Http\Controllers\InvestmentController')->approved(),
         'total_requests' => app('App\Http\Controllers\RequestMoneyController')->total()
-      ));
+      );
     }
 
     public function summary(Request $request){
@@ -32,7 +31,8 @@ class LedgerController extends APIController
         }
       }
       return response()->json(array(
-        'data' => $result
+        'data' => $result,
+        'ledger' => $this->dashboard($data['account_id'])
       ));
     }
 

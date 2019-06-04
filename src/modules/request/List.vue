@@ -46,7 +46,7 @@
         </span>
         <span class="footer">
           <label>
-            <ratings :payload="'profile'" :payloadValue="item.account_id"></ratings>
+            <ratings :ratings="item.rating"></ratings>
           </label>
           <label>
             Total Borrowed: PHP {{item.total}}
