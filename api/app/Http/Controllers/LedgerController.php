@@ -31,7 +31,7 @@ class LedgerController extends APIController
         }
       }
       return response()->json(array(
-        'data' => $result,
+        'data' => sizeof($result) > 0 ? $result : null,
         'ledger' => $this->dashboard($data['account_id'])
       ));
     }

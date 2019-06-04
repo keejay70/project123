@@ -2,7 +2,7 @@
   <div class="request-list-wrapper">
     <div class="request-list-left-container">
       <div class="rl-container-header">
-        <label><b>Requests</b></label>
+        <request-filter :data="data"></request-filter>
       </div>
       <div class="rl-container-item" v-for="item, index in data" v-if="data !== null">
         <span class="header">
@@ -55,6 +55,7 @@
           <button class="btn btn-warning pull-right" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
         </span>
       </div>
+      <empty v-if="data === null" :title="'We just launched and we\'re still growing.'" :action="' Please check back soon, we will have tons of request for you.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
     </div>
     <div class="request-list-right-container">
     </div>
@@ -77,16 +78,10 @@
 .rl-container-header{
   width: 100%;
   float: left;
-  height: 50px;
-  border-radius: 5px;
+  height: 70px;
   border: solid 1px #ddd;
 }
-.rl-container-header label{
-  line-height: 50px;
-  height: 50px;
-  float: left;
-  padding-left: 10px;
-}
+
 .rl-container-item{
   width: 100%;
   float: left;
@@ -185,7 +180,9 @@ export default{
     'invest': require('modules/request/Invest.vue'),
     'profile': require('modules/request/Profile.vue'),
     'report': require('modules/request/Report.vue'),
-    'ratings': require('components/increment/generic/rating/DirectRatings.vue')
+    'request-filter': require('modules/request/Filter.vue'),
+    'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
+    'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue')
   },
   methods: {
     redirect(parameter){
