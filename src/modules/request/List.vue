@@ -1,6 +1,9 @@
 <template>
   <div class="request-list-wrapper">
     <div class="request-list-left-container">
+      <div class="incre-row">
+        <button class="btn btn-primary pull-right" @click="showRequestModal()">Post a request</button>
+      </div>
       <div class="rl-container-header">
         <request-filter :data="data"></request-filter>
       </div>
@@ -36,7 +39,7 @@
           </label>
 
           <label>
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>Needed on: {{item.needed_on_human}}
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>Needed on {{item.needed_on_human}}
           </label>
         </span>
         <span class="body">
@@ -78,8 +81,9 @@
 .rl-container-header{
   width: 100%;
   float: left;
-  height: 70px;
+  min-height: 70px;
   border: solid 1px #ddd;
+  overflow-y: hidden;
 }
 
 .rl-container-item{

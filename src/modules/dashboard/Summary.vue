@@ -10,6 +10,9 @@
       </span>
       <span class="footer"></span>
     </div>
+    <div class="icnre-row text-center" v-if="data !== null">
+      <span class="view-more" @click="redirect('/ledgers')">View more</span>
+    </div>
     <empty v-if="data === null" :title="'Looks like your ledger is empty!'" :action="'Deposit now or start requesting money.'"></empty>
   </div>
 </template>
@@ -41,6 +44,19 @@
 
 .summary-container-item .amount{
 }
+.view-more{
+  height: 50px;
+  line-height: 50px;
+  border: solid 1px #ddd;
+  padding-right: 25px;
+  padding-left: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.view-more:hover{
+  cursor: pointer;
+}
 </style>
 <script>
 import ROUTER from '../../router'
@@ -57,6 +73,11 @@ export default{
   props: ['data'],
   components: {
     'empty': require('components/increment/generic/empty/Empty.vue')
+  },
+  methods: {
+    redirect(params){
+      ROUTER.push(params)
+    }
   }
 }
 </script>

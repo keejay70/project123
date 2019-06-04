@@ -9,11 +9,10 @@
     <div class="dashboard-right-container">
       <div class="dr-container-header">
         <label><b>Ledger Summary</b></label>
-        <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="showRequestModal()">Request</button>
+        <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="redirect('requests')">View request</button>
       </div>
       <summary-ledger :data="data.data"></summary-ledger>
     </div>
-    <create-request></create-request>
   </div>
 </template>
 <style scoped>
@@ -125,7 +124,6 @@ export default{
     }
   },
   components: {
-    'create-request': require('modules/request/Create.vue'),
     'ledgers': require('modules/dashboard/Ledger.vue'),
     'requests': require('modules/dashboard/Requests.vue'),
     'available': require('modules/dashboard/Available.vue'),
@@ -135,9 +133,6 @@ export default{
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
-    },
-    showRequestModal(){
-      $('#createRequestModal').modal('show')
     },
     retrieve(){
       let parameter = {

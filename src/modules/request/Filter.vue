@@ -46,6 +46,12 @@
 .filter .pagination .page-link{
   padding: 10px !important;
 }
+@media (max-width: 992px){
+  .filter .pagination{
+    width: 100%;
+    magin: auto;
+  }  
+}
 </style>
 <script>
 import ROUTER from '../../router'
