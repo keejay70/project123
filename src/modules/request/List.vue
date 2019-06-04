@@ -81,9 +81,8 @@
 .rl-container-header{
   width: 100%;
   float: left;
-  min-height: 70px;
+  height: 70px;
   border: solid 1px #ddd;
-  overflow-y: hidden;
 }
 
 .rl-container-item{
@@ -168,7 +167,9 @@ import AUTH from '../../services/auth'
 import CONFIG from '../../config.js'
 export default{
   mounted(){
-    this.retrieve()
+    this.retrieve({
+      created_at: 'asc'
+    })
   },
   data(){
     return {
@@ -207,16 +208,14 @@ export default{
       this.selecteditem = item
       $('#createReportModal').modal('show')
     },
-    retrieve(){
+    retrieve(sort){
       let parameter = {
         condition: [{
           value: 0,
           column: 'status',
           clause: '='
         }],
-        sort: {
-          'created_at': 'desc'
-        }
+        sort: sort
       }
       $('#loading').css({display: 'block'})
       this.APIRequest('requests/retrieve', parameter).then(response => {

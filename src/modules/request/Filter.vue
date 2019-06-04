@@ -6,7 +6,7 @@
           {{filterBy}}
         </button>
         <div class="dropdown-menu">
-          <div class="dropdown-item" @click="filter(item.title, index)" data-toggle="dropdown" v-for="item,  index in filterOptions">{{item.title}}</div>
+          <div class="dropdown-item action-link" @click="filter(item.title, index)" data-toggle="dropdown" v-for="item,  index in filterOptions">{{item.title}}</div>
         </div>
       </div>
     </label>
@@ -31,6 +31,17 @@ label{
   float: left;
   padding-left: 10px;
   margin-top: 10px;
+}
+
+.dropdown-menu{
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.dropdown-item{
+  height: 40px !important;
+  line-height: 40px !important; 
+  padding-top: 0px !important;
 }
 
 .pagination{
@@ -60,17 +71,17 @@ export default{
       user: AUTH.user,
       filterBy: 'Newest first',
       filterOptions: [{
-        title: 'Newest first', payload: {created_at: 'asc'}
+        title: 'Newest first', sort: {created_at: 'asc'}
       }, {
-        title: 'Lowest interest first', payload: {interest: 'asc'}
+        title: 'Lowest interest first', sort: {interest: 'asc'}
       }, {
-        title: 'Highest interest first', payload: {interest: 'desc'}
+        title: 'Highest interest first', sort: {interest: 'desc'}
       }, {
-        title: 'Lowest amount first', payload: {amount: 'asc'}
+        title: 'Lowest amount first', sort: {amount: 'asc'}
       }, {
-        title: 'Highest amount first', payload: {amount: 'desc'}
+        title: 'Highest amount first', sort: {amount: 'desc'}
       }, {
-        title: 'Needed on first', payload: {needed_on: 'asc'}
+        title: 'Needed on first', sort: {needed_on: 'asc'}
       }]
     }
   },
@@ -78,6 +89,7 @@ export default{
   methods: {
     filter(params, index){
       this.filterBy = params
+      this.$parent.retrieve(this.filterOptions[index].sort)
     }
   }
 }
