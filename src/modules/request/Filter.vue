@@ -11,16 +11,16 @@
       </div>
     </label>
     <label>
-      {{data.length}} request found
+      {{size}} request found
     </label>
-    <ul class="pagination pull-right">
-      <li class="page-item page-link"><i class="fa fa-step-backward"></i></li>
-      <li class="page-item page-link"><i class="fa fa-angle-left"></i></li>
-      <li class="page-item page-link">1</li>
-      <li class="page-item page-link">2</li>
-      <li class="page-item page-link">3</li>
-      <li class="page-item page-link"><i class="fa fa-angle-right"></i></li>
-      <li class="page-item page-link"><i class="fa fa-step-forward"></i></li>
+    <ul class="pagination pull-right" v-if="parseInt(size) > 10">
+      <li class="page-item page-link" @click="first()"><i class="fa fa-step-backward"></i></li>
+      <li class="page-item page-link" @click="prev()"><i class="fa fa-angle-left"></i></li>
+      <li class="page-item page-link">{{parseInt(size / limit)}}</li>
+      <li class="page-item page-link">{{parseInt(size / limit)}}</li>
+      <li class="page-item page-link">{{parseInt(size / limit)}}</li>
+      <li class="page-item page-link" @click="next()"><i class="fa fa-angle-right"></i></li>
+      <li class="page-item page-link" @click="last()"><i class="fa fa-step-forward"></i></li>
     </ul>
   </span>
 </template>
@@ -42,6 +42,15 @@ label{
   height: 40px !important;
   line-height: 40px !important; 
   padding-top: 0px !important;
+}
+
+.dropdown-item:active{
+  background: #fff !important;
+}
+
+button:active, button:focus{
+  background: #028170 !important;
+  border: 0px !important;
 }
 
 .pagination{
@@ -71,25 +80,49 @@ export default{
       user: AUTH.user,
       filterBy: 'Newest first',
       filterOptions: [{
-        title: 'Newest first', sort: {created_at: 'asc'}
+        title: 'Newest first', sort: {column: 'created_at', value: 'asc'}
       }, {
-        title: 'Lowest interest first', sort: {interest: 'asc'}
+        title: 'Lowest interest first', sort: {column: 'interest:', value: 'asc'}
       }, {
-        title: 'Highest interest first', sort: {interest: 'desc'}
+        title: 'Highest interest first', sort: {column: 'interest:', value: 'desc'}
       }, {
-        title: 'Lowest amount first', sort: {amount: 'asc'}
+        title: 'Lowest amount first', sort: {column: 'amount:', value: 'asc'}
       }, {
-        title: 'Highest amount first', sort: {amount: 'desc'}
+        title: 'Highest amount first', sort: {column: 'amount:', value: 'desc'}
       }, {
-        title: 'Needed on first', sort: {needed_on: 'asc'}
-      }]
+        title: 'Needed on first', sort: {column: 'needed_on:', value: 'asc'}
+      }],
+      limit: 10,
+      activeIndex: null
     }
   },
-  props: ['data'],
+  props: ['size'],
   methods: {
     filter(params, index){
       this.filterBy = params
+      this.activeIndex = index
       this.$parent.retrieve(this.filterOptions[index].sort)
+    },
+    first(){
+      this.$parent.activePage = 0
+      this.$parent.retrieve(this.filterOptions[this.activeIndex].sort)
+    },
+    next(){
+      if(this.size > (this.activePage + this.limit)){
+        this.$parent.activePage += this.limit
+        this.$parent.retrieve(this.filterOptions[this.activeIndex].sort)
+      }
+    },
+    prev(){
+      if(this.activePage >= this.limit){
+        this.$parent.activePage -= this.limit
+        this.$parent.retrieve(this.filterOptions[this.activeIndex].sort)
+      }
+    },
+    last(){
+      let offset = (parseInt(this.size / this.limit) * this.limit)
+      this.$parent.activePage = offset
+      this.$parent.retrieve(this.filterOptions[this.activeIndex].sort)
     }
   }
 }

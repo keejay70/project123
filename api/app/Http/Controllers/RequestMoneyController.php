@@ -34,25 +34,28 @@ class RequestMoneyController extends APIController
 
     public function retrieve(Request $request){
     	$data = $request->all();
-    	$this->retrieveDB($data);
-    	$result = $this->response['data'];
+      $result = RequestMoney::where('status', '=', 0)->limit(intval($data['limit']))->offset(intval($data['offset']))->orderBy($data['sort']['column'], $data['sort']['value'])->get();
+      $size =  RequestMoney::where('status', '=', 0)->get();
     	if(sizeof($result) > 0){
     		$i = 0;
     		foreach ($result as $key) {
           $invested = app($this->investmentClass)->invested($result[$i]['id']);
           $amount = floatval($this->response['data'][$i]['amount']);
-    			$this->response['data'][$i]['rating'] = app($this->ratingClass)->getRatingByPayload('profile', $result[$i]['account_id']);
-    			$this->response['data'][$i]['account'] = $this->retrieveAccountDetails($result[$i]['account_id']);
-          $this->response['data'][$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
+    			$result[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('profile', $result[$i]['account_id']);
+    			$result[$i]['account'] = $this->retrieveAccountDetails($result[$i]['account_id']);
+          $result[$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
 
-          $this->response['data'][$i]['needed_on_human'] = Carbon::createFromFormat('Y-m-d', $result[$i]['needed_on'])->copy()->tz('Asia/Manila')->format('F j, Y');
-          $this->response['data'][$i]['total'] = $this->getTotalBorrowed($result[$i]['account_id']);
-          $this->response['data'][$i]['amount'] = $amount - $invested['total'];
-          $this->response['data'][$i]['invested'] = $invested['size'];
+          $result[$i]['needed_on_human'] = Carbon::createFromFormat('Y-m-d', $result[$i]['needed_on'])->copy()->tz('Asia/Manila')->format('F j, Y');
+          $result[$i]['total'] = $this->getTotalBorrowed($result[$i]['account_id']);
+          $result[$i]['amount'] = $amount - $invested['total'];
+          $result[$i]['invested'] = $invested['size'];
     			$i++;
     		}
     	}
-    	return $this->response();
+    	return response()->json(array(
+        'data' => sizeof($result) > 0 ? $result : null,
+        'size' => sizeof($size)
+      ));
     }
 
     public function updateStatus($id){

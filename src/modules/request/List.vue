@@ -5,7 +5,7 @@
         <button class="btn btn-primary pull-right" @click="showRequestModal()">Post a request</button>
       </div>
       <div class="rl-container-header">
-        <request-filter :data="data"></request-filter>
+        <request-filter :size="size"></request-filter>
       </div>
       <div class="rl-container-item" v-for="item, index in data" v-if="data !== null">
         <span class="header">
@@ -168,16 +168,18 @@ import CONFIG from '../../config.js'
 export default{
   mounted(){
     this.retrieve({
-      created_at: 'asc'
+      column: 'created_at',
+      value: 'asc'
     })
   },
   data(){
     return {
       user: AUTH.user,
-      stars: 3,
       data: null,
+      size: null,
       selecteditem: null,
-      config: CONFIG
+      config: CONFIG,
+      activePage: 0
     }
   },
   components: {
@@ -210,20 +212,19 @@ export default{
     },
     retrieve(sort){
       let parameter = {
-        condition: [{
-          value: 0,
-          column: 'status',
-          clause: '='
-        }],
+        limit: 10,
+        offset: this.activePage,
         sort: sort
       }
       $('#loading').css({display: 'block'})
       this.APIRequest('requests/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
-        if(response.data.length > 0){
+        if(response.data !== null){
           this.data = response.data
+          this.size = parseInt(response.size)
         }else{
           this.data = null
+          this.size = null
         }
       })
     },
