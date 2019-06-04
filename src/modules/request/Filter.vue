@@ -1,17 +1,12 @@
 <template>
-  <span class="filter">
+  <span>
     <label>
       <div class="dropdown">
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
           {{filterBy}}
         </button>
         <div class="dropdown-menu">
-          <div class="dropdown-item" @click="filter('Newest first')" data-toggle="dropdown">Newest first</div>
-          <div class="dropdown-item" @click="filter('Lowest interest first')" data-toggle="dropdown">Lowest interest first</div>
-          <div class="dropdown-item" @click="filter('Highest interest first')" data-toggle="dropdown">Highest interest first</div>
-          <div class="dropdown-item" @click="filter('Lowest amount first')" data-toggle="dropdown">Lowest amount first</div>
-          <div class="dropdown-item" @click="filter('Highest amount first')" data-toggle="dropdown">Highest amount first</div>
-          <div class="dropdown-item" @click="filter('Needed on first')" data-toggle="dropdown">Needed on first</div>
+          <div class="dropdown-item" @click="filter(item.title, index)" data-toggle="dropdown" v-for="item,  index in filterOptions">{{item.title}}</div>
         </div>
       </div>
     </label>
@@ -30,7 +25,7 @@
   </span>
 </template>
 <style scoped>
-.filter label{
+label{
   line-height: 50px;
   height: 50px;
   float: left;
@@ -38,18 +33,18 @@
   margin-top: 10px;
 }
 
-.filter .pagination{
+.pagination{
   margin-right: 5px;
   margin-top: 15px;
 }
 
-.filter .pagination .page-link{
+.pagination .page-link{
   padding: 10px !important;
 }
 @media (max-width: 992px){
-  .filter .pagination{
+  .pagination{
     width: 100%;
-    magin: auto;
+    margin: auto;
   }  
 }
 </style>
@@ -63,12 +58,25 @@ export default{
   data(){
     return {
       user: AUTH.user,
-      filterBy: 'Newest first'
+      filterBy: 'Newest first',
+      filterOptions: [{
+        title: 'Newest first', payload: {created_at: 'asc'}
+      }, {
+        title: 'Lowest interest first', payload: {interest: 'asc'}
+      }, {
+        title: 'Highest interest first', payload: {interest: 'desc'}
+      }, {
+        title: 'Lowest amount first', payload: {amount: 'asc'}
+      }, {
+        title: 'Highest amount first', payload: {amount: 'desc'}
+      }, {
+        title: 'Needed on first', payload: {needed_on: 'asc'}
+      }]
     }
   },
   props: ['data'],
   methods: {
-    filter(params){
+    filter(params, index){
       this.filterBy = params
     }
   }
