@@ -10,6 +10,7 @@ class InvestmentController extends APIController
 
 
     public $requestClass = 'App\Http\Controllers\RequestMoneyController';
+    public $ledgerClass = 'App\Http\Controllers\LedgerController';
     function __construct(){
       $this->model = new Investment();
       $this->notRequired = array(
@@ -28,7 +29,10 @@ class InvestmentController extends APIController
       $remainingAmount = app($this->requestClass)->getAmount($data['request_id']);
       $invested = $this->invested($data['request_id']);
       $remainingAmount = ($remainingAmount) ? ($remainingAmount - $invested['total']) : null;
-      if($remainingAmount){
+      $myBalance = floatval(app($this->ledgerClass)->retrievePersonal($data['account_id']));
+      if($myBalance < $amount){
+        $response['error'] = 'You have insufficient balance. Your balance is PHP '.$myBalance.' balance.';
+      }else if($remainingAmount){
         if($remainingAmount < $amount){
           $response['error'] = 'Remaining amount is less than the invested amount. Refresh and adjust your investment now.';
         }else{
@@ -40,12 +44,14 @@ class InvestmentController extends APIController
             $invest = new Investment();
             $invest->account_id = $data['account_id'];
             $invest->request_id = $data['request_id'];
-            $invest->amount = $data['amount'];
+            $invest->amount = $amount;
             $invest->message = $data['message'];
             $invest->created_at = Carbon::now();
             $invest->save();
             $response['data'] = $invest->id;
             $response['error'] = null;
+            $description = 'You have invested to this <b class="text-primary">request</b>';
+            app($this->ledgerClass)->addToLedger($data['account_id'], $amount * (-1), $description);
             if($left <= 0){
               app($this->requestClass)->updateStatus($data['request_id']);
             }
@@ -56,6 +62,16 @@ class InvestmentController extends APIController
       }
 
       return response()->json($response);
+    }
+
+    public function retrieve(Request $request){
+      $data = $request->all();
+
+      $this->retrieveDB($data);
+
+
+
+      return $this->response();
     }
 
     public function invested($requestId){

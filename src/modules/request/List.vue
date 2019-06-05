@@ -49,7 +49,7 @@
         </span>
         <span class="footer">
           <label>
-            <ratings :ratings="item.rating"></ratings>
+            <ratings :ratings="item.rating" v-if="item.rating !== null"></ratings>
           </label>
           <label>
             Total Borrowed: PHP {{item.total}}

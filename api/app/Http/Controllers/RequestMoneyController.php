@@ -40,7 +40,7 @@ class RequestMoneyController extends APIController
     		$i = 0;
     		foreach ($result as $key) {
           $invested = app($this->investmentClass)->invested($result[$i]['id']);
-          $amount = floatval($this->response['data'][$i]['amount']);
+          $amount = floatval($result[$i]['amount']);
     			$result[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('profile', $result[$i]['account_id']);
     			$result[$i]['account'] = $this->retrieveAccountDetails($result[$i]['account_id']);
           $result[$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');

@@ -9,7 +9,9 @@
     <div class="dashboard-right-container">
       <div class="dr-container-header">
         <label><b>Ledger Summary</b></label>
-        <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="redirect('requests')">View request</button>
+        <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="redirect('requests')">View requests</button>
+
+        <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="redirect('investments')" v-if="user.type !== 'USER'">View investments</button>
       </div>
       <summary-ledger :data="data.data"></summary-ledger>
     </div>

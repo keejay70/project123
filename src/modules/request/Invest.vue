@@ -64,7 +64,8 @@ export default {
         amount: 0,
         message: null,
         account_id: null,
-        request_id: null
+        request_id: null,
+        minimum: null
       }
     }
   },
@@ -88,12 +89,12 @@ export default {
         this.newInvestment.account_id = this.user.userID
         this.newInvestment.request_id = this.item.id
         this.newInvestment.minimum = this.config.MINIMUM_INVESTMENT
-        $('#loading').css({display: 'block'})
+        $('#loading').css({display: 'none'})
         this.APIRequest('investments/create', this.newInvestment).then(response => {
           $('#loading').css({display: 'none'})
           if(response.data !== null){
             this.hideModal()
-            this.$parent.retrieve()
+            this.$parent.retrieve({column: 'created_at', value: 'asc'})
           }else{
             this.errorMessage = response.error
           }

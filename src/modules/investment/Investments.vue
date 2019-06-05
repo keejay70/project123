@@ -1,12 +1,9 @@
 <template>
   <div class="request-list-wrapper">
     <div class="request-list-left-container">
-      <div class="incre-row">
-        <button class="btn btn-primary pull-right" @click="showRequestModal()">Post a request</button>
-      </div>
-      <div class="rl-container-header">
+<!--       <div class="rl-container-header">
         <request-filter :size="size"></request-filter>
-      </div>
+      </div> -->
       <div class="rl-container-item" v-for="item, index in data" v-if="data !== null">
         <span class="header">
           <label class="action-link text-primary" @click="showProfileModal(item)">
@@ -54,18 +51,12 @@
           <label>
             Total Borrowed: PHP {{item.total}}
           </label>
-          <button class="btn btn-primary pull-right" @click="showInvestmentModal(item)">Invest</button>
-          <button class="btn btn-warning pull-right" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
         </span>
       </div>
-      <empty v-if="data === null" :title="'We just launched and we\'re still growing.'" :action="' Please check back soon, we will have tons of request for you.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
+      <empty v-if="data === null" :title="'You don\'t have investments right now'" :action="'Go to requested and start investing to our users'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
     </div>
     <div class="request-list-right-container">
     </div>
-    <create-request></create-request>
-    <invest :item="selecteditem"></invest>
-    <profile :item="selecteditem"></profile>
-    <report :item="selecteditem"></report>
   </div>
 </template>
 <style scoped>
@@ -167,74 +158,39 @@ import AUTH from '../../services/auth'
 import CONFIG from '../../config.js'
 export default{
   mounted(){
-    this.retrieve({
-      column: 'created_at',
-      value: 'asc'
-    })
+    this.retrieve()
   },
   data(){
     return {
       user: AUTH.user,
       data: null,
-      size: null,
       selecteditem: null,
-      config: CONFIG,
-      activePage: 0
+      config: CONFIG
     }
   },
   components: {
-    'create-request': require('modules/request/Create.vue'),
-    'invest': require('modules/request/Invest.vue'),
-    'profile': require('modules/request/Profile.vue'),
-    'report': require('modules/request/Report.vue'),
-    'request-filter': require('modules/request/Filter.vue'),
-    'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
     'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue')
   },
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
     },
-    showRequestModal(){
-      $('#createRequestModal').modal('show')
-    },
-    showInvestmentModal(item){
-      this.selecteditem = item
-      $('#createInvestmentModal').modal('show')
-    },
-    showProfileModal(item){
-      this.selecteditem = item
-      $('#profileModal').modal('show')
-    },
-    showReportModal(item){
-      this.selecteditem = item
-      $('#createReportModal').modal('show')
-    },
-    retrieve(sort){
+    retrieve(){
       let parameter = {
-        limit: 10,
-        offset: this.activePage,
-        sort: sort
+        condition: [{
+          value: this.user.userID,
+          column: 'account_id',
+          clause: '='
+        }]
       }
-      $('#loading').css({display: 'block'})
-      this.APIRequest('requests/retrieve', parameter).then(response => {
+      $('#loading').css({display: 'none'})
+      this.APIRequest('investments/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
-        if(response.data !== null){
+        if(response.data.length > 0){
           this.data = response.data
-          this.size = parseInt(response.size)
         }else{
           this.data = null
-          this.size = null
         }
-      })
-    },
-    bookmark(id){
-      let parameter = {
-        account_id: this.user.userID,
-        request_id: id
-      }
-      this.APIRequest('bookmarks/create', parameter).then(response => {
-        //
       })
     }
   }

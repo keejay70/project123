@@ -22,7 +22,7 @@ class LedgerController extends APIController
 
     public function summary(Request $request){
       $data = $request->all();
-      $result = Ledger::where('account_id', '=', $data['account_id'])->limit(intval($data['limit']))->offset(intval($data['offset']))->get();
+      $result = Ledger::where('account_id', '=', $data['account_id'])->limit(intval($data['limit']))->offset(intval($data['offset']))->orderBy('created_at', 'desc')->get();
       if(sizeof($result) > 0){
         $i = 0;
         foreach ($result as $key) {
@@ -39,6 +39,16 @@ class LedgerController extends APIController
     public function retrievePersonal($accountId){
       $result = Ledger::where('account_id', '=', $accountId)->sum('amount');
       return $result;
+    }
+
+    public function addToLedger($accountId, $amount, $description){
+      $ledger = new Ledger();
+      $ledger->account_id = $accountId;
+      $ledger->amount = $amount;
+      $ledger->description = $description;
+      $ledger->created_at = Carbon::now();
+      $ledger->save();
+      return $ledger->id;
     }
 
     public function available(){

@@ -91,6 +91,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/investments/',
+    name: 'investments',
+    component: resolve => require(['modules/investment/Investments.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }

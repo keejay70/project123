@@ -3,8 +3,7 @@
     <div class="summary-container-item" v-for="item, index in data" v-if="data !== null">
       <span class="header">{{item.created_at_human}}</span>
       <span class="body">
-        <label>
-          {{item.description}}
+        <label v-html="item.description">
         </label>
         <label class="pull-right amount" v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"><b>PHP {{item.amount.toFixed(2)}}</b></label>
       </span>
