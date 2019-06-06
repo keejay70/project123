@@ -41,12 +41,14 @@ class LedgerController extends APIController
       return $result;
     }
 
-    public function addToLedger($accountId, $amount, $description){
+    public function addToLedger($accountId, $amount, $description, $payload, $payloadValue){
       $ledger = new Ledger();
       $ledger->code = $this->generateCode();
       $ledger->account_id = $accountId;
       $ledger->amount = $amount;
       $ledger->description = $description;
+      $ledger->payload = $payload;
+      $ledger->payload_value = $payloadValue;
       $ledger->created_at = Carbon::now();
       $ledger->save();
       return $ledger->id;
