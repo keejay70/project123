@@ -5,52 +5,20 @@
         <request-filter :size="size"></request-filter>
       </div> -->
       <div class="rl-container-item" v-for="item, index in data" v-if="data !== null">
-        <span class="header">
-          <label class="action-link text-primary" @click="showProfileModal(item)">
-            <i class="fas fa-user-circle" style="color: #555; padding-right: 5px;" v-if="item.account.profile === null"></i>
-            <img :src="config.BACKEND_URL + item.account.profile.url" height="30px" width="30px;" style="border-radius: 50%;" v-else>
-            {{item.account.username}}
-          </label>
-          <label>
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>Cebu City
-          </label>
-          <label class="pull-right">
-            <div class="dropdown" id="dropdownMenuButtonDropdown">
-              <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown">
-              </i>
-              <div class="dropdown-menu dropdown-more-options" aria-labelledby="dropdownMenuButton" >
-                <span class="dropdown-item action-link" @click="showReportModal(item)">Report</span>
-              </div>
-            </div>
-          </label>
-        </span>
         <span class="summary-header">
           {{item.created_at_human}}
         </span>
         <span class="summary-header">
           <label class="text-primary">
-            <b>PHP {{item.amount}}</b>
-          </label>
-          <label>
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>{{item.interest}}% interest per Month for {{item.months_payable}} Month(s)
-          </label>
-
-          <label>
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>Needed on {{item.needed_on_human}}
+            <b>PHP {{item.amount.toFixed(2)}}</b>
           </label>
         </span>
         <span class="body">
-          <label>
-           {{item.reason}}
+          <label v-if="item.message !== null">
+           {{item.message}}
           </label>
         </span>
         <span class="footer">
-          <label>
-            <ratings :ratings="item.rating"></ratings>
-          </label>
-          <label>
-            Total Borrowed: PHP {{item.total}}
-          </label>
         </span>
       </div>
       <empty v-if="data === null" :title="'You don\'t have investments right now'" :action="'Go to requested and start investing to our users'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>

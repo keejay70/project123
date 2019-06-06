@@ -82,10 +82,25 @@ class InvestmentController extends APIController
 
       $this->retrieveDB($data);
 
-
+      $result = $this->response['data'];
+      if(sizeof($result) > 0){
+        $i = 0;
+        foreach ($result as $key) {
+          $this->response['data'][$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
+          $i++;
+        }
+      }
 
       return $this->response();
     }
+
+    public function retrieveById($id){
+      $result = Investment::where('id', '=', $id)->get();
+
+      return sizeof($result) > 0 ? $result[0] : null;
+    }
+
+    public function getRequest(){}
 
     public function invested($requestId){
       $total = 0;

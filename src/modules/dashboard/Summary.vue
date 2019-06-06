@@ -3,7 +3,11 @@
     <div class="summary-container-item" v-for="item, index in data" v-if="data !== null">
       <span class="header">{{item.created_at_human}}</span>
       <span class="body">
-        <label v-html="item.description">
+        <label>
+          {{item.description}}
+        </label>
+        <label v-if="item.payload === 'investments'">
+          <b class="text-primary action-link" @click="showInvestments(item.investments)">request</b>
         </label>
         <label class="pull-right amount" v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"><b>PHP {{item.amount.toFixed(2)}}</b></label>
       </span>
@@ -76,6 +80,9 @@ export default{
   methods: {
     redirect(params){
       ROUTER.push(params)
+    },
+    showInvestments(item){
+      console.log(item)
     }
   }
 }

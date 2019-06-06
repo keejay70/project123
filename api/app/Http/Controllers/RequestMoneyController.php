@@ -57,7 +57,7 @@ class RequestMoneyController extends APIController
         'size' => sizeof($size)
       ));
     }
-
+    
     public function updateStatus($id){
       RequestMoney::where('id', '=', $id)->update(array(
         'status' => 1,

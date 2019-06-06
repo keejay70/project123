@@ -27,6 +27,12 @@ class LedgerController extends APIController
         $i = 0;
         foreach ($result as $key) {
           $result[$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
+          $result[$i]['investments'] = null;
+          if($result[$i]['payload'] == 'investments'){
+            $result[$i]['investments'] = app('App\Http\Controllers\InvestmentController')->retrieveById($result[$i]['payload_value']);
+          }else{
+            //
+          }
           $i++;
         }
       }
