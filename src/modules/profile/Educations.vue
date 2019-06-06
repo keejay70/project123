@@ -11,7 +11,7 @@
           <tr>
             <td>Ratings</td>
             <td>
-              <ratings :payload="'profile'" :payloadValue="item.account_id"></ratings>
+              <ratings :ratings="item.rating" v-if="item.rating !== null"></ratings>
             </td>
           </tr>
           <tr>
