@@ -43,12 +43,23 @@ class LedgerController extends APIController
 
     public function addToLedger($accountId, $amount, $description){
       $ledger = new Ledger();
+      $ledger->code = $this->generateCode();
       $ledger->account_id = $accountId;
       $ledger->amount = $amount;
       $ledger->description = $description;
       $ledger->created_at = Carbon::now();
       $ledger->save();
       return $ledger->id;
+    }
+
+    public function generateCode(){
+      $code = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 32);
+      $codeExist = Ledger::where('code', '=', $code)->get();
+      if(sizeof($codeExist) > 0){
+        $this->generateCode();
+      }else{
+        return $code;
+      }
     }
 
     public function available(){

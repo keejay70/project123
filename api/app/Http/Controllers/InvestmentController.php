@@ -42,6 +42,7 @@ class InvestmentController extends APIController
           }else{
             // make investment here.
             $invest = new Investment();
+            $invest->code = $this->generateCode();
             $invest->account_id = $data['account_id'];
             $invest->request_id = $data['request_id'];
             $invest->amount = $amount;
@@ -62,6 +63,16 @@ class InvestmentController extends APIController
       }
 
       return response()->json($response);
+    }
+
+    public function generateCode(){
+      $code = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 32);
+      $codeExist = Investment::where('code', '=', $code)->get();
+      if(sizeof($codeExist) > 0){
+        $this->generateCode();
+      }else{
+        return $code;
+      }
     }
 
     public function retrieve(Request $request){
