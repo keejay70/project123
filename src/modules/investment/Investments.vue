@@ -19,6 +19,27 @@
           </label>
         </span>
         <span class="footer">
+          <label>
+            <div class="dropdown">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Returns
+              </button>
+              <div class="dropdown-menu">
+                <div class="dropdown-item action-link" data-toggle="dropdown">Summary</div>
+              </div>
+            </div>
+          </label>
+          <label>
+            <div class="dropdown">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Borrower
+              </button>
+              <div class="dropdown-menu">
+                <div class="dropdown-item action-link" data-toggle="dropdown">Profile</div>
+                <div class="dropdown-item action-link" data-toggle="dropdown">Payments</div>
+              </div>
+            </div>
+          </label>
         </span>
       </div>
       <empty v-if="data === null" :title="'You don\'t have investments right now'" :action="'Go to requested and start investing to our users'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
