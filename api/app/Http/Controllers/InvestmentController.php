@@ -87,7 +87,12 @@ class InvestmentController extends APIController
         $i = 0;
         foreach ($result as $key) {
           $this->response['data'][$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
-          $this->response['data'][$i]['request'] = app($this->requestClass)->retrieveById($result[$i]['request_id']);
+          $requests = app($this->requestClass)->retrieveById($result[$i]['request_id']);
+          $this->response['data'][$i]['request'] = $requests;
+          $amount = floatval($result[$i]['amount']);
+          $interest = intval($requests['interest']);
+          $returnPerMonth = floatval($amount * ($interest / 100));
+          $this->response['data'][$i]['return_per_month'] = $returnPerMonth;
           $i++;
         }
       }

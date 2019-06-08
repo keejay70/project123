@@ -38,6 +38,15 @@
           </div>
 
           <div class="form-group">
+            <label for="exampleInputEmail1">I will pay</label>
+            <select class="form-control" v-model="newRequest.billing_per_month">
+              <option value="0">Every end of the month</option>
+              <option value="1">Twice a month</option>
+              <option value="2">Every end of the week</option>
+            </select>
+          </div>
+
+          <div class="form-group">
             <label for="exampleInputEmail1">The reason I borrow is</label>
             <textarea rows="10" v-model="newRequest.reason" class="form-control">
               
@@ -86,7 +95,8 @@ export default {
         reason: null,
         status: 0,
         needed_on: null,
-        account_id: null
+        account_id: null,
+        billing_per_month: 0
       }
     }
   },

@@ -9,21 +9,24 @@
           {{item.created_at_human}}
         </span> -->
         <span class="summary-header">
+
+        </span>
+        <span class="body">
           <table class="table table-responsive borderless investment-table">
             <tr>
               <td>Requested by</td>
               <td>
-                {{item.request.account.information.first_name + ' ' + item.request.account.information.last_name}}
+                {{item.request.account.username}}
               </td>
               <td>Reference #</td>
               <td>
-                <label class="text-primary">{{item.code}}</label>
+                <label>{{item.code}}</label>
               </td>
             </tr>
 
             <tr>
               <td>Principal Amount</td>
-              <td>
+              <td  class="text-primary">
                 PHP {{item.request.amount.toFixed(2)}}
               </td>
               <td>Approved Date</td>
@@ -34,7 +37,7 @@
             
             <tr>
               <td>Invested Amount</td>
-              <td>PHP {{item.amount.toFixed(2)}}</td>
+              <td class="text-primary">PHP {{item.amount.toFixed(2)}}</td>
               <td>Interest Rate</td>
               <td>
                 {{item.request.interest}}% per month
@@ -42,21 +45,19 @@
             </tr>
 
             <tr>
-              <td>Returns</td>
-              <td></td>
+              <td>ROI per month</td>
+              <td>
+                PHP {{item.return_per_month.toFixed(2)}}
+              </td>
               <td>Payable in</td>
               <td>
                 {{item.request.months_payable}}
-                <label v-if="parseInt(item.request.months_payable) > 1">Months</label>
-                <label v-else>Month</label>
+                <label v-if="parseInt(item.request.months_payable) > 1">months</label>
+                <label v-else>month</label>
+                and pay {{item.request.billing_per_month_human}}
               </td>
             </tr>
           </table>
-        </span>
-        <span class="body">
-          <label v-if="item.message !== null">
-           {{item.message}}
-          </label>
         </span>
         <span class="footer">
           <label>
@@ -140,11 +141,6 @@
   overflow-y: hidden;
 }
 
-.il-container-item .body label{
-  margin-bottom: 0px;
-  width: 100%;
-}
-
 .il-container-item .footer{
   width: 100%;
   float: left;
@@ -152,34 +148,25 @@
   line-height: 40px;
 }
 
+.il-container-item .footer button{
+  margin-bottom: 20px;
+}
+
 .investments-list-left-container{
   float: left;
-  width: 68%;
+  width: 100%;
   min-height: 50px;
   overflow-y: hidden;
 }
-
-.investments-list-right-container{
-  float: left;
-  width: 30%;
-  min-height: 50px;
-  overflow-y: hidden;
-  margin-left: 2%;
+.investment-table{
+  margin-bottom: 0px !important;
 }
-
 .investment-table td{
   padding-top: 5px !important;
   padding-bottom: 5px !important;
 }
 
 @media (max-width: 992px){
-  .investments-list-wrapper{
-    margin-bottom: 200px;
-  }
-  .investments-list-right-container, .investments-list-left-container{
-    width: 100%;
-    margin-left: 0%;
-  }
 }
 
 </style>

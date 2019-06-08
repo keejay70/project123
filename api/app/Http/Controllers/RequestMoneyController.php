@@ -49,6 +49,7 @@ class RequestMoneyController extends APIController
           $result[$i]['total'] = $this->getTotalBorrowed($result[$i]['account_id']);
           $result[$i]['amount'] = $amount - $invested['total'];
           $result[$i]['invested'] = $invested['size'];
+          $result[$i]['billing_per_month_human'] = $this->billingPerMonth($result[$i]['billing_per_month']);
           $i++;
         }
       }
@@ -76,10 +77,25 @@ class RequestMoneyController extends APIController
           $result[$i]['needed_on_human'] = Carbon::createFromFormat('Y-m-d', $result[$i]['needed_on'])->copy()->tz('Asia/Manila')->format('F j, Y');
           $result[$i]['total'] = $this->getTotalBorrowed($result[$i]['account_id']);
           $result[$i]['invested'] = $invested['size'];
+          $result[$i]['billing_per_month_human'] = $this->billingPerMonth($result[$i]['billing_per_month']);
           $i++;
         }
       }
       return $result;
+    }
+
+    public function billingPerMonth($value){
+      switch (intval($value)) {
+        case 0:
+          return 'every end of the month.';
+          break;
+        case 1:
+          return 'twice a month.';
+          break;
+        case 2: 
+          return 'every end of the week';
+          break;
+      }
     }
     
     public function updateStatus($id){

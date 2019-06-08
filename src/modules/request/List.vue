@@ -28,18 +28,27 @@
           </label>
         </span>
         <span class="summary-header">
-          {{item.created_at_human}}
+          <label>
+            {{item.created_at_human}}
+          </label>
+          <label class="text-primary">
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
+            <b>PHP {{item.amount.toFixed(2)}}</b>
+          </label>
+          <label>
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
+            {{item.interest}}% interest per Month for {{item.months_payable}} 
+            <label v-if="parseInt(item.months_payable) > 1">Months</label>
+            <label v-else>Month</label>
+          </label>
         </span>
         <span class="summary-header">
-          <label class="text-primary">
-            <b>PHP {{item.amount}}</b>
+          <label>
+            Pay {{item.billing_per_month_human}}
           </label>
           <label>
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>{{item.interest}}% interest per Month for {{item.months_payable}} Month(s)
-          </label>
-
-          <label>
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>Needed on {{item.needed_on_human}}
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
+            Needed on {{item.needed_on_human}}
           </label>
         </span>
         <span class="body">
@@ -169,7 +178,7 @@ export default{
   mounted(){
     this.retrieve({
       column: 'created_at',
-      value: 'asc'
+      value: 'desc'
     })
   },
   data(){

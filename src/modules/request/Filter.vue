@@ -60,7 +60,7 @@ export default{
       user: AUTH.user,
       filterBy: 'Newest first',
       filterOptions: [{
-        title: 'Newest first', sort: {column: 'created_at', value: 'asc'}
+        title: 'Newest first', sort: {column: 'created_at', value: 'desc'}
       }, {
         title: 'Lowest interest first', sort: {column: 'interest', value: 'asc'}
       }, {
