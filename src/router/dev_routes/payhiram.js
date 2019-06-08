@@ -92,6 +92,13 @@ export default{
       tokenRequired: true
     }
   }, {
+    path: '/ledgers/',
+    name: 'ledgers',
+    component: resolve => require(['modules/ledger/List.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
+  }, {
     path: '/investments/',
     name: 'investments',
     component: resolve => require(['modules/investment/Investments.vue'], resolve),

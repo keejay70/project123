@@ -16,7 +16,7 @@
 
           <div class="form-group">
             <label for="exampleInputEmail1">Write a reason</label>
-            <textarea rows="20" v-model="newReport.message" class="form-control" placeholder="Type your message here.">
+            <textarea rows="15" v-model="newReport.message" class="form-control" placeholder="Type your message here.">
               
             </textarea>
           </div>
