@@ -33,26 +33,6 @@ label{
   margin-top: 10px;
 }
 
-.dropdown-menu{
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
-}
-
-.dropdown-item{
-  height: 40px !important;
-  line-height: 40px !important; 
-  padding-top: 0px !important;
-}
-
-.dropdown-item:active{
-  background: #fff !important;
-}
-
-button:active, button:focus{
-  background: #028170 !important;
-  border: 0px !important;
-}
-
 .pagination{
   margin-right: 5px;
   margin-top: 15px;

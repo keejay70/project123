@@ -36,26 +36,37 @@ class RequestMoneyController extends APIController
     	$data = $request->all();
       $result = RequestMoney::where('status', '=', 0)->limit(intval($data['limit']))->offset(intval($data['offset']))->orderBy($data['sort']['column'], $data['sort']['value'])->get();
       $size =  RequestMoney::where('status', '=', 0)->get();
-    	if(sizeof($result) > 0){
-    		$i = 0;
-    		foreach ($result as $key) {
+      $result = $this->getAttributes($result);
+    	return response()->json(array(
+        'data' => sizeof($result) > 0 ? $result : null,
+        'size' => sizeof($size)
+      ));
+    }
+
+    public function retrieveById($id){
+      $result = RequestMoney::where('id', '=', $id)->get();
+      $result = $this->getAttributes($result);
+      return (sizeof($result) > 0) ? $result[0] : null;
+    }
+
+    public function getAttributes($result){
+      if(sizeof($result) > 0){
+        $i = 0;
+        foreach ($result as $key) {
           $invested = app($this->investmentClass)->invested($result[$i]['id']);
           $amount = floatval($result[$i]['amount']);
-    			$result[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('profile', $result[$i]['account_id']);
-    			$result[$i]['account'] = $this->retrieveAccountDetails($result[$i]['account_id']);
+          $result[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('profile', $result[$i]['account_id']);
+          $result[$i]['account'] = $this->retrieveAccountDetails($result[$i]['account_id']);
           $result[$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
 
           $result[$i]['needed_on_human'] = Carbon::createFromFormat('Y-m-d', $result[$i]['needed_on'])->copy()->tz('Asia/Manila')->format('F j, Y');
           $result[$i]['total'] = $this->getTotalBorrowed($result[$i]['account_id']);
           $result[$i]['amount'] = $amount - $invested['total'];
           $result[$i]['invested'] = $invested['size'];
-    			$i++;
-    		}
-    	}
-    	return response()->json(array(
-        'data' => sizeof($result) > 0 ? $result : null,
-        'size' => sizeof($size)
-      ));
+          $i++;
+        }
+      }
+      return $result;
     }
     
     public function updateStatus($id){

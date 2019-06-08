@@ -22,7 +22,7 @@
           <label>
             <div class="dropdown">
               <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                Returns
+                My Options
               </button>
               <div class="dropdown-menu">
                 <div class="dropdown-item action-link" data-toggle="dropdown">Summary</div>
@@ -35,8 +35,8 @@
                 Borrower
               </button>
               <div class="dropdown-menu">
-                <div class="dropdown-item action-link" data-toggle="dropdown">Profile</div>
-                <div class="dropdown-item action-link" data-toggle="dropdown">Payments</div>
+                <div class="dropdown-item action-link" data-toggle="dropdown" @click="showProfileModal(item.request)" v-if="item.request !== null">Profile</div>
+                <div class="dropdown-item action-link" data-toggle="dropdown">Payments Summary</div>
               </div>
             </div>
           </label>
@@ -46,6 +46,7 @@
     </div>
     <div class="request-list-right-container">
     </div>
+    <profile :item="selecteditem"></profile>
   </div>
 </template>
 <style scoped>
@@ -125,10 +126,6 @@
   overflow-y: hidden;
   margin-left: 2%;
 }
-.dropdown-item{
-  height: 40px !important;
-  line-height: 40px;
-}
 
 @media (max-width: 992px){
   .request-list-wrapper{
@@ -158,11 +155,16 @@ export default{
     }
   },
   components: {
-    'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue')
+    'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
+    'profile': require('modules/request/Profile.vue')
   },
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
+    },
+    showProfileModal(item){
+      this.selecteditem = item
+      $('#profileModal').modal('show')
     },
     retrieve(){
       let parameter = {

@@ -161,29 +161,6 @@
         overflow-y: hidden;
       }
 
-      @media screen (min-width: 200px), screen and (max-width: 991px){
-        .module-header .title{
-          width: 100%;
-        }
-        .module-header .items-display{
-          width: 100%;
-        }
-        .module-header .add{
-          width: 100%;
-        }
-        .table-footer .items-total{
-          width: 100%;
-          float: left;
-          text-align: center;
-        }
-        .table-footer .items-pager{
-          width: 100%;
-          text-align: center;
-        }
-        .incre-row-half{
-          width: 100%;
-        }
-      }
       .page-link{
         color: #22b173;
         background: inherit;
@@ -240,7 +217,6 @@
       .bg-magento{
         background: #22b173 !important; 
       }
-
 
       /*
 
@@ -325,6 +301,53 @@
         margin-top: 75px !important;
       }
 
+      .dropdown-menu{
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+      }
+
+      .dropdown-item{
+        height: 30px !important;
+        line-height: 30px !important; 
+        padding-top: 0px !important;
+        padding-bottom: 0px;
+      }
+
+      .dropdown-item:active{
+        background: #fff !important;
+      }
+
+      .dropdown button:active, .dropdown button:focus{
+        background: #028170 !important;
+        border: 0px !important;
+      }
+
+      @media (max-width: 991px){
+        .module-header .title{
+          width: 100%;
+        }
+        .module-header .items-display{
+          width: 100%;
+        }
+        .module-header .add{
+          width: 100%;
+        }
+        .table-footer .items-total{
+          width: 100%;
+          float: left;
+          text-align: center;
+        }
+        .table-footer .items-pager{
+          width: 100%;
+          text-align: center;
+        }
+        .incre-row-half{
+          width: 100%;
+        }
+        .form-control{
+          font-size: 16px !important;
+        }
+      }
     </style>
     <!-- built files will be auto injected -->
   </body>
