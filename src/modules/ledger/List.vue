@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div class="ledger-summary-container">
+    <div class="ledger-summary-container-header">
+      <ledger-filter :size="size"></ledger-filter>
+    </div>
     <div class="summary-container-item" v-for="item, index in data" v-if="data !== null">
       <span class="header">{{item.created_at_human}}</span>
       <span class="body">
@@ -17,6 +20,19 @@
   </div>
 </template>
 <style scoped>
+.ledger-summary-container{
+  width: 60%;
+  float: left;
+  height: auto;
+  margin-bottom: 100px;
+}
+
+.ledger-summary-container-header{
+  width: 100%;
+  float: left;
+  height: 70px;
+  border: solid 1px #ddd;
+}
 .summary-container-item{
   width: 100%;
   float: left;
@@ -44,19 +60,6 @@
 
 .summary-container-item .amount{
 }
-.view-more{
-  height: 50px;
-  line-height: 50px;
-  border: solid 1px #ddd;
-  padding-right: 25px;
-  padding-left: 25px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.view-more:hover{
-  cursor: pointer;
-}
 </style>
 <script>
 import ROUTER from '../../router'
@@ -64,34 +67,40 @@ import AUTH from '../../services/auth'
 import CONFIG from '../../config.js'
 export default{
   mounted(){
-    this.retrieve()
+    this.retrieve({column: 'created_at', value: 'desc'})
   },
   data(){
     return {
       user: AUTH.user,
-      data: null
+      data: null,
+      activePage: 0,
+      size: 0
     }
   },
   components: {
-    'empty': require('components/increment/generic/empty/Empty.vue')
+    'empty': require('components/increment/generic/empty/Empty.vue'),
+    'ledger-filter': require('modules/ledger/Filter.vue')
   },
   methods: {
     redirect(params){
       ROUTER.push(params)
     },
-    retrieve(){
+    retrieve(sort){
       let parameter = {
         account_id: this.user.userID,
         offset: 0,
-        limit: 50
+        limit: 50,
+        sort: sort
       }
       $('#loading').css({display: 'none'})
       this.APIRequest('ledgers/summary', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data !== null){
           this.data = response.data
+          this.size = this.data.length
         }else{
           this.data = null
+          this.size = null
         }
       })
     }

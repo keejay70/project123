@@ -117,7 +117,7 @@ import AUTH from '../../services/auth'
 import CONFIG from '../../config.js'
 export default{
   mounted(){
-    this.retrieve()
+    this.retrieve({column: 'created_at', value: 'desc'})
   },
   data(){
     return {
@@ -136,11 +136,12 @@ export default{
     redirect(parameter){
       ROUTER.push(parameter)
     },
-    retrieve(){
+    retrieve(sort){
       let parameter = {
         account_id: this.user.userID,
         offset: 0,
-        limit: 5
+        limit: 5,
+        sort: sort
       }
       $('#loading').css({display: 'none'})
       this.APIRequest('ledgers/summary', parameter).then(response => {
