@@ -77,7 +77,7 @@
               </button>
               <div class="dropdown-menu">
                 <div class="dropdown-item action-link" data-toggle="dropdown" @click="showProfileModal(item.request)" v-if="item.request !== null">Profile</div>
-                <div class="dropdown-item action-link" data-toggle="dropdown">Payments Summary</div>
+                <div class="dropdown-item action-link" data-toggle="dropdown" @click="showPaymentModal(item.request)">Payments Summary</div>
               </div>
             </div>
           </label>
@@ -88,6 +88,7 @@
     <div class="investments-list-right-container">
     </div>
     <profile :item="selecteditem"></profile>
+    <payments :item="selecteditem"></payments>
   </div>
 </template>
 <style scoped>
@@ -188,7 +189,8 @@ export default{
   },
   components: {
     'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
-    'profile': require('modules/request/Profile.vue')
+    'profile': require('modules/request/Profile.vue'),
+    'payments': require('modules/payment/Payments.vue')
   },
   methods: {
     redirect(parameter){
@@ -197,6 +199,10 @@ export default{
     showProfileModal(item){
       this.selecteditem = item
       $('#profileModal').modal('show')
+    },
+    showPaymentModal(item){
+      this.selecteditem = item
+      $('#paymentModal').modal('show')
     },
     retrieve(){
       let parameter = {

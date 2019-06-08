@@ -9,7 +9,7 @@
   width:100%;
   height:30px;
   bottom: 0px;
-  background: #fff;
+  background: transparent;
   left: 10px;
   font-size: 12px;
 }
