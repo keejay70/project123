@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>ID Factory</title>
+        <title>{{env('APP_NAME')}}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -113,7 +113,7 @@
         </style>
     </head>
     <body>
-			<span class="header">
-			    <img src='https://api.idfactory.ph/api/public/increment/v1/storage/logo/logo.png' height="60px" width="60px">
-			    <span><label class="text-secondary">ID FACTORY</label></span>
-			</span>
+		<span class="header">
+		    <img src="{{env('APP_URL')}}/storage/logo/logo.png" height="60px" width="60px">
+		    <span><label class="text-secondary">{{env('APP_NAME')}}</label></span>
+		</span>

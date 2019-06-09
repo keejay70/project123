@@ -13,7 +13,7 @@
     <br>
     Click the button below to:
     <br>
-    <a href="http://idfactory.ph/#/refer_register/{{$toEmail}}/{{$details->code}}">
+    <a href="{{env('APP_FRONT_END_URL')}}/refer_register/{{$toEmail}}/{{$details->code}}">
         <button class="button">Accept & Register Now!</button>
     </a>
     <br>

@@ -12,6 +12,7 @@ use App\Mail\OtpEmail;
 use App\Mail\NotifyReferrer;
 use App\Mail\Receipt;
 use App\Mail\NewMessage;
+use App\Mail\Ledger;
 use Illuminate\Http\Request;
 
 class EmailController extends APIController
@@ -87,6 +88,15 @@ class EmailController extends APIController
         $user = $this->retrieveAccountDetails($accountId);
         if($user != null && sizeof($data) > 0){
             Mail::to($user['email'])->send(new Receipt($user, $data[0]));
+            return true;
+        }
+        return false;
+    }
+
+    public function ledger($accountId, $details){
+        $user = $this->retrieveAccountDetails($accountId);
+        if($user != null){
+            Mail::to($user['email'])->send(new Ledger($user, $details));
             return true;
         }
         return false;

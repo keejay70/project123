@@ -49,7 +49,8 @@ class LedgerController extends APIController
 
     public function addToLedger($accountId, $amount, $description, $payload, $payloadValue){
       $ledger = new Ledger();
-      $ledger->code = $this->generateCode();
+      $code = $this->generateCode();
+      $ledger->code = $code;
       $ledger->account_id = $accountId;
       $ledger->amount = $amount;
       $ledger->description = $description;
@@ -57,6 +58,15 @@ class LedgerController extends APIController
       $ledger->payload_value = $payloadValue;
       $ledger->created_at = Carbon::now();
       $ledger->save();
+
+      // sent email
+      $details = array(
+        'title' => $description.' PHP'.$amount,
+        'transaction_id' => $code
+      );
+
+      app('App\Http\Controllers\EmailController')->ledger($accountId, $details);  
+
       return $ledger->id;
     }
 
