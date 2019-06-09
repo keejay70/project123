@@ -93,10 +93,10 @@ class EmailController extends APIController
         return false;
     }
 
-    public function ledger($accountId, $details){
+    public function ledger($accountId, $details, $subject){
         $user = $this->retrieveAccountDetails($accountId);
         if($user != null){
-            Mail::to($user['email'])->send(new Ledger($user, $details));
+            Mail::to($user['email'])->send(new Ledger($user, $details, $subject));
             return true;
         }
         return false;

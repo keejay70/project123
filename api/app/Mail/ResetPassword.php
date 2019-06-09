@@ -33,6 +33,6 @@ class ResetPassword extends Mailable
 
     public function build()
     {
-        return $this->from('support@idfactory.ph')->view('email.resetpassword');
+        return $this->subject('Request reset password notification')->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))->view('email.resetpassword');
     }
 }

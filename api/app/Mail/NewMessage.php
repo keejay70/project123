@@ -30,6 +30,6 @@ class NewMessage extends Mailable
      */
     public function build()
     {
-        return $this->from('support@idfactory.ph')->view('email.newmessage');
+        return $this->subject('New message notification')->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))->view('email.newmessage');
     }
 }

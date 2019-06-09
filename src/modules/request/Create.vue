@@ -113,6 +113,7 @@ export default {
       this.APIRequest('requests/create', this.newRequest).then(response => {
         $('#loading').css({display: 'none'})
         this.hideModal()
+        this.$parent.retrieve(null)
       })
     }
   }

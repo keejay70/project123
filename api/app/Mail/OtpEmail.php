@@ -34,6 +34,6 @@ class OtpEmail extends Mailable
 
     public function build()
     {
-        return $this->from('support@idfactory.ph')->view('email.otpemail');
+        return $this->subject('OTP Notification')->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))->view('email.otpemail');
     }
 }

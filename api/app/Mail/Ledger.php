@@ -14,17 +14,19 @@ class Ledger extends Mailable
     public $title;
     public $date;
     public $transactionId;
+    public $emailSubject;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user, $details)
+    public function __construct($user, $details, $subject)
     {
         $this->user = $user;
         $this->title = $details['title'];
         $this->transactionId = $details['transaction_id'];
+        $this->emailSubject = $subject;
         $this->date = Carbon::now()->copy()->tz('Asia/Manila')->format('F j, Y');
     }
 
@@ -36,6 +38,6 @@ class Ledger extends Mailable
 
     public function build()
     {
-        return $this->from('support@idfactory.ph')->view('email.ledger');
+        return $this->subject($this->emailSubject)->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))->view('email.ledger');
     }
 }

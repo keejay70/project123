@@ -61,11 +61,12 @@ class LedgerController extends APIController
 
       // sent email
       $details = array(
-        'title' => $description.' PHP'.$amount,
+        'title' => $description.' the amount of PHP'.number_format(($amount * (-1)), 2),
         'transaction_id' => $code
       );
 
-      app('App\Http\Controllers\EmailController')->ledger($accountId, $details);  
+      $subject = 'You made an investment to the borrower';
+      app('App\Http\Controllers\EmailController')->ledger($accountId, $details, $subject);  
 
       return $ledger->id;
     }

@@ -51,7 +51,7 @@ class InvestmentController extends APIController
             $invest->save();
             $response['data'] = $invest->id;
             $response['error'] = null;
-            $description = 'You have invested to this <b class="text-primary">request</b>';
+            $description = 'Invested to';
             $payload = 'investments';
             $payloadValue = $invest->id;
             app($this->ledgerClass)->addToLedger($data['account_id'], $amount * (-1), $description, $payload, $payloadValue);

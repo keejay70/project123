@@ -188,7 +188,11 @@ export default{
       size: null,
       selecteditem: null,
       config: CONFIG,
-      activePage: 0
+      activePage: 0,
+      sort: {
+        column: 'created_at',
+        value: 'desc'
+      }
     }
   },
   components: {
@@ -223,7 +227,7 @@ export default{
       let parameter = {
         limit: 10,
         offset: this.activePage,
-        sort: sort
+        sort: (sort !== null) ? sort : this.sort
       }
       $('#loading').css({display: 'block'})
       this.APIRequest('requests/retrieve', parameter).then(response => {

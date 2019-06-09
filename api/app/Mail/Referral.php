@@ -39,6 +39,6 @@ class Referral extends Mailable
 
     public function build()
     {
-        return $this->from('support@idfactory.ph')->view('email.referral');
+        return $this->subject('Referral notification')->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))->view('email.referral');
     }
 }

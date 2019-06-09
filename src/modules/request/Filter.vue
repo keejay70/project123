@@ -82,6 +82,7 @@ export default{
     filter(params, index){
       this.filterBy = params
       this.activeIndex = index
+      this.$parent.sort = this.filterOptions[this.activeIndex].sort
       this.$parent.retrieve(this.filterOptions[index].sort)
     },
     setOffset(offset){
@@ -89,23 +90,27 @@ export default{
     },
     first(){
       this.$parent.activePage = 0
+      this.$parent.sort = this.filterOptions[this.activeIndex].sort
       this.$parent.retrieve(this.filterOptions[this.activeIndex].sort)
     },
     next(){
       if(this.size > (this.activePage + this.limit)){
         this.$parent.activePage += this.limit
+        this.$parent.sort = this.filterOptions[this.activeIndex].sort
         this.$parent.retrieve(this.filterOptions[this.activeIndex].sort)
       }
     },
     prev(){
       if(this.activePage >= this.limit){
         this.$parent.activePage -= this.limit
+        this.$parent.sort = this.filterOptions[this.activeIndex].sort
         this.$parent.retrieve(this.filterOptions[this.activeIndex].sort)
       }
     },
     last(){
       let offset = (parseInt(this.size / this.limit) * this.limit)
       this.$parent.activePage = offset
+      this.$parent.sort = this.filterOptions[this.activeIndex].sort
       this.$parent.retrieve(this.filterOptions[this.activeIndex].sort)
     }
   }

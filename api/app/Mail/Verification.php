@@ -34,6 +34,6 @@ class Verification extends Mailable
 
     public function build()
     {
-        return $this->from('support@idfactory.ph')->view('email.verification');
+        return $this->subject('Email address verification')->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))->view('email.verification');
     }
 }
