@@ -5,7 +5,7 @@
 </template>
 <style type="text/css">
 .apps-footer {
-  position: absolute;
+  position: fixed;
   width:100%;
   height:30px;
   bottom: 0px;
