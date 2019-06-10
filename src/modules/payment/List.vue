@@ -4,23 +4,31 @@
       <div class="payhiram-container-header">
         <request-filter :size="size"></request-filter>
       </div>
-      <div class="payhiram-container-item" v-for="item, index in data" v-if="data !== null">
-        <table class="table table-responsive borderless">
-          <thead>
-            <tr>
-              <td>Date</td>
-              <td>Amount</td>
-              <td>Penalty</td>
-              <td>Action</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="">
-              
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <table class="table table-responsive table-bordered" v-if="data !== null">
+        <thead>
+          <tr class="text-center">
+            <td>Date</td>
+            <td>Amount</td>
+            <td>Penalty</td>
+            <td>Action</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item, index in data">
+            <td>{{item.date_human}}</td>
+            <td>PHP {{item.amount.toFixed(2)}}</td>
+            <td>{{item.penalty}}</td>
+            <td>
+              <button class="btn btn-primary">Pay</button>
+            </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr class="">
+            
+          </tr>
+        </tbody>
+      </table>
       <empty v-if="data === null" :title="'We just launched and we\'re still growing.'" :action="' Please check back soon, we will have tons of request for you.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
     </div>
     <div class="payhiram-list-right-container">
@@ -146,27 +154,17 @@ export default{
       let parameter = {
         limit: 10,
         offset: this.activePage,
-        sort: (sort !== null) ? sort : this.sort
+        sort: (sort !== null) ? sort : this.sort,
+        account_id: this.user.userID
       }
       $('#loading').css({display: 'block'})
-      this.APIRequest('requests/retrieve', parameter).then(response => {
+      this.APIRequest('payments/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
-        if(response.data !== null){
+        if(response.data.length > 0){
           this.data = response.data
-          this.size = parseInt(response.size)
         }else{
           this.data = null
-          this.size = null
         }
-      })
-    },
-    bookmark(id){
-      let parameter = {
-        account_id: this.user.userID,
-        request_id: id
-      }
-      this.APIRequest('bookmarks/create', parameter).then(response => {
-        //
       })
     }
   }
