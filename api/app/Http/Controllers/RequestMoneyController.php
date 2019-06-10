@@ -124,4 +124,9 @@ class RequestMoneyController extends APIController
       $result = RequestMoney::where('status', '=', 1)->sum('amount');
       return $result;
     }
+
+    public function requestStatus($accountId){
+      $result = RequestMoney::where('account_id', '=', $accountId)->where('status', '=', 1)->get();
+      return (sizeof($result) > 0) ? true : false;
+    }
 }
