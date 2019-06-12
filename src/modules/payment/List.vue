@@ -15,7 +15,7 @@
         </thead>
         <tbody>
           <tr v-for="item, index in data">
-            <td>{{item.date_human}}</td>
+            <td>{{item.created_at_human}}</td>
             <td>PHP {{item.amount.toFixed(2)}}</td>
             <td>{{item.penalty}}</td>
             <td>
@@ -158,7 +158,7 @@ export default{
         account_id: this.user.userID
       }
       $('#loading').css({display: 'block'})
-      this.APIRequest('payments/retrieve', parameter).then(response => {
+      this.APIRequest('requests/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data
