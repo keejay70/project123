@@ -105,6 +105,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/payments/',
+    name: 'payments',
+    component: resolve => require(['modules/payment/List.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }
