@@ -1,13 +1,13 @@
 <template>
   <div class="payhiram-list-wrapper">
     <div class="payhiram-list-left-container">
-      <div class="payhiram-container-header">
+<!--       <div class="payhiram-container-header">
         <request-filter :size="size"></request-filter>
-      </div>
+      </div> -->
       <table class="table table-responsive table-bordered" v-if="data !== null">
         <thead>
           <tr class="text-center">
-            <td>Date</td>
+            <td>Next billing</td>
             <td>Amount</td>
             <td>Penalty</td>
             <td>Action</td>
@@ -15,7 +15,7 @@
         </thead>
         <tbody>
           <tr v-for="item, index in data">
-            <td>{{item.created_at_human}}</td>
+            <td>{{item.next_billing_date_human}}</td>
             <td>PHP {{item.amount.toFixed(2)}}</td>
             <td>{{item.penalty}}</td>
             <td>
@@ -152,13 +152,10 @@ export default{
     },
     retrieve(sort){
       let parameter = {
-        limit: 10,
-        offset: this.activePage,
-        sort: (sort !== null) ? sort : this.sort,
         account_id: this.user.userID
       }
       $('#loading').css({display: 'block'})
-      this.APIRequest('requests/retrieve', parameter).then(response => {
+      this.APIRequest('requests/payments', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data

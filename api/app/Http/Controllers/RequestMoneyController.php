@@ -12,6 +12,10 @@ class RequestMoneyController extends APIController
     public $investmentClass = 'App\Http\Controllers\InvestmentController';
     function __construct(){  
     	$this->model = new RequestMoney();
+
+      $this->notRequired = array(
+        'approved_date'
+      );
     }
 
     public function create(Request $request){
@@ -128,5 +132,58 @@ class RequestMoneyController extends APIController
     public function requestStatus($accountId){
       $result = RequestMoney::where('account_id', '=', $accountId)->where('status', '=', 1)->get();
       return (sizeof($result) > 0) ? true : false;
+    }
+
+    public function payments(Request $request){
+      $data = $request->all();
+
+      $result = RequestMoney::where('account_id', '=', $data['account_id'])->where('status', '=', 1)->where('approved_date', '!=', null)->get();
+
+      $result = $this->getAttributes($result);
+
+      if(sizeof($result) > 0){
+        $i = 0;
+        foreach ($result as $key) {
+          $result[$i]['next_billing_date_human'] = $this->manageNextBilling($result[$i]['approved_date'], $result[$i]['billing_per_month']);
+          $i++;
+        }
+      }
+      return response()->json(array(
+        'data'        => sizeof($result) > 0 ? $result : null,
+        'timestamps'  => Carbon::now(),
+        'error'       => null
+      ));
+    }
+
+    public function manageNextBilling($approvedDate, $billingPerMonth){
+      $days = 0;
+      $approvedDate = Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate);
+      $currentDate = Carbon::now();
+      $diff = $currentDate->diffInDays($approvedDate, false);
+      
+        // 31, 30
+      if($diff > 0){
+        // add month
+      }else{
+        if($approvedDate->month == $currentDate->month && $approvedDate->year == $currentDate->year){
+          if($billingPerMonth == 0){
+            return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth()->copy()->tz('Asia/Manila')->format('F j, Y');
+          }else if($billingPerMonth == 1){
+            return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth()->subWeeks(2)->copy()->tz('Asia/Manila')->format('F j, Y');
+          }
+        }else{
+          $stringDate = $currentDate->year.'-'.$currentDate->month.'-'.$approvedDate->day;
+          if($billingPerMonth == 0){
+            return Carbon::createFromFormat('Y-m-d', $stringDate)->copy()->tz('Asia/Manila')->format('F j, Y');
+          }else if($billingPerMonth == 1){
+            return Carbon::createFromFormat('Y-m-d', $stringDate)->subWeeks(2)->copy()->tz('Asia/Manila')->format('F j, Y');
+          }
+          
+        }
+      }
+      if($billingPerMonth == 2){
+        return Carbon::now()->endOfWeek()->subDay()->copy()->tz('Asia/Manila')->format('F j, Y');
+      }
+      return null;
     }
 }
