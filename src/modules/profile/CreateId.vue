@@ -1,41 +1,16 @@
 <template>
   <div class="profile-holder">
     <span class="header">Identification</span>
+    <span class="subheader">Upload Government Issued ID</span>
     <span class="content">
       <span class="inputs" v-if="data !== null">
         <div class="form-group" style="margin-top: 25px;">
-          <label for="address">First Name</label>
-          <input type="text" class="form-control" placeholder="Enter First Name" v-model="data.first_name">
-        </div>
-
-        <div class="form-group">
-          <label for="address">Middle Name</label>
-          <input type="text" class="form-control" placeholder="Optional" v-model="data.middle_name">
-        </div>
-
-        <div class="form-group">
-          <label for="address">Last Name</label>
-          <input type="text" class="form-control" placeholder="Enter Last Name" v-model="data.last_name">
-        </div>
-
-        <div class="form-group">
-          <label for="address">Gender</label>
-          <select class="form-control" v-model="data.sex">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+          <label for="address">Select ID Type</label>
+          <select class="form-control" v-model="selected">
+            <option v-for="option in options" v-bind:value="option.value">{{ option.text }}</option>
           </select>
         </div>
-
-        <div class="form-group">
-          <label for="address">Cellular Numbar</label>
-          <input type="text" class="form-control" placeholder="Optional" v-model="data.cellular_number">
-        </div>
-
-        <div class="form-group">
-          <label for="address">Address</label>
-          <input type="text" class="form-control" placeholder="Optional" v-model="data.address">
-        </div>
-
+        
         <div class="form-group">
           <label for="address">Birthdate</label>
           <input type="date" class="form-control" v-model="data.birth_date" placeholder="Optional">
@@ -71,6 +46,15 @@
   height: 50px;
   line-height: 50px;
   font-size: 24px;
+  border-bottom: solid 1px #ddd;
+  float: left;
+}
+.subheader{
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  text-align: center;
   border-bottom: solid 1px #ddd;
   float: left;
 }
@@ -148,6 +132,18 @@ export default {
       tokenData: AUTH.tokenData,
       config: CONFIG,
       data: null,
+      selected: 'A',
+      options: [
+        {text: 'Driver\'s License', value: 'A'},
+        {text: 'Valid Passport', value: 'B'},
+        {text: 'Unified Multi-Purpose ID Card', value: 'C'},
+        {text: 'PhilHealth ID', value: 'D'},
+        {text: 'Postal ID', value: 'E'},
+        {text: 'Voter\'s ID', value: 'F'},
+        {text: 'PRC License', value: 'G'},
+        {text: 'Senior Citizen ID', value: 'H'},
+        {text: 'OFW ID', value: 'I'}
+      ],
       newProfile: {
         account_id: null,
         url: null
