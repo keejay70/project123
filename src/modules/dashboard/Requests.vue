@@ -1,7 +1,7 @@
 <template>
     <div class="requested-container-item">
       <label class="header"><b>Requested Amount</b></label>
-      <label class="content" v-if="data !== null">PHP {{data.toFixed(2)}}</label>
+      <label class="content" v-if="data !== null">{{auth.displayAmount(data)}}</label>
       <span style="margin-bottom: 5px;" v-if="user.type !== 'USER'">
         <button class="btn btn-primary" @click="redirect('/requests')">Visit</button>
       </span>
@@ -35,7 +35,8 @@ import CONFIG from '../../config.js'
 export default{
   data(){
     return {
-      user: AUTH.user
+      user: AUTH.user,
+      auth: AUTH
     }
   },
   props: ['data'],

@@ -126,6 +126,7 @@ export default{
       user: AUTH.user,
       data: null
     }
+
   },
   components: {
     'ledgers': require('modules/dashboard/Ledger.vue'),
@@ -156,6 +157,6 @@ export default{
       })
     }
   }
-
 }
+
 </script>
