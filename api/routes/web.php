@@ -104,11 +104,12 @@ $controller = 'MessengerGroupController@';
 Route::post($route.'create', $controller."create");
 Route::post($route.'retrieve', $controller."retrieve");
 
-// Messenger Groups Custom
+// Requests
 $route = env('PACKAGE_ROUTE', '').'/requests/';
 $controller = 'RequestMoneyController@';
 Route::post($route.'create', $controller."create");
 Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'payments', $controller."payments");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
 
@@ -141,6 +142,15 @@ Route::post($route.'update', $controller."update");
 // Report
 $route = env('PACKAGE_ROUTE', '').'/reports/';
 $controller = 'ReportController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
+
+
+// Payments
+$route = env('PACKAGE_ROUTE', '').'/payments/';
+$controller = 'PaymentController@';
 Route::post($route.'create', $controller."create");
 Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");
