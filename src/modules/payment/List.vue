@@ -10,6 +10,7 @@
             <td>Next billing</td>
             <td>Amount</td>
             <td>Penalty</td>
+            <td>Total</td>
             <td>Action</td>
           </tr>
         </thead>
@@ -18,6 +19,7 @@
             <td>{{item.next_billing_date_human}}</td>
             <td>PHP {{item.amount.toFixed(2)}}</td>
             <td>{{item.penalty}}</td>
+            <td>{{AUTH.displayAmount(parseFloat(0) + parseFloat(item.amount))}}</td>
             <td>
               <button class="btn btn-primary">Pay</button>
             </td>
@@ -119,7 +121,8 @@ export default{
       sort: {
         column: 'created_at',
         value: 'desc'
-      }
+      },
+      auth: AUTH
     }
   },
   components: {
@@ -163,6 +166,8 @@ export default{
           this.data = null
         }
       })
+    },
+    makePayment(){
     }
   }
 
