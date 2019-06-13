@@ -156,3 +156,10 @@ Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
 
+// Works
+$route = env('PACKAGE_ROUTE', '').'/works/';
+$controller = 'WorkController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
