@@ -29,7 +29,7 @@
           </tr>
         </tbody>
       </table>
-      <empty v-if="data === null" :title="'We just launched and we\'re still growing.'" :action="' Please check back soon, we will have tons of request for you.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
+      <empty v-if="data === null" :title="'You don\'t have payments yet'" :action="'Be back soon.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
     </div>
     <div class="payhiram-list-right-container">
     </div>
