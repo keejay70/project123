@@ -2,25 +2,26 @@
 
 namespace App\Jobs;
 
-use App\Jobs\Email;
+use Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Mail\Billing;
 
-class Payment implements ShouldQueue
+class Email implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    protected $details;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($details)
     {
-        //
+        $this->details = $details;
     }
 
     /**
@@ -30,12 +31,14 @@ class Payment implements ShouldQueue
      */
     public function handle()
     {
-        echo"hi";
-        $details = array(
-            'code'=>'asdf',
-            'username'=>'asdf',
-            'email'=>'janpalugod@gmail.com'
-        );
-        Email::dispatch((object)$details);
+        $this->send($this->details);
+
+    }
+     public function send($user){
+        if($user != null){
+            Mail::to($user->email)->send(new Billing($user));
+            return true;
+        }
+        return false;
     }
 }
