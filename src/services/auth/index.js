@@ -14,6 +14,7 @@ export default {
     type: null,
     status: null,
     profile: null,
+    amount: null,
     notifications: {
       data: null,
       current: null,
@@ -330,5 +331,14 @@ export default {
         }
       }
     })
+  },
+  displayAmount(amount){
+    // amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '1,')
+    // console.log(amount)
+    var formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'PHP'
+    })
+    return formatter.format(amount)
   }
 }

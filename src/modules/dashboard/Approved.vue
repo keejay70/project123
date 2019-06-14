@@ -1,7 +1,7 @@
 <template>
   <div class="available-container-item">
     <label class="header"><b>Approved Requests</b></label>
-    <label class="content" v-if="data !== null">PHP {{data.toFixed(2)}}</label>
+    <label class="content" v-if="data !== null">{{auth.displayAmount(data)}}</label>
   </div>
 </template>
 <style scoped>
@@ -32,7 +32,8 @@ import CONFIG from '../../config.js'
 export default{
   data(){
     return {
-      user: AUTH.user
+      user: AUTH.user,
+      auth: AUTH
     }
   },
   props: ['data'],

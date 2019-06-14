@@ -1,7 +1,7 @@
 <template>
   <div class="ledgers-container-item bg-primary">
     <label><b>Account Balance</b></label>
-    <label v-if="data !== null">PHP {{data.toFixed(2)}}</label>
+    <label v-if="data !== null">{{auth.displayAmount(data)}}</label>
     <span style="margin-bottom: 5px;">
       <button class="btn btn-primary">Withdraw</button>
       <button class="btn btn-warning pull-right" style="margin-top: 4px;">Deposit</button>
@@ -36,7 +36,8 @@ import CONFIG from '../../config.js'
 export default{
   data(){
     return {
-      user: AUTH.user
+      user: AUTH.user,
+      auth: AUTH
     }
   },
   props: ['data'],
