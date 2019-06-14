@@ -17,9 +17,9 @@
         <tbody>
           <tr v-for="item, index in data">
             <td>{{item.next_billing_date_human}}</td>
-            <td>PHP {{item.amount.toFixed(2)}}</td>
-            <td>{{item.penalty}}</td>
-            <td>{{AUTH.displayAmount(parseFloat(0) + parseFloat(item.amount))}}</td>
+            <td>{{auth.displayAmount(item.amount)}}</td>
+            <td>{{auth.displayAmount(item.penalty)}}</td>
+            <td>{{auth.displayAmount(parseFloat(0) + parseFloat(item.amount))}}</td>
             <td>
               <button class="btn btn-primary">Pay</button>
             </td>

@@ -33,7 +33,7 @@
           </label>
           <label class="text-primary">
             <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
-            <b>PHP {{item.amount.toFixed(2)}}</b>
+            <b>{{auth.displayAmount(item.amount)}}</b>
           </label>
           <label>
             <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
@@ -61,7 +61,7 @@
             <ratings :ratings="item.rating" v-if="item.rating !== null"></ratings>
           </label>
           <label>
-            Total Borrowed: PHP {{item.total}}
+            Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
           <button class="btn btn-primary pull-right" @click="showInvestmentModal(item)">Invest</button>
           <button class="btn btn-warning pull-right" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
@@ -184,6 +184,7 @@ export default{
   data(){
     return {
       user: AUTH.user,
+      auth: AUTH,
       data: null,
       size: null,
       selecteditem: null,
