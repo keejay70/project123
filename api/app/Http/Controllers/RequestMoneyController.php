@@ -144,7 +144,9 @@ class RequestMoneyController extends APIController
       if(sizeof($result) > 0){
         $i = 0;
         foreach ($result as $key) {
-          $result[$i]['next_billing_date_human'] = $this->manageNextBilling($result[$i]['approved_date'], $result[$i]['billing_per_month']);
+          $billingDate = $this->manageNextBilling($result[$i]['approved_date'], $result[$i]['billing_per_month']);
+          $result[$i]['next_billing_date_human'] = $billingDate->copy()->tz('Asia/Manila')->format('F j, Y');
+          $result[$i]['next_billing_date'] = $billingDate->copy()->tz('Asia/Manila')->format('Y-m-d');
           $i++;
         }
       }
@@ -167,22 +169,22 @@ class RequestMoneyController extends APIController
       }else{
         if($approvedDate->month == $currentDate->month && $approvedDate->year == $currentDate->year){
           if($billingPerMonth == 0){
-            return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth()->copy()->tz('Asia/Manila')->format('F j, Y');
+            return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth();
           }else if($billingPerMonth == 1){
-            return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth()->subWeeks(2)->copy()->tz('Asia/Manila')->format('F j, Y');
+            return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth()->subWeeks(2);
           }
         }else{
           $stringDate = $currentDate->year.'-'.$currentDate->month.'-'.$approvedDate->day;
           if($billingPerMonth == 0){
-            return Carbon::createFromFormat('Y-m-d', $stringDate)->copy()->tz('Asia/Manila')->format('F j, Y');
+            return Carbon::createFromFormat('Y-m-d', $stringDate);
           }else if($billingPerMonth == 1){
-            return Carbon::createFromFormat('Y-m-d', $stringDate)->subWeeks(2)->copy()->tz('Asia/Manila')->format('F j, Y');
+            return Carbon::createFromFormat('Y-m-d', $stringDate)->subWeeks(2);
           }
           
         }
       }
       if($billingPerMonth == 2){
-        return Carbon::now()->endOfWeek()->subDay()->copy()->tz('Asia/Manila')->format('F j, Y');
+        return Carbon::now()->endOfWeek()->subDay();
       }
       return null;
     }

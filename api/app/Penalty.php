@@ -8,4 +8,8 @@ class Penalty extends APIModel
 {
     protected $table = 'penalties';
     protected $fillable = ['code', 'account_id', 'request_id', 'amount', 'date'];
+
+    public function requests(){
+      return $this->hasOne('App\RequestMoney');
+    }
 }
