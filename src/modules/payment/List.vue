@@ -10,16 +10,18 @@
             <td>Next billing</td>
             <td>Amount</td>
             <td>Penalty</td>
+            <td>Total</td>
             <td>Action</td>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item, index in data">
             <td>{{item.next_billing_date_human}}</td>
-            <td>PHP {{item.amount.toFixed(2)}}</td>
-            <td>{{item.penalty}}</td>
-            <td>
-              <button class="btn btn-primary">Pay</button>
+            <td>{{auth.displayAmount(item.amount)}}</td>
+            <td>{{auth.displayAmount(item.penalty)}}</td>
+            <td>{{auth.displayAmount(parseFloat(0) + parseFloat(item.amount))}}</td>
+            <td class="text-center">
+              <button class="btn btn-primary" @click="makePayment(item.id, item.next_billing_date, item.amount)">Pay</button>
             </td>
           </tr>
         </tbody>
@@ -29,7 +31,7 @@
           </tr>
         </tbody>
       </table>
-      <empty v-if="data === null" :title="'We just launched and we\'re still growing.'" :action="' Please check back soon, we will have tons of request for you.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
+      <empty v-if="data === null" :title="'You don\'t have payments yet'" :action="'Be back soon.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
     </div>
     <div class="payhiram-list-right-container">
     </div>
@@ -119,7 +121,8 @@ export default{
       sort: {
         column: 'created_at',
         value: 'desc'
-      }
+      },
+      auth: AUTH
     }
   },
   components: {
@@ -152,16 +155,31 @@ export default{
     },
     retrieve(sort){
       let parameter = {
-        account_id: this.user.userID
+        account_id: this.user.userID,
+        limit: 10,
+        offset: 0,
+        sort: {
+          column: 'created_at',
+          value: 'desc'
+        }
       }
-      $('#loading').css({display: 'block'})
-      this.APIRequest('requests/payments', parameter).then(response => {
-        $('#loading').css({display: 'none'})
+      this.APIRequest('payments/retrieve', parameter).then(response => {
         if(response.data.length > 0){
           this.data = response.data
         }else{
           this.data = null
         }
+      })
+    },
+    makePayment(requestId, date, amount){
+      let parameter = {
+        request_id: requestId,
+        date: date,
+        amount: amount,
+        account_id: this.user.userID
+      }
+      this.APIRequest('payments/create', parameter).then(response => {
+        //
       })
     }
   }

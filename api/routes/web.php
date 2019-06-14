@@ -156,12 +156,32 @@ Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
 
+
 // TestController
 $route = env('PACKAGE_ROUTE', '').'/testing/';
 $controller = 'TestController@';
+Route::get($route.'testing', $controller."testing");
 Route::post($route.'create', $controller."create");
 Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
-Route::get($route.'testing', $controller."testing");
+
+// Penalties
+$route = env('PACKAGE_ROUTE', '').'/penalties/';
+$controller = 'PenaltyController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
+
+// Works
+$route = env('PACKAGE_ROUTE', '').'/works/';
+$controller = 'WorkController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
+
+
+
 
