@@ -8,7 +8,7 @@
       <span class="display">
         <div class="rl-container-item" v-for="item, index in data" v-if="data !== null">
           <span class="header">
-            <label class="action-link text-primary" @click="showProfileModal(item)">
+            <label class="action-link text-primary">
               <i class="fas fa-user-circle" style="color: #555; padding-right: 5px;" v-if="item.account.profile === null"></i>
               <img :src="config.BACKEND_URL + item.account.profile.url" height="30px" width="30px;" style="border-radius: 50%;" v-else>
               {{item.account.username}}
@@ -143,10 +143,6 @@ export default {
     'create-modal': require('modules/profile/WorkModal.vue')
   },
   methods: {
-    showProfileModal(item){
-      this.selecteditem = item
-      $('#profileModal').modal('show')
-    },
     retrieve(){
       let parameter = {
         condition: [{

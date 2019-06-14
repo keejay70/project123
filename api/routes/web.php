@@ -156,7 +156,6 @@ Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
 
-
 // Penalties
 $route = env('PACKAGE_ROUTE', '').'/penalties/';
 $controller = 'PenaltyController@';
@@ -172,3 +171,4 @@ Route::post($route.'create', $controller."create");
 Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
+

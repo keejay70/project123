@@ -1,7 +1,7 @@
 <template>
   <div class="available-container-item">
     <label class="header"><b>Available Funds</b></label>
-    <label class="content" v-if="data !== null">PHP {{data.toFixed(2)}}</label>
+    <label class="content" v-if="data !== null">{{auth.displayAmount(data)}}</label>
   </div>
 </template>
 <style scoped>
@@ -34,7 +34,8 @@ export default{
   },
   data(){
     return {
-      user: AUTH.user
+      user: AUTH.user,
+      auth: AUTH
     }
   },
   props: ['data'],
