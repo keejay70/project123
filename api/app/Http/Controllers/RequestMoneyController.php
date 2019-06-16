@@ -134,11 +134,9 @@ class RequestMoneyController extends APIController
       return (sizeof($result) > 0) ? true : false;
     }
 
-    public function payments(Request $request){
-      $data = $request->all();
+    public function payments($data){
 
       $result = RequestMoney::where('account_id', '=', $data['account_id'])->where('status', '=', 1)->where('approved_date', '!=', null)->get();
-
       $result = $this->getAttributes($result);
 
       if(sizeof($result) > 0){
@@ -150,11 +148,7 @@ class RequestMoneyController extends APIController
           $i++;
         }
       }
-      return response()->json(array(
-        'data'        => sizeof($result) > 0 ? $result : null,
-        'timestamps'  => Carbon::now(),
-        'error'       => null
-      ));
+      return sizeof($result) > 0 ? $result : null;
     }
 
     public function manageNextBilling($approvedDate, $billingPerMonth){

@@ -4,7 +4,7 @@
 <!--       <div class="payhiram-container-header">
         <request-filter :size="size"></request-filter>
       </div> -->
-      <table class="table table-responsive table-bordered" v-if="data !== null">
+      <table class="table table-responsive table-bordered" v-if="billing !== null">
         <thead>
           <tr class="text-center">
             <td>Next billing</td>
@@ -15,7 +15,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item, index in data">
+          <tr v-for="item, index in billing">
             <td>{{item.next_billing_date_human}}</td>
             <td>{{auth.displayAmount(item.amount)}}</td>
             <td>{{auth.displayAmount(item.penalty)}}</td>
@@ -114,6 +114,7 @@ export default{
     return {
       user: AUTH.user,
       data: null,
+      billing: null,
       size: null,
       selecteditem: null,
       config: CONFIG,
@@ -164,6 +165,7 @@ export default{
         }
       }
       this.APIRequest('payments/retrieve', parameter).then(response => {
+        this.billing = response.billing
         if(response.data.length > 0){
           this.data = response.data
         }else{
