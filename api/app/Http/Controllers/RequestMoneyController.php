@@ -159,7 +159,11 @@ class RequestMoneyController extends APIController
       
         // 31, 30
       if($diff > 0){
-        // add month
+        if($billingPerMonth == 0){
+          return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth();
+        }else if($billingPerMonth == 1){
+          return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth()->subWeeks(2);
+        }
       }else{
         if($approvedDate->month == $currentDate->month && $approvedDate->year == $currentDate->year){
           if($billingPerMonth == 0){
