@@ -214,6 +214,7 @@ export default{
       ROUTER.push(parameter)
     },
     showRequestModal(){
+      this.requestModal.params.push({variable: 'account_id', value: this.user.userID})
       $('#createRequestModal').modal('show')
     },
     showInvestmentModal(item){

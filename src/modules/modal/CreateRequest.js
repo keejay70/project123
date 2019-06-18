@@ -95,5 +95,9 @@ export default {
   sort: {
     column: 'created_at',
     value: 'desc'
-  }
+  },
+  params: [{
+    variable: 'status',
+    value: 0
+  }]
 }
