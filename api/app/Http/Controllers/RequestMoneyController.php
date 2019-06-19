@@ -157,6 +157,23 @@ class RequestMoneyController extends APIController
       ));
     }
 
+    public function billingSchedule(){
+      $result = RequestMoney::where('status', '=', 1)->where('approved_date', '!=', null)->get();
+
+      $result = $this->getAttributes($result);
+
+      if(sizeof($result) > 0){
+        $i = 0;
+        foreach ($result as $key) {
+          $billingDate = $this->manageNextBilling($result[$i]['approved_date'], $result[$i]['billing_per_month']);
+          $result[$i]['next_billing_date_human'] = $billingDate->copy()->tz('Asia/Manila')->format('F j, Y');
+          $result[$i]['next_billing_date'] = $billingDate->copy()->tz('Asia/Manila')->format('Y-m-d');
+          $i++;
+        }
+      }
+      return sizeof($result) > 0 ? $result : null;
+    }
+
     public function manageNextBilling($approvedDate, $billingPerMonth){
       $days = 0;
       $approvedDate = Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate);
