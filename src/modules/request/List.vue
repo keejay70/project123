@@ -71,10 +71,11 @@
     </div>
     <div class="request-list-right-container">
     </div>
-    <create-request></create-request>
+    <!-- <create-request></create-request> -->
     <invest :item="selecteditem"></invest>
     <profile :item="selecteditem"></profile>
     <report :item="selecteditem"></report>
+    <increment-modal :property="requestModal"></increment-modal>
   </div>
 </template>
 <style scoped>
@@ -174,6 +175,7 @@
 import ROUTER from '../../router'
 import AUTH from '../../services/auth'
 import CONFIG from '../../config.js'
+import REQUEST from '../modal/CreateRequest.js'
 export default{
   mounted(){
     this.retrieve({
@@ -193,7 +195,8 @@ export default{
       sort: {
         column: 'created_at',
         value: 'desc'
-      }
+      },
+      requestModal: REQUEST
     }
   },
   components: {
@@ -203,13 +206,15 @@ export default{
     'report': require('modules/request/Report.vue'),
     'request-filter': require('modules/request/Filter.vue'),
     'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
-    'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue')
+    'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
+    'increment-modal': require('components/increment/generic/modal/Modal.vue')
   },
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
     },
     showRequestModal(){
+      this.requestModal.params.push({variable: 'account_id', value: this.user.userID})
       $('#createRequestModal').modal('show')
     },
     showInvestmentModal(item){

@@ -4,9 +4,12 @@
 <!--       <div class="payhiram-container-header">
         <request-filter :size="size"></request-filter>
       </div> -->
-      <table class="table table-responsive table-bordered" v-if="data !== null">
+      <span class="incre-row">
+        <b>Billing</b>
+      </span>
+      <table class="table table-responsive table-bordered" v-if="billing !== null">
         <thead>
-          <tr class="text-center">
+          <tr>
             <td>Next billing</td>
             <td>Amount</td>
             <td>Penalty</td>
@@ -15,7 +18,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item, index in data">
+          <tr v-for="item, index in billing">
             <td>{{item.next_billing_date_human}}</td>
             <td>{{auth.displayAmount(item.amount)}}</td>
             <td>{{auth.displayAmount(item.penalty)}}</td>
@@ -23,6 +26,30 @@
             <td class="text-center">
               <button class="btn btn-primary" @click="makePayment(item.id, item.next_billing_date, item.amount)">Pay</button>
             </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr class="">
+            
+          </tr>
+        </tbody>
+      </table>
+      <span class="incre-row">
+        <b>Payment History</b>
+      </span>
+      <table class="table table-responsive table-bordered" v-if="data !== null">
+        <thead>
+          <tr>
+            <td>Billing Date</td>
+            <td>Payment Date</td>
+            <td>Amount</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item, index in data">
+            <td>{{item.date}}</td>
+            <td>{{item.created_at}}</td>
+            <td>{{auth.displayAmount(item.amount)}}</td>
           </tr>
         </tbody>
         <tbody>
@@ -114,6 +141,7 @@ export default{
     return {
       user: AUTH.user,
       data: null,
+      billing: null,
       size: null,
       selecteditem: null,
       config: CONFIG,
@@ -164,6 +192,7 @@ export default{
         }
       }
       this.APIRequest('payments/retrieve', parameter).then(response => {
+        this.billing = response.billing
         if(response.data.length > 0){
           this.data = response.data
         }else{
@@ -179,7 +208,10 @@ export default{
         account_id: this.user.userID
       }
       this.APIRequest('payments/create', parameter).then(response => {
-        //
+        this.retrieve({
+          column: 'created_at',
+          value: 'desc'
+        })
       })
     }
   }

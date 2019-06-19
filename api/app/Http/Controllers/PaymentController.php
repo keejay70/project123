@@ -31,6 +31,7 @@ class PaymentController extends APIController
     return response()->json(array(
       'data'        => $result,
       'error'       => null,
+      'billing'     => app($this->requestClass)->payments($data),
       'timestamps'  => Carbon::now()
     ));
   }
