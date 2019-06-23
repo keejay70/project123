@@ -11,4 +11,9 @@ class WorkController extends APIController
         $this->model = new Work();
         $this->notRequired = array('month_ended','year_ended');
     }
+
+    // public function re()
+
+    // }
+    
 }
