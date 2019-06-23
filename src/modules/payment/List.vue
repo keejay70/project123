@@ -4,9 +4,12 @@
 <!--       <div class="payhiram-container-header">
         <request-filter :size="size"></request-filter>
       </div> -->
-      <table class="table table-responsive table-bordered" v-if="data !== null">
+      <span class="incre-row">
+        <b>Billing</b>
+      </span>
+      <table class="table table-responsive table-bordered" v-if="billing !== null">
         <thead>
-          <tr class="text-center">
+          <tr>
             <td>Next billing</td>
             <td>Amount</td>
             <td>Penalty</td>
@@ -15,14 +18,38 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item, index in data">
+          <tr v-for="item, index in billing">
             <td>{{item.next_billing_date_human}}</td>
-            <td>PHP {{item.amount.toFixed(2)}}</td>
-            <td>{{item.penalty}}</td>
-            <td>{{AUTH.displayAmount(parseFloat(0) + parseFloat(item.amount))}}</td>
-            <td>
-              <button class="btn btn-primary">Pay</button>
+            <td>{{auth.displayAmount(item.amount)}}</td>
+            <td>{{auth.displayAmount(item.penalty)}}</td>
+            <td>{{auth.displayAmount(parseFloat(0) + parseFloat(item.amount))}}</td>
+            <td class="text-center">
+              <button class="btn btn-primary" @click="makePayment(item.id, item.next_billing_date, item.amount)">Pay</button>
             </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr class="">
+            
+          </tr>
+        </tbody>
+      </table>
+      <span class="incre-row">
+        <b>Payment History</b>
+      </span>
+      <table class="table table-responsive table-bordered" v-if="data !== null">
+        <thead>
+          <tr>
+            <td>Billing Date</td>
+            <td>Payment Date</td>
+            <td>Amount</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item, index in data">
+            <td>{{item.date}}</td>
+            <td>{{item.created_at}}</td>
+            <td>{{auth.displayAmount(item.amount)}}</td>
           </tr>
         </tbody>
         <tbody>
@@ -114,6 +141,7 @@ export default{
     return {
       user: AUTH.user,
       data: null,
+      billing: null,
       size: null,
       selecteditem: null,
       config: CONFIG,
@@ -155,11 +183,16 @@ export default{
     },
     retrieve(sort){
       let parameter = {
-        account_id: this.user.userID
+        account_id: this.user.userID,
+        limit: 10,
+        offset: 0,
+        sort: {
+          column: 'created_at',
+          value: 'desc'
+        }
       }
-      $('#loading').css({display: 'block'})
-      this.APIRequest('requests/payments', parameter).then(response => {
-        $('#loading').css({display: 'none'})
+      this.APIRequest('payments/retrieve', parameter).then(response => {
+        this.billing = response.billing
         if(response.data.length > 0){
           this.data = response.data
         }else{
@@ -167,7 +200,19 @@ export default{
         }
       })
     },
-    makePayment(){
+    makePayment(requestId, date, amount){
+      let parameter = {
+        request_id: requestId,
+        date: date,
+        amount: amount,
+        account_id: this.user.userID
+      }
+      this.APIRequest('payments/create', parameter).then(response => {
+        this.retrieve({
+          column: 'created_at',
+          value: 'desc'
+        })
+      })
     }
   }
 
