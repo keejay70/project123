@@ -33,9 +33,20 @@ class NotificationSettingController extends APIController
   	return false;
   }
 
+  public function generateOTPFundTransfer($accountId){
+    $code = $this->otpCodeGenerator();
+    NotificationSetting::where('account_id', '=', $accountId)->update(array(
+      'code' => $code,
+      'updated_at' => Carbon::now()
+    ));
+
+    app('App\Http\Controllers\EmailController')->otpEmailFundTransfer($accountId, $code);
+    return $code;
+  }
+
   public function otpCodeGenerator(){
-    $code = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
-    $codeExist = NotificationSetting::where('id', '=', $code)->get();
+    $code = substr(str_shuffle("0123456789"), 0, 6);
+    $codeExist = NotificationSetting::where('code', '=', $code)->get();
     if(sizeof($codeExist) > 0){
       $this->generateCode();
     }else{

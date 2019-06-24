@@ -11,6 +11,7 @@ class InvestmentController extends APIController
 
     public $requestClass = 'App\Http\Controllers\RequestMoneyController';
     public $ledgerClass = 'App\Http\Controllers\LedgerController';
+    public $notificationClass = 'App\Http\Controllers\NotificationSettingController';
     function __construct(){
       $this->model = new Investment();
       $this->notRequired = array(
@@ -21,6 +22,7 @@ class InvestmentController extends APIController
     public function create(Request $request){
       $response = array(
         'data'  => null,
+        'otp'   => null,
         'error' => null,
         'timestamps' => Carbon::now()
       );
@@ -41,22 +43,28 @@ class InvestmentController extends APIController
             $response['error'] = 'Remaining amount should not be less than the minimum investment amount';
           }else{
             // make investment here.
-            $invest = new Investment();
-            $invest->code = $this->generateCode();
-            $invest->account_id = $data['account_id'];
-            $invest->request_id = $data['request_id'];
-            $invest->amount = $amount;
-            $invest->message = $data['message'];
-            $invest->created_at = Carbon::now();
-            $invest->save();
-            $response['data'] = $invest->id;
-            $response['error'] = null;
-            $description = 'Invested to';
-            $payload = 'investments';
-            $payloadValue = $invest->id;
-            app($this->ledgerClass)->addToLedger($data['account_id'], $amount * (-1), $description, $payload, $payloadValue);
-            if($left <= 0){
-              app($this->requestClass)->updateStatus($data['request_id']);
+            if($data['otp'] == 0){
+              // request
+              $code = app($this->notificationClass)->generateOTPFundTransfer($data['account_id']);
+              $response['otp'] = true;
+            }else{
+              $invest = new Investment();
+              $invest->code = $this->generateCode();
+              $invest->account_id = $data['account_id'];
+              $invest->request_id = $data['request_id'];
+              $invest->amount = $amount;
+              $invest->message = $data['message'];
+              $invest->created_at = Carbon::now();
+              $invest->save();
+              $response['data'] = $invest->id;
+              $response['error'] = null;
+              $description = 'Invested to';
+              $payload = 'investments';
+              $payloadValue = $invest->id;
+              app($this->ledgerClass)->addToLedger($data['account_id'], $amount * (-1), $description, $payload, $payloadValue);
+              if($left <= 0){
+                app($this->requestClass)->updateStatus($data['request_id']);
+              }
             }
           }
         }

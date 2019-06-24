@@ -13,16 +13,18 @@ class OtpEmail extends Mailable
     public $user;
     public $date;
     public $otpCode;
+    public $text;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user, $otpCode)
+    public function __construct($user, $otpCode, $text)
     {
         $this->user = $user;
         $this->otpCode = $otpCode;
+        $this->text = $text;
         $this->date = Carbon::now()->copy()->tz('Asia/Manila')->format('F j, Y');
     }
 

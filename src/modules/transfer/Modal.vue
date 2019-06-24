@@ -17,7 +17,7 @@
             <br v-if="errorMessage !== null">
             <div class="form-group">
               <label for="exampleInputEmail1">Amount to invest</label>
-              <input type="text" class="form-control" v-model="newInput.amount">
+              <input type="number" class="form-control" v-model="newInput.amount">
             </div>
 
             <div class="form-group">
@@ -116,7 +116,15 @@ export default {
       }
     },
     invest(){
-      let amount = parseFloat(this.newInvestment.amount)
+      if(this.newInput.amount === '' || this.newInput.message === ''){
+        this.errorMessage = 'Please fill up the required fields.'
+        return false
+      }
+      if(isNaN(this.newInput.amount)){
+        this.errorMessage = 'Amount must be a number.'
+        return false
+      }
+      let amount = parseFloat(this.newInput.amount)
       let remainingAmount = parseFloat(this.item.amount) - amount
       if(remainingAmount < this.config.MINIMUM_INVESTMENT && remainingAmount > 0){
         this.errorMessage = 'Remaining amount should not be less than the minimum amount of investment.'
@@ -124,22 +132,26 @@ export default {
         this.errorMessage = 'The minimum investment is PHP ' + this.config.MINIMUM_INVESTMENT + '.'
       }else if(amount <= parseFloat(this.item.amount)){
         this.errorMessage = null
-        this.newInvestment.account_id = this.user.userID
-        this.newInvestment.request_id = this.item.id
-        this.newInvestment.minimum = this.config.MINIMUM_INVESTMENT
+        this.newInput['account_id'] = this.user.userID
+        this.newInput['request_id'] = this.item.id
+        this.newInput['minimum'] = this.config.MINIMUM_INVESTMENT
+        this.newInput['otp'] = 0
         $('#loading').css({display: 'none'})
-        this.APIRequest('investments/create', this.newInvestment).then(response => {
+        this.APIRequest('investments/create', this.newInput).then(response => {
           $('#loading').css({display: 'none'})
           if(response.data !== null){
             this.hideModal()
             this.$parent.retrieve({column: 'created_at', value: 'asc'})
           }else{
             this.errorMessage = response.error
+            return false
           }
         })
       }else{
         this.errorMessage = 'Amount must be less than to the borrowed amount.'
+        return false
       }
+      return true
     },
     verifyOtp(){
       let parameter = {
