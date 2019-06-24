@@ -62,7 +62,6 @@
     </div>
     <div class="request-list-right-container">
     </div>
-    <create-request></create-request>
     <invest :item="selecteditem"></invest>
     <profile :item="selecteditem"></profile>
     <report :item="selecteditem"></report>
@@ -183,7 +182,6 @@ export default{
     }
   },
   components: {
-    'create-request': require('modules/request/Create.vue'),
     'invest': require('modules/request/Invest.vue'),
     'profile': require('modules/request/Profile.vue'),
     'report': require('modules/request/Report.vue'),

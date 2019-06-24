@@ -22,7 +22,7 @@
             <td>{{item.next_billing_date_human}}</td>
             <td>{{auth.displayAmount(item.amount)}}</td>
             <td>{{auth.displayAmount(item.penalty)}}</td>
-            <td>{{auth.displayAmount(parseFloat(0) + parseFloat(item.amount))}}</td>
+            <td>{{auth.displayAmount(parseFloat(item.penalty) + parseFloat(item.amount))}}</td>
             <td class="text-center">
               <button class="btn btn-primary" @click="makePayment(item.id, item.next_billing_date, item.amount)">Pay</button>
             </td>
@@ -47,8 +47,8 @@
         </thead>
         <tbody>
           <tr v-for="item, index in data">
-            <td>{{item.date}}</td>
-            <td>{{item.created_at}}</td>
+            <td>{{item.date_human}}</td>
+            <td>{{item.created_at_human}}</td>
             <td>{{auth.displayAmount(item.amount)}}</td>
           </tr>
         </tbody>
@@ -62,7 +62,6 @@
     </div>
     <div class="payhiram-list-right-container">
     </div>
-    <create-request></create-request>
     <invest :item="selecteditem"></invest>
     <profile :item="selecteditem"></profile>
     <report :item="selecteditem"></report>
@@ -154,7 +153,6 @@ export default{
     }
   },
   components: {
-    'create-request': require('modules/request/Create.vue'),
     'invest': require('modules/request/Invest.vue'),
     'profile': require('modules/request/Profile.vue'),
     'report': require('modules/request/Report.vue'),

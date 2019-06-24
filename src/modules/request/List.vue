@@ -71,7 +71,6 @@
     </div>
     <div class="request-list-right-container">
     </div>
-    <!-- <create-request></create-request> -->
     <invest :item="selecteditem"></invest>
     <profile :item="selecteditem"></profile>
     <report :item="selecteditem"></report>
@@ -200,8 +199,7 @@ export default{
     }
   },
   components: {
-    'create-request': require('modules/request/Create.vue'),
-    'invest': require('modules/request/Invest.vue'),
+    'invest': require('modules/transfer/Modal.vue'),
     'profile': require('modules/request/Profile.vue'),
     'report': require('modules/request/Report.vue'),
     'request-filter': require('modules/request/Filter.vue'),
@@ -219,7 +217,7 @@ export default{
     },
     showInvestmentModal(item){
       this.selecteditem = item
-      $('#createInvestmentModal').modal('show')
+      $('#createTransferModal').modal('show')
     },
     showProfileModal(item){
       this.selecteditem = item
