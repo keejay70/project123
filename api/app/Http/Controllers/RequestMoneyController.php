@@ -134,25 +134,39 @@ class RequestMoneyController extends APIController
       return (sizeof($result) > 0) ? true : false;
     }
 
-    public function payments(Request $request){
-      $data = $request->all();
+    public function payments($data){
 
       $result = RequestMoney::where('account_id', '=', $data['account_id'])->where('status', '=', 1)->where('approved_date', '!=', null)->get();
+      $result = $this->getAttributes($result);
+
+      if(sizeof($result) > 0){
+        $i = 0;
+        foreach ($result as $key) {
+          $billingDate = $this->manageNextBilling($result[$i]['approved_date'], $result[$i]['billing_per_month']);
+          $result[$i]['next_billing_date_human'] = $billingDate->copy()->tz('Asia/Manila')->format('F j, Y');
+          $result[$i]['next_billing_date'] = $billingDate->copy()->tz('Asia/Manila')->format('Y-m-d');
+          $i++;
+        }
+      }
+      return sizeof($result) > 0 ? $result : null;
+    }
+
+    public function billingSchedule(){
+      $result = RequestMoney::where('status', '=', 1)->where('approved_date', '!=', null)->get();
 
       $result = $this->getAttributes($result);
 
       if(sizeof($result) > 0){
         $i = 0;
         foreach ($result as $key) {
-          $result[$i]['next_billing_date_human'] = $this->manageNextBilling($result[$i]['approved_date'], $result[$i]['billing_per_month']);
+          $billingDate = $this->manageNextBilling($result[$i]['approved_date'], $result[$i]['billing_per_month']);
+          $result[$i]['next_billing_date_human'] = $billingDate->copy()->tz('Asia/Manila')->format('F j, Y');
+          $result[$i]['next_billing_date'] = $billingDate->copy()->tz('Asia/Manila')->format('Y-m-d');
+          $result[$i]['send_billing_flag'] = true;
           $i++;
         }
       }
-      return response()->json(array(
-        'data'        => sizeof($result) > 0 ? $result : null,
-        'timestamps'  => Carbon::now(),
-        'error'       => null
-      ));
+      return $result;
     }
 
     public function manageNextBilling($approvedDate, $billingPerMonth){
@@ -163,26 +177,30 @@ class RequestMoneyController extends APIController
       
         // 31, 30
       if($diff > 0){
-        // add month
+        if($billingPerMonth == 0){
+          return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth();
+        }else if($billingPerMonth == 1){
+          return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth()->subWeeks(2);
+        }
       }else{
         if($approvedDate->month == $currentDate->month && $approvedDate->year == $currentDate->year){
           if($billingPerMonth == 0){
-            return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth()->copy()->tz('Asia/Manila')->format('F j, Y');
+            return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth();
           }else if($billingPerMonth == 1){
-            return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth()->subWeeks(2)->copy()->tz('Asia/Manila')->format('F j, Y');
+            return Carbon::createFromFormat('Y-m-d H:i:s', $approvedDate)->addMonth()->subWeeks(2);
           }
         }else{
           $stringDate = $currentDate->year.'-'.$currentDate->month.'-'.$approvedDate->day;
           if($billingPerMonth == 0){
-            return Carbon::createFromFormat('Y-m-d', $stringDate)->copy()->tz('Asia/Manila')->format('F j, Y');
+            return Carbon::createFromFormat('Y-m-d', $stringDate);
           }else if($billingPerMonth == 1){
-            return Carbon::createFromFormat('Y-m-d', $stringDate)->subWeeks(2)->copy()->tz('Asia/Manila')->format('F j, Y');
+            return Carbon::createFromFormat('Y-m-d', $stringDate)->subWeeks(2);
           }
           
         }
       }
       if($billingPerMonth == 2){
-        return Carbon::now()->endOfWeek()->subDay()->copy()->tz('Asia/Manila')->format('F j, Y');
+        return Carbon::now()->endOfWeek()->subDay();
       }
       return null;
     }

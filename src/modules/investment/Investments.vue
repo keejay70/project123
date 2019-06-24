@@ -27,7 +27,7 @@
             <tr>
               <td>Principal Amount</td>
               <td  class="text-primary">
-                PHP {{item.request.amount.toFixed(2)}}
+                {{auth.displayAmount(item.request.amount)}}
               </td>
               <td>Approved Date</td>
               <td>
@@ -37,7 +37,7 @@
             
             <tr>
               <td>Invested Amount</td>
-              <td class="text-primary">PHP {{item.amount.toFixed(2)}}</td>
+              <td class="text-primary">{{auth.displayAmount(item.amount)}}</td>
               <td>Interest Rate</td>
               <td>
                 {{item.request.interest}}% per month
@@ -47,7 +47,7 @@
             <tr>
               <td>ROI per month</td>
               <td>
-                PHP {{item.return_per_month.toFixed(2)}}
+                {{auth.displayAmount(item.return_per_month)}}
               </td>
               <td>Payable in</td>
               <td>
@@ -182,6 +182,7 @@ export default{
   data(){
     return {
       user: AUTH.user,
+      auth: AUTH,
       data: null,
       selecteditem: null,
       config: CONFIG

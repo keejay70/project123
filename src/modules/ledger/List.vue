@@ -12,7 +12,7 @@
         <label v-if="item.payload === 'investments'">
           <b class="text-primary action-link" @click="showInvestments(item.investments)">request</b>
         </label>
-        <label class="pull-right amount" v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"><b>PHP {{item.amount.toFixed(2)}}</b></label>
+        <label  v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"class="pull-right amount"><b>{{auth.displayAmount(item.amount)}}</b></label>
       </span>
       <span class="footer"></span>
     </div>
@@ -74,7 +74,8 @@ export default{
       user: AUTH.user,
       data: null,
       activePage: 0,
-      size: 0
+      size: 0,
+      auth: AUTH
     }
   },
   components: {

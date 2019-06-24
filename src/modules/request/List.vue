@@ -33,7 +33,7 @@
           </label>
           <label class="text-primary">
             <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
-            <b>PHP {{item.amount.toFixed(2)}}</b>
+            <b>{{auth.displayAmount(item.amount)}}</b>
           </label>
           <label>
             <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
@@ -61,7 +61,7 @@
             <ratings :ratings="item.rating" v-if="item.rating !== null"></ratings>
           </label>
           <label>
-            Total Borrowed: PHP {{item.total}}
+            Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
           <button class="btn btn-primary pull-right" @click="showInvestmentModal(item)">Invest</button>
           <button class="btn btn-warning pull-right" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
@@ -71,10 +71,11 @@
     </div>
     <div class="request-list-right-container">
     </div>
-    <create-request></create-request>
+    <!-- <create-request></create-request> -->
     <invest :item="selecteditem"></invest>
     <profile :item="selecteditem"></profile>
     <report :item="selecteditem"></report>
+    <increment-modal :property="requestModal"></increment-modal>
   </div>
 </template>
 <style scoped>
@@ -174,6 +175,7 @@
 import ROUTER from '../../router'
 import AUTH from '../../services/auth'
 import CONFIG from '../../config.js'
+import REQUEST from '../modal/CreateRequest.js'
 export default{
   mounted(){
     this.retrieve({
@@ -184,6 +186,7 @@ export default{
   data(){
     return {
       user: AUTH.user,
+      auth: AUTH,
       data: null,
       size: null,
       selecteditem: null,
@@ -192,7 +195,8 @@ export default{
       sort: {
         column: 'created_at',
         value: 'desc'
-      }
+      },
+      requestModal: REQUEST
     }
   },
   components: {
@@ -202,13 +206,15 @@ export default{
     'report': require('modules/request/Report.vue'),
     'request-filter': require('modules/request/Filter.vue'),
     'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
-    'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue')
+    'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
+    'increment-modal': require('components/increment/generic/modal/Modal.vue')
   },
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
     },
     showRequestModal(){
+      this.requestModal.params.push({variable: 'account_id', value: this.user.userID})
       $('#createRequestModal').modal('show')
     },
     showInvestmentModal(item){
