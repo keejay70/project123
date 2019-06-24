@@ -11,7 +11,7 @@ use Carbon\Carbon;
 class Billing extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user;
+    public $data;
     public $date;
 
     /**
@@ -19,9 +19,9 @@ class Billing extends Mailable
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($data)
     {
-        $this->user = $user;
+        $this->data = $data;
         $this->date = Carbon::now()->copy()->tz('Asia/Manila')->format('F j, Y');
     }
 

@@ -162,10 +162,11 @@ class RequestMoneyController extends APIController
           $billingDate = $this->manageNextBilling($result[$i]['approved_date'], $result[$i]['billing_per_month']);
           $result[$i]['next_billing_date_human'] = $billingDate->copy()->tz('Asia/Manila')->format('F j, Y');
           $result[$i]['next_billing_date'] = $billingDate->copy()->tz('Asia/Manila')->format('Y-m-d');
+          $result[$i]['send_billing_flag'] = true;
           $i++;
         }
       }
-      return sizeof($result) > 0 ? $result : null;
+      return $result;
     }
 
     public function manageNextBilling($approvedDate, $billingPerMonth){

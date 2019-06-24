@@ -13,15 +13,20 @@ use App\Mail\Billing;
 class Email implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $details;
+    public $data;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($details)
+    public function __construct($data)
     {
-        $this->details = $details;
+        $this->data = $data;
+        if($data != null){
+            echo json_encode($data);
+            Mail::to($data['account']['email'])->send(new Billing($data));
+            return true;
+        }
     }
 
     /**
@@ -31,14 +36,6 @@ class Email implements ShouldQueue
      */
     public function handle()
     {
-        $this->send($this->details);
 
-    }
-     public function send($user){
-        if($user != null){
-            Mail::to($user->email)->send(new Billing($user));
-            return true;
-        }
-        return false;
     }
 }
