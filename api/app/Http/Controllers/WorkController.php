@@ -12,8 +12,9 @@ class WorkController extends APIController
         $this->notRequired = array('month_ended','year_ended');
     }
 
-    // public function re()
-
-    // }
-    
+    public function retrieve(Request $request){
+      $data = $request->all();
+      $this->retrieveDB($data);
+      return $this->response();
+    }
 }

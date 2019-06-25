@@ -6,35 +6,37 @@
     <span class="content">
       <!-- Display Here -->
       <span class="display">
-        <div class="rl-container-item" v-for="item, index in data" v-if="data !== null">
+        <div class="rl-container-item" v-for="(item, index) in data" :key="index">
           <span class="header">
-            <label class="action-link text-primary">
-              <i class="fas fa-user-circle" style="color: #555; padding-right: 5px;" v-if="item.account.profile === null"></i>
-              <img :src="config.BACKEND_URL + item.account.profile.url" height="30px" width="30px;" style="border-radius: 50%;" v-else>
-              {{item.account.username}}
+            <label> 
+              {{ item.month_started }}
+              {{ item.year_started }}
             </label>
+            -
             <label>
-              <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>Cebu City
+              {{ item.month_ended }}
+              {{ item.year_ended }}
             </label>
+          </span>
+          <span class="summary-header">
+            <div>
+              {{ item.position }}
+            </div>
+            <div>
+              {{ item.company_name }}
+            </div>
+            <div>
+              {{ item.location }}
+            </div>
+
           </span>
         </div>
       </span>
-
-      <span class="sidebar">
-        <span class="sidebar-header" style="margin-top: 25px;">Profile Picture</span>
-        <span class="image" v-if="user.profile !== null">
-          <img :src="config.BACKEND_URL + user.profile.url" height="auto" width="100%" >
-        </span>
-        <span class="image" v-else>
-          <i class="fa fa-user-circle-o" ></i>
-        </span>
-        <button class="btn btn-primary custom-block" style="margin-top: 5px;" @click="showImages()">Select from images
-        </button>
-      </span>
     </span>
+
     <browse-images-modal :object="user.profile" v-if="user.profile !== null"></browse-images-modal>
     <browse-images-modal :object="newWork" v-if="user.profile === null"></browse-images-modal>
-    <create-modal></create-modal>
+    <create-modal :property="createWorkModal"></create-modal>
   </div>
 </template>
 <style scoped>
@@ -58,38 +60,13 @@
   overflow-y: hidden;
 }
 .display{
-  width: 65%;
+  width: 100%;
   float: left;
   margin-right: 5%;
   min-height: 50px;
   overflow-y: hidden;
 }
-.sidebar{
-  width: 30%;
-  float: left;
-  min-height: 50px;
-  overflow-y: hidden;
-}
-.sidebar-header{
-  height: 40px;
-  line-height: 40px;
-  width: 100%;
-  float: left;
-}
-.sidebar .image{
-  width: 100%;
-  float: left;
-  min-height: 200px;
-  overflow-y: hidden;
-  text-align: center;
-}
-.image i{
-  font-size: 150px;
-  line-height: 200px;
-}
-.image img{
-  border-radius: 5px;
-}
+
 .custom-block{
   width: 100%;
   float: left;
@@ -126,6 +103,7 @@ import ROUTER from '../../router'
 import AUTH from '../../services/auth'
 import axios from 'axios'
 import CONFIG from '../../config.js'
+import Work from '../modal/CreateWork.js'
 export default {
   mounted(){
     this.retrieve()
@@ -135,12 +113,13 @@ export default {
       user: AUTH.user,
       tokenData: AUTH.tokenData,
       config: CONFIG,
-      data: null
+      data: null,
+      createWorkModal: Work
     }
   },
   components: {
     'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
-    'create-modal': require('modules/profile/WorkModal.vue')
+    'create-modal': require('components/increment/generic/modal/Modal.vue')
   },
   methods: {
     retrieve(){
@@ -149,11 +128,14 @@ export default {
           value: this.user.userID,
           column: 'account_id',
           clause: '='
-        }]
+        }],
+        sort: {
+          year_ended: 'desc'
+        }
       }
       this.APIRequest('works/retrieve', parameter).then(response => {
         if(response.data.length > 0){
-          this.data = response.data[0]
+          this.data = response.data
         }else{
           this.data = null
         }
@@ -161,27 +143,6 @@ export default {
     },
     showCreateModal(){
       $('#createWorkModal').modal('show')
-    },
-    update(){
-      if(this.validate()){
-        this.APIRequest('works/update', this.data).then(response => {
-          if(response.data === true){
-            this.retrieve()
-          }
-        })
-      }
-    },
-    submit(){
-      this.newWork.account_id = this.user.userID
-      this.APIRequest('works/create', this.newWork).then(response => {
-      })
-    },
-    validate(){
-      let i = this.data
-      if(i.first_name !== null && i.last_name !== null && i.sex !== null){
-        return true
-      }
-      return false
     },
     showImages(){
       $('#browseImagesModal').modal('show')
