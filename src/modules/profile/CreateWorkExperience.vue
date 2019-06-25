@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-holder">
+  <div class="work-experience-holder">
     <span class="header">Work
       <button class="btn btn-primary pull-right" style="margin-right: 10px;" @click="showCreateModal()">Add</button>
     </span>
@@ -17,30 +17,47 @@
               {{ item.month_ended }}
               {{ item.year_ended }}
             </label>
+            <label class="pull-right">
+              <div class="dropdown" id="dropdownMenuButtonDropdown">
+              <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown">
+              </i>
+              <div class="dropdown-menu dropdown-more-options" aria-labelledby="dropdownMenuButton" >
+                <span class="dropdown-item action-link" @click="showEdit(item)">Edit</span>
+                <span class="dropdown-item action-link" @click="removeWork(item.id)">Remove</span>
+              </div>
+            </div>
+            </label>
           </span>
           <span class="summary-header">
             <div>
+              <i class="fas fa-sitemap"></i>
               {{ item.position }}
             </div>
             <div>
+              <i class="fas fa-landmark"></i>
               {{ item.company_name }}
             </div>
             <div>
+              <i class="fas fa-map-marker-alt"></i>
               {{ item.location }}
             </div>
-
+            <div style="color: red; font-size: 13px;">
+              <p>Read More ...</p>
+            </div>
+          </span>
+          <span class="footer">
+            <button class="btn btn-primary pull-left" style="margin-top: 5px;" @click="showAddImageCertificates(item)">Add image certificate</button>
           </span>
         </div>
       </span>
     </span>
-
     <browse-images-modal :object="user.profile" v-if="user.profile !== null"></browse-images-modal>
     <browse-images-modal :object="newWork" v-if="user.profile === null"></browse-images-modal>
     <create-modal :property="createWorkModal"></create-modal>
   </div>
 </template>
 <style scoped>
-.profile-holder{
+.work-experience-holder{
   width: 95%;
   float: left;
   margin-left: 5%;
@@ -66,7 +83,6 @@
   min-height: 50px;
   overflow-y: hidden;
 }
-
 .custom-block{
   width: 100%;
   float: left;
@@ -96,6 +112,26 @@
   margin-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
+}
+.rl-container-item .header{
+  width: 100%;
+  float: left;
+  height: 50px;
+  line-height: 50px;
+  color: #555;
+}
+.rl-container-item .summary-header{
+  width: 100%;
+  float: left;
+  line-height: 25px;
+  font-size: 16px;
+  color: #555; 
+}
+.rl-container-item .footer{
+  width: 100%;
+  float: left;
+  height: 45px;
+  line-height: 40px;
 }
 </style>
 <script>
@@ -143,6 +179,14 @@ export default {
     },
     showCreateModal(){
       $('#createWorkModal').modal('show')
+    },
+    removeWork(id){
+      let parameter = {
+        id: id
+      }
+      this.APIRequest('works/delete', parameter).then(response => {
+        this.retrieve()
+      })
     },
     showImages(){
       $('#browseImagesModal').modal('show')
