@@ -157,6 +157,14 @@ Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
 
 
+// Education
+$route = env('PACKAGE_ROUTE', '').'/educations/';
+$controller = 'EducationController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
+
 // TestController
 $route = env('PACKAGE_ROUTE', '').'/testing/';
 $controller = 'TestController@';
@@ -181,7 +189,4 @@ Route::post($route.'create', $controller."create");
 Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
-
-
-
 

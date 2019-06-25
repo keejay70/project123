@@ -10,6 +10,7 @@ class RequestMoneyController extends APIController
 
 		public $ratingClass = 'Increment\Common\Rating\Http\RatingController';
     public $investmentClass = 'App\Http\Controllers\InvestmentController';
+    public $penaltyClass = 'App\Http\Controllers\PenaltyController';
     function __construct(){  
     	$this->model = new RequestMoney();
 
@@ -145,10 +146,29 @@ class RequestMoneyController extends APIController
           $billingDate = $this->manageNextBilling($result[$i]['approved_date'], $result[$i]['billing_per_month']);
           $result[$i]['next_billing_date_human'] = $billingDate->copy()->tz('Asia/Manila')->format('F j, Y');
           $result[$i]['next_billing_date'] = $billingDate->copy()->tz('Asia/Manila')->format('Y-m-d');
+          $result[$i]['penalty'] = app($this->penaltyClass)->getTotalPenalty($result[$i]['request_id'], $data['account_id']); 
           $i++;
         }
       }
       return sizeof($result) > 0 ? $result : null;
+    }
+
+    public function billingSchedule(){
+      $result = RequestMoney::where('status', '=', 1)->where('approved_date', '!=', null)->get();
+
+      $result = $this->getAttributes($result);
+
+      if(sizeof($result) > 0){
+        $i = 0;
+        foreach ($result as $key) {
+          $billingDate = $this->manageNextBilling($result[$i]['approved_date'], $result[$i]['billing_per_month']);
+          $result[$i]['next_billing_date_human'] = $billingDate->copy()->tz('Asia/Manila')->format('F j, Y');
+          $result[$i]['next_billing_date'] = $billingDate->copy()->tz('Asia/Manila')->format('Y-m-d');
+          $result[$i]['send_billing_flag'] = true;
+          $i++;
+        }
+      }
+      return $result;
     }
 
     public function manageNextBilling($approvedDate, $billingPerMonth){

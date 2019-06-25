@@ -30,12 +30,14 @@ class Payment implements ShouldQueue
      */
     public function handle()
     {
-        echo"hi";
-        $details = array(
-            'code'=>'asdf',
-            'username'=>'asdf',
-            'email'=>'janpalugod@gmail.com'
-        );
-        Email::dispatch((object)$details);
+        $requestList = app('App\Http\Controllers\RequestMoneyController')->billingSchedule();
+        // echo json_encode($details[0]['account']['email']);
+        $i = 0;
+        foreach ($requestList as $key) {
+            if($requestList[$i]['send_billing_flag'] == true){
+                Email::dispatch($requestList[$i]); 
+            }
+            $i++;
+        }
     }
 }

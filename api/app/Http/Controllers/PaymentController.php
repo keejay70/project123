@@ -23,7 +23,7 @@ class PaymentController extends APIController
       foreach ($result as $key) {
         $result[$i]['request'] = app($this->requestClass)->retrieveById($result[$i]['request_id']);
         $result[$i]['date_human'] = Carbon::createFromFormat('Y-m-d', $result[$i]['date'])->copy()->tz('Asia/Manila')->format('F j, Y');
-        $result[$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
+        $result[$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y H:i A');
         $i++;
       }
     }
