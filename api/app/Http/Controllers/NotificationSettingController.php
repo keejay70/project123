@@ -45,7 +45,7 @@ class NotificationSettingController extends APIController
   }
 
   public function otpCodeGenerator(){
-    $code = substr(str_shuffle("0123456789"), 0, 6);
+    $code = substr(str_shuffle("123456789"), 0, 6);
     $codeExist = NotificationSetting::where('code', '=', $code)->get();
     if(sizeof($codeExist) > 0){
       $this->generateCode();

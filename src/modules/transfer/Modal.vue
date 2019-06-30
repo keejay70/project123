@@ -35,7 +35,7 @@
               <label for="exampleInputEmail1 text-gray">
                 Please enter the OTP Code sent to your email address.
               </label>
-              <input type="number" class="form-control" v-model="otp" placeholder="123456">
+              <input type="text" class="form-control" v-model="otp" placeholder="123456">
             </div>
             <div class="form-group text-center text-gray">
               <label>Didn't received an email? Click the link below.</label>
@@ -51,8 +51,15 @@
 
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" @click="hideModal()">Cancel</button>
-            <button type="button" class="btn btn-primary" @click="next()">Invest</button>
+            <button type="button" class="btn btn-danger" @click="hideModal()" v-if="loading === false">Cancel</button>
+            <button type="button" class="btn btn-primary" @click="next()" v-if="step === 1 && loading === false">Invest
+            </button>
+            <button type="button" class="btn btn-primary" @click="next()" v-if="step === 2 && loading === false">
+              Vefify
+            </button>
+            <label v-if="loading === true" class="text-primary">
+              Checking <i class="fas fa-circle-o-notch fa-spin"></i>
+            </label>
         </div>
       </div>
     </div>
@@ -73,6 +80,9 @@
   color: #fff !important;
 }
 
+.fa-spin{
+  animation-duration: 0.50s;
+}
 </style>
 <script>
 import ROUTER from '../../router'
@@ -91,7 +101,8 @@ export default {
       },
       otpUseCounter: 0,
       otp: '',
-      payload: 'invest'
+      payload: 'invest',
+      loading: false
     }
   },
   props: ['item'],
@@ -103,27 +114,15 @@ export default {
       $('#createTransferModal').modal('hide')
     },
     next(){
-      let flag = false
       if(this.step === 1){
         if(this.payload === 'invest'){
-          flag = this.invest()
+          this.invest(0)
         }
       }else if(this.step === 2){
-        flag = this.verifyOtp()
-      }
-      if(flag === true){
-        this.step++
+        this.verifyOtp()
       }
     },
-    invest(){
-      if(this.newInput.amount === '' || this.newInput.message === ''){
-        this.errorMessage = 'Please fill up the required fields.'
-        return false
-      }
-      if(isNaN(this.newInput.amount)){
-        this.errorMessage = 'Amount must be a number.'
-        return false
-      }
+    invest(otp){
       let amount = parseFloat(this.newInput.amount)
       let remainingAmount = parseFloat(this.item.amount) - amount
       if(remainingAmount < this.config.MINIMUM_INVESTMENT && remainingAmount > 0){
@@ -135,23 +134,25 @@ export default {
         this.newInput['account_id'] = this.user.userID
         this.newInput['request_id'] = this.item.id
         this.newInput['minimum'] = this.config.MINIMUM_INVESTMENT
-        this.newInput['otp'] = 0
-        $('#loading').css({display: 'none'})
-        this.APIRequest('investments/create', this.newInput).then(response => {
-          $('#loading').css({display: 'none'})
+        this.newInput['otp'] = otp
+        this.loading = true
+        this.APIRequest('investments/create', this.newInput, response => {
+          this.loading = false
           if(response.data !== null){
             this.hideModal()
             this.$parent.retrieve({column: 'created_at', value: 'asc'})
+            this.step++
+          }else if(response.otp === true){
+            this.step++
           }else{
             this.errorMessage = response.error
-            return false
           }
+        }, () => {
+          this.loading = false
         })
       }else{
         this.errorMessage = 'Amount must be less than to the borrowed amount.'
-        return false
       }
-      return true
     },
     verifyOtp(){
       let parameter = {
@@ -165,21 +166,21 @@ export default {
           clause: '='
         }]
       }
-      if(isNaN(this.otp) || this.otp.length <= 6){
-        this.errorMessage = 'Invalid Code. Click resend to get new Code'
-        return false
+      let flag = false
+      if(isNaN(this.otp) || this.otp.length < 6){
+        this.errorMessage = 'Invalid Code. Click resend to get new Code.'
       }
       this.otpUseCounter++
       if(this.otpUseCounter > 1){
-        this.errorMessage = 'OTP Code can be used once only.'
-        return false
+        this.errorMessage = 'OTP Code can only be use once.'
       }
-      this.APIRequest('notification_settings/retrive', parameter).then(response => {
+      this.loading = true
+      this.APIRequest('notification_settings/retrieve', parameter).then(response => {
         if(response.data.length > 0){
+          this.invest(1)
           this.step++
         }else{
           this.errorMessage = 'Invalid Code. Click resend to get new code'
-          return false
         }
       })
     }

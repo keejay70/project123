@@ -90,12 +90,13 @@ Route::post($route.'/referral', 'EmailController@referral');
 Route::post($route.'/trial', 'EmailController@trial');
 
 //Notification Settings Controller
-$route = env('PACKAGE_ROUTE', '').'/notification_settings';
-Route::post($route.'/create', "NotificationSettingController@create");
-Route::post($route.'/retrieve', "NotificationSettingController@retrieve");
-Route::post($route.'/update', "NotificationSettingController@update");
-Route::post($route.'/delete', "NotificationSettingController@delete");
-Route::get($route.'/test', 'NotificationSettingController@test');
+$route = env('PACKAGE_ROUTE', '').'/notification_settings/';
+$controller = 'NotificationSettingController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'update', $controller."update");
+Route::post($route.'delete', $controller."delete");
+Route::get($route.'test', $controller.'test');
 
 
 // Messenger Groups Custom

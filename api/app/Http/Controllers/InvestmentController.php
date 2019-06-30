@@ -47,7 +47,7 @@ class InvestmentController extends APIController
               // request
               $code = app($this->notificationClass)->generateOTPFundTransfer($data['account_id']);
               $response['otp'] = true;
-            }else{
+            }else if($data['otp'] == 1){
               $invest = new Investment();
               $invest->code = $this->generateCode();
               $invest->account_id = $data['account_id'];
