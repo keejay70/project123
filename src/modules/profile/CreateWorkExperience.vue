@@ -50,18 +50,21 @@
                 {{ item.location }}
               </span>
             </div>
-            <div style="line-height: 190%;">
-              About Work:
-              <div v-if="item.work_description.length <= 800" style="font-size: 14px;">
-                {{ item.work_description }}
-              </div>
-              <div style="color: red;" v-else>
-                {{ item.work_description }} see more ...
+            <div style="line-height: 160%;">
+                About Work:
+              <div style="font-size: 14px;">
+                <label v-if="item.work_description.length <= 800" >
+                  {{ item.work_description }}
+                </label>
+                <label v-else>
+                  <span v-if="item.flag === false"> {{ item.work_description.substring(0, 400)}} <strong class="text-danger" @click="item.flag = true"> >>> </strong></span>
+                  <span v-if="item.flag === true"> {{ item.work_description }} <strong class="text-danger" @click="item.flag = false"> <<< </strong></span>
+                </label>
               </div>
             </div>
           </span>
-          <span class="footer">
-            <button class="btn btn-primary pull-left" style="margin-top: 5px;" @click="showAddImageCertificates(item)">Add image certificate</button>
+          <span class="footer" style="line-height: 160%;">
+            <button class="btn btn-primary pull-left" style="margin-top: 5px;" @click="showAddImageCertificate(item.id)">Add image certificate</button>
           </span>
         </div>
       </span>
@@ -69,6 +72,7 @@
     <browse-images-modal :object="user.profile" v-if="user.profile !== null"></browse-images-modal>
     <browse-images-modal :object="newWork" v-if="user.profile === null"></browse-images-modal>
     <create-modal :property="createWorkModal"></create-modal>
+    <add-certificate></add-certificate>
   </div>
 </template>
 <style scoped>
@@ -155,6 +159,7 @@ import AUTH from '../../services/auth'
 import axios from 'axios'
 import CONFIG from '../../config.js'
 import Work from '../modal/CreateWork.js'
+
 export default {
   mounted(){
     this.retrieve()
@@ -165,14 +170,27 @@ export default {
       tokenData: AUTH.tokenData,
       config: CONFIG,
       data: null,
-      createWorkModal: Work
+      createWorkModal: Work,
+      showDescription: false,
+      showDescriptionIndex: null,
+      selectedWorkId: null
     }
   },
   components: {
     'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
-    'create-modal': require('components/increment/generic/modal/Modal.vue')
+    'create-modal': require('components/increment/generic/modal/Modal.vue'),
+    'add-certificate': require('components/increment/generic/image/BrowseModal.vue')
   },
   methods: {
+    setShowDescription(flag, index){
+      if(index === this.showDescriptionIndex){
+        this.showDescriptionIndex = null
+        this.showDescription = false
+      } else{
+        this.showDescription = flag
+        this.showDescriptionIndex = index
+      }
+    },
     retrieve(params){
       let parameter = {
         condition: [{
@@ -208,6 +226,27 @@ export default {
     },
     hideImages(){
       $('#browseImagesModal').modal('hide')
+    },
+    showAddImageCertificate(id){
+      this.selectedWorkId = id
+      $('#browseImagesModal').modal('show')
+    },
+    createCertificate(object){
+      this.APIRequest('certificates/create', object).then(response => {
+        if(response.data > 0){
+          this.hideImages()
+          AUTH.checkAuthentication()
+        }
+      })
+    },
+    manageImageUrl(url){
+      let parameter = {
+        account_id: this.user.userID,
+        payload: 'work',
+        payload_value: this.selectedWorkId,
+        url: url
+      }
+      this.createCertificate(parameter)
     }
   }
 }
