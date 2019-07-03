@@ -13,9 +13,12 @@
               {{ item.year_started }}
             </label>
             -
-            <label>
+            <label v-if="item.month_ended && item.year_ended !== null">
               {{ item.month_ended }}
               {{ item.year_ended }}
+            </label>
+            <label v-else>
+              Present
             </label>
             <label class="pull-right">
               <div class="dropdown" id="dropdownMenuButtonDropdown">
@@ -29,20 +32,32 @@
             </label>
           </span>
           <span class="summary-header">
-            <div>
-              <i class="fas fa-sitemap"></i>
-              {{ item.position }}
+            <div style="line-height: 160%; vertical-align: middle;">
+              <i class="fas fa-sitemap" style="font-size: 15px;"></i>
+              <span style="position: relative; display: inline-block; left: 5px; font-size: 14px;">
+                {{ item.position }}
+              </span>
             </div>
-            <div>
+            <div style="line-height: 160%; vertical-align: middle;">
               <i class="fas fa-landmark"></i>
-              {{ item.company_name }}
+              <span style="position: relative; display: inline-block; left: 5px; font-size: 14px;"> 
+                {{ item.company_name }}
+              </span>
             </div>
-            <div>
-              <i class="fas fa-map-marker-alt"></i>
-              {{ item.location }}
+            <div style="line-height: 160%; vertical-align: middle;">
+              <i class="fas fa-map-marker-alt" style="font-size: 21px;"></i>
+              <span style="position: relative; display: inline-block; left: 5px; font-size: 14px;">
+                {{ item.location }}
+              </span>
             </div>
-            <div style="color: red; font-size: 13px;">
-              <p>Read More ...</p>
+            <div style="line-height: 190%;">
+              About Work:
+              <div v-if="item.work_description.length <= 800" style="font-size: 14px;">
+                {{ item.work_description }}
+              </div>
+              <div style="color: red;" v-else>
+                {{ item.work_description }} see more ...
+              </div>
             </div>
           </span>
           <span class="footer">
@@ -124,7 +139,7 @@
   width: 100%;
   float: left;
   line-height: 25px;
-  font-size: 16px;
+  font-size: 17px;
   color: #555; 
 }
 .rl-container-item .footer{
@@ -158,7 +173,7 @@ export default {
     'create-modal': require('components/increment/generic/modal/Modal.vue')
   },
   methods: {
-    retrieve(){
+    retrieve(params){
       let parameter = {
         condition: [{
           value: this.user.userID,
