@@ -5,7 +5,7 @@
     Hello {{$user->username}}!
     <br>
     <br>
-    Please use this code: <b>{{$otpCode}}</b> to continue login to ID Factory. Enjoy!
+    Please use this code: <b>{{$otpCode}}</b> {{$text}}
     <br>
     <br>
 </span>

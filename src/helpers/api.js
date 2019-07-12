@@ -12,6 +12,7 @@ Vue.mixin({
       let request = jQuery.post(CONFIG.API_URL + link + tokenStringParam, parameter, (response) => {
         this.APISuccessRequestHandler(response, callback)
       }).fail((jqXHR) => {
+        $('#loading').css({display: 'none'})
         this.APIFailRequestHandler(link, jqXHR, errorCallback)
       })
       return request
