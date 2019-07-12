@@ -112,6 +112,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/deposits/',
+    name: 'deposits',
+    component: resolve => require(['modules/deposit/List.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }
