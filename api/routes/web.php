@@ -182,6 +182,18 @@ Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
 
+//Deposit
+$route = env('PACKAGE_ROUTE', '').'/deposits/';
+$controller = 'DepositController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
 
-
-
+//Deposit
+$route = env('PACKAGE_ROUTE', '').'/deposit_attachments/';
+$controller = 'DepositAttachmentController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
