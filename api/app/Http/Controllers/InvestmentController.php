@@ -63,6 +63,14 @@ class InvestmentController extends APIController
       }else{
         $response['error'] = 'I\'m sorry the request was already approved.';
       }
+ //     sent email
+      $details = array(
+        'title' => $description.' the amount of PHP'.number_format(($amount * (-1)), 2),
+        'transaction_id' => $code
+      );
+
+      $subject = $amount.' has been invested in your account';
+      app('App\Http\Controllers\EmailController')->investment($accountId, $details, $subject);  
 
       return response()->json($response);
     }

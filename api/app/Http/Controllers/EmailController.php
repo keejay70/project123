@@ -121,4 +121,14 @@ class EmailController extends APIController
         }
         return $this->response();
     }
+
+
+    public function investment($accountId, $details, $subject){
+        $user = $this->retrieveAccountDetails($accountId);
+        if($user != null){
+            Mail::to($user['email'])->send(new Ledger($user, $details, $subject));
+            return true;
+        }
+        return false;
+    }
 }
