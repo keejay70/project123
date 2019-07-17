@@ -67,8 +67,19 @@ class EmailController extends APIController
 
     public function otpEmail($id, $otpCode){
         $user = $this->retrieveAccountDetails($id);
+        $text = "to continue login to ".env('APP_NAME').". Enjoy!";
         if($user != null){
-            Mail::to($user['email'])->send(new OtpEmail($user, $otpCode));
+            Mail::to($user['email'])->send(new OtpEmail($user, $otpCode, $text));
+            return true;
+        }
+        return false;
+    }
+
+    public function otpEmailFundTransfer($id, $otpCode){
+        $user = $this->retrieveAccountDetails($id);
+        $text = "to continue for money transfer from your account.";
+        if($user != null){
+            Mail::to($user['email'])->send(new OtpEmail($user, $otpCode, $text));
             return true;
         }
         return false;
