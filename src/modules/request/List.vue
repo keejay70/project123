@@ -199,7 +199,7 @@ export default{
     }
   },
   components: {
-    'invest': require('modules/transfer/Modal.vue'),
+    'invest': require('modules/transfer/Invest.vue'),
     'profile': require('modules/request/Profile.vue'),
     'report': require('modules/request/Report.vue'),
     'request-filter': require('modules/request/Filter.vue'),
