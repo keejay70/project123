@@ -1,14 +1,15 @@
 <template>
-  <div class="ledgers-container-item bg-primary">
+  <div class="ledgers-container-item">
     <label><b>Account Balance</b></label>
     <label v-if="data !== null">{{auth.displayAmount(data)}}</label>
     <span style="margin-bottom: 5px;">
-      <button class="btn btn-primary">Withdraw</button>
+      <button class="btn btn-primary" @click="withdrawMoney(data)">Withdraw</button>
       <button class="btn btn-warning pull-right" style="margin-top: 4px;">Deposit</button>
     </span>
+    <withdrawal  :item="item"></withdrawal>
   </div>
 </template>
-<style scoped>
+<style scoped lang="stylus">
 .ledgers-container-item{
   width: 100%;
   float: left;
@@ -17,6 +18,7 @@
   border: solid 1px #ddd;
   border-radius: 5px;
   margin-bottom: 10px;
+  background: $primary;
 }
 .ledgers-container-item label, .ledgers-container-item span{
   width: 96%;
@@ -37,11 +39,21 @@ export default{
   data(){
     return {
       user: AUTH.user,
-      auth: AUTH
+      auth: AUTH,
+      item: null
     }
+  },
+  components: {
+    'withdrawal': require('modules/transfer/Withdraw.vue')
   },
   props: ['data'],
   methods: {
+    withdrawMoney(amount){
+      this.item = {
+        amount: amount
+      }
+      $('#createWithdrawModal').modal('show')
+    }
   }
 
 }
