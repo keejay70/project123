@@ -60,7 +60,7 @@ class LedgerController extends APIController
       $ledger->created_at = Carbon::now();
       $ledger->save();
 
-      // sent email
+ //     sent email
       $details = array(
         'title' => $description.' the amount of PHP'.number_format(($amount * (-1)), 2),
         'transaction_id' => $code

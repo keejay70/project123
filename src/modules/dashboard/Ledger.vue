@@ -1,15 +1,16 @@
 <template>
-  <div class="ledgers-container-item">
+  <div class="ledgers-container-item bg-primary" > 
     <label><b>Account Balance</b></label>
-    <label v-if="data !== null">{{auth.displayAmount(data)}}</label>
+    <label>{{auth.displayAmount(data)}}</label>
     <span style="margin-bottom: 5px;">
-      <button class="btn btn-primary" @click="withdrawMoney(data)">Withdraw</button>
-      <button class="btn btn-warning pull-right" style="margin-top: 4px;">Deposit</button>
+      <button class="btn btn-primary">Withdraw</button>
+      <button class="btn btn-warning pull-right" style="margin-top: 4px;" @click="showDepositModal(data)">Deposit</button>
     </span>
-    <withdrawal  :item="item"></withdrawal>
-  </div>
+  <create-request></create-request>
+<deposit :item="selecteditem"></deposit>
+</div>
 </template>
-<style scoped lang="stylus">
+<style scoped>
 .ledgers-container-item{
   width: 100%;
   float: left;
@@ -18,7 +19,6 @@
   border: solid 1px #ddd;
   border-radius: 5px;
   margin-bottom: 10px;
-  background: $primary;
 }
 .ledgers-container-item label, .ledgers-container-item span{
   width: 96%;
@@ -30,6 +30,17 @@
   padding: 0px;
   margin-bottom: 0px;
 }
+.rl-container-item{
+  width: 100%;
+  float: left;
+  border-radius: 5px;
+  min-height: 50px;
+  overflow-y: hidden;
+  border: solid 1px #ddd;
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 </style>
 <script>
 import ROUTER from '../../router'
@@ -40,21 +51,33 @@ export default{
     return {
       user: AUTH.user,
       auth: AUTH,
-      item: null
+      size: null,
+      selecteditem: null,
+      config: CONFIG,
+      activePage: 0
     }
-  },
-  components: {
-    'withdrawal': require('modules/transfer/Withdraw.vue')
   },
   props: ['data'],
+  components: {
+    'create-request': require('modules/request/Create.vue'),
+    'deposit': require('modules/request/Deposit.vue'),
+    'profile': require('modules/request/Profile.vue'),
+    'report': require('modules/request/Report.vue'),
+    'request-filter': require('modules/request/Filter.vue'),
+    'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
+    'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue')
+  },
   methods: {
-    withdrawMoney(amount){
-      this.item = {
-        amount: amount
-      }
-      $('#createWithdrawModal').modal('show')
+    redirect(params){
+      ROUTER.push(params)
+    },
+    showRequestModal(){
+      $('#createRequestModal').modal('show')
+    },
+    showDepositModal(item){
+      this.selecteditem = item
+      $('#createDepositModal').modal('show')
     }
   }
-
 }
 </script>
