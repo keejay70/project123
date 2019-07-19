@@ -119,6 +119,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/withdrawals/',
+    name: 'withdrawals',
+    component: resolve => require(['modules/withdraw/List.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }

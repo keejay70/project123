@@ -6,11 +6,9 @@
       <button class="btn btn-warning pull-left" style="margin-top: 4px;" @click="showWithdrawModal(data)">Withdraw</button>
       <button class="btn btn-warning pull-right" style="margin-top: 4px;" @click="showDepositModal(data)">Deposit</button>
     </span>
-  <create-request></create-request>
-<deposit :item="selecteditem"></deposit>
-<withdraw :item="selecteditem"></withdraw>
-<verification :item="selecteditem"></verification>
-</div>
+    <deposit :item="selecteditem"></deposit>
+    <withdraw :item="selecteditem"></withdraw>
+  </div>
 </template>
 <style scoped>
 .ledgers-container-item{
@@ -61,9 +59,8 @@ export default{
   },
   props: ['data'],
   components: {
-    'create-request': require('modules/request/Create.vue'),
     'deposit': require('modules/request/Deposit.vue'),
-    'withdraw': require('modules/request/Withdraw.vue'),
+    'withdraw': require('modules/transfer/Withdraw.vue'),
     'profile': require('modules/request/Profile.vue'),
     'report': require('modules/request/Report.vue'),
     'request-filter': require('modules/request/Filter.vue'),
