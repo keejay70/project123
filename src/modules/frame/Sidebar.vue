@@ -414,7 +414,8 @@ export default {
         {id: 3, users: 'INVESTOR', parent_id: 0, description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
         {id: 4, users: 'ALL', parent_id: 0, description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null},
         {id: 5, users: 'ALL', parent_id: 0, description: 'Deposit', icon: 'fa fa-money', path: 'deposits', flag: false, subMenu: null},
-        {id: 6, users: 'ALL', parent_id: 0, description: 'History', icon: 'fa fa-history', path: 'history', flag: false, subMenu: null}
+        {id: 5, users: 'ALL', parent_id: 0, description: 'Withdrawals', icon: 'fa fa-money', path: 'withdrawals', flag: false, subMenu: null},
+        {id: 7, users: 'ALL', parent_id: 0, description: 'History', icon: 'fa fa-history', path: 'history', flag: false, subMenu: null}
       ],
       menuOff: [
         {id: 1, users: 'ALL', parent_id: 0, description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
