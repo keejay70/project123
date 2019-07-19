@@ -2,12 +2,11 @@
 	<div class="cw-banner">
     <div class="text text-white">
       <span class="title">
-        <h1>Your one-stop shop ID printer.</h1>
+        <h1>Making loan and investment a lot easier.</h1>
       </span>
       <span class="description">
         <h4>
-          GoDIGIT is an online application that lets you design and create custom IDs. Ideal for companies, corporate events and many more.
-          (Create. Archive. Print. All in one place.)
+          PayHiram is the easiest and safest investment tool in the Philippines. Invest your money to your preferred borrowers and interest.
         </h4>
       </span>
     </div>
