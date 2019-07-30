@@ -4,7 +4,7 @@
       <div v-if="tokenData.token !== null && parseInt(user.userID) > 0">
        <system-header></system-header>
        <system-sidebar></system-sidebar>
-       <support-messenger></support-messenger>
+       <!-- <support-messenger></support-messenger> -->
        <system-footer></system-footer>
        <!-- <tutorial></tutorial> -->
       </div>

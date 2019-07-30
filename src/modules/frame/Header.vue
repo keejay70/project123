@@ -64,7 +64,7 @@
             </span>
           </span>
         </div>
-
+<!-- 
         <div class="dropdown" v-if="user.messages !== null"> 
             <span class="nav-item" data-toggle="dropdown" id="notifications" aria-haspopup="true" aria-expanded="false">
               <span>
@@ -108,7 +108,7 @@
                 </span>
               </span>
             </span>
-        </div>
+        </div> -->
 
       </span>
 
@@ -137,7 +137,8 @@
    </div>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
+@import "~assets/style/colors.scss";
 
 /*
         BODY
@@ -189,14 +190,14 @@ body{
     height: 50px;
     font-size: 24px;
     width: 18%;
-    background: #028170;
+    background: $darkPrimary;
     text-align: center;
     position: fixed;
     z-index: 6000;
   }
   
   .header-navbar{
-    background: #22b173;
+    background: $primary;
     height: 50px;
     float: left;
     width: 82%;
@@ -238,7 +239,7 @@ body{
 
   .header-navbar-nav:hover{
     cursor: pointer;
-    background: #028170;
+    background: $primary;
   }
 
 
@@ -303,7 +304,7 @@ body{
 }
 
 .nav-item:hover{
-  background: #028170;
+  background: $darkPrimary;
   cursor: pointer;
 }
 
@@ -335,7 +336,7 @@ body{
 .dropdown-item i{
   font-size: 14px !important;
   padding-right: 10px !important;
-  color: #028170 !important;
+  color: $primary !important;
 }
 .dropdown-item label{
   font-size: 14px !important;
@@ -379,7 +380,7 @@ body{
   display: inline-block;
   float: left;
   font-weight: 550;
-  color: #22b173;
+  color: $primary;
 }
 .dropdown-item-button{
   height: 50px;
@@ -417,11 +418,11 @@ body{
 }
 .navbar-menu-toggler-md:hover{
   cursor: pointer;
-  background: #22b173;
+  background: $primary;
 }
 
 .active-menu{
-  background: #22b173;
+  background: $primary;
 }
 
 
@@ -436,7 +437,7 @@ body{
   float: left;
   width: 100%;
   height: 80px;
-  color: #22b173;
+  color: $primary;
 }
 .profile-image-holder-header{
   width: 100%;

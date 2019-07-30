@@ -1,11 +1,11 @@
 <template>
-    <div class="requested-container-item">
-      <label class="header"><b>Requested Amount</b></label>
-      <label class="content" v-if="data !== null">{{auth.displayAmount(data)}}</label>
-      <span style="margin-bottom: 5px;" v-if="user.type !== 'USER'">
-        <button class="btn btn-primary" @click="redirect('/requests')">Visit</button>
-      </span>
-    </div>
+  <div class="requested-container-item">
+    <label class="header"><b>Requested Amount</b></label>
+    <label class="content" v-if="data !== null">{{auth.displayAmount(data)}}</label>
+    <span style="margin-bottom: 5px;" v-if="user.type !== 'USER'">
+      <button class="btn btn-primary" @click="redirect('/requests')">Visit</button>
+    </span>
+  </div>
 </template>
 <style scoped>
 .requested-container-item{
