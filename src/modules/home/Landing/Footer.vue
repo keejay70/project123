@@ -30,32 +30,6 @@
     </div>
   </footer>
 </template>
-<script>
-import ROUTER from '../../../router'
-import AUTH from '../../../services/auth'
-import CONFIG from '../../../config.js'
-export default {
-  mounted(){
-  },
-  data(){
-    return{
-      user: AUTH.user,
-      tokenData: AUTH.tokenData,
-      account: [],
-      config: CONFIG,
-      host: null
-    }
-  },
-  methods: {
-    redirect(parameter){
-      ROUTER.push(parameter)
-    },
-    openModal(id){
-      $(id).modal('show')
-    }
-  }
-}
-</script>
 <style scoped>
 footer {
   width:100%;
@@ -63,7 +37,6 @@ footer {
   float: left;
   overflow-y: hidden;
   background: #e9e9e9;
-  margin-top: 50px;
 }
 .footer{
   width: 80%;
@@ -171,3 +144,29 @@ footer-widget .title:hover{
   }
 }
 </style>
+<script>
+import ROUTER from '../../../router'
+import AUTH from '../../../services/auth'
+import CONFIG from '../../../config.js'
+export default {
+  mounted(){
+  },
+  data(){
+    return{
+      user: AUTH.user,
+      tokenData: AUTH.tokenData,
+      account: [],
+      config: CONFIG,
+      host: null
+    }
+  },
+  methods: {
+    redirect(parameter){
+      ROUTER.push(parameter)
+    },
+    openModal(id){
+      $(id).modal('show')
+    }
+  }
+}
+</script>
