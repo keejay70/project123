@@ -25,13 +25,13 @@
 
       </span>
     </div>
-    <empty v-if="data === null" :title="'Looks like your ledger is empty!'" :action="'Deposit now or start requesting money.'"></empty>
+    <empty v-if="data === null" :title="'Looks like you do not have deposit yet!'" :action="'Deposit now or start requesting money.'"></empty>
     <browse-images-modal></browse-images-modal>
   </div>
 </template>
 <style scoped>
 .ledger-summary-container{
-  width: 60%;
+  width: 100%;
   float: left;
   height: auto;
   margin-bottom: 100px;
@@ -131,7 +131,7 @@ export default{
       $('#loading').css({display: 'none'})
       this.APIRequest('deposits/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
-        if(response.data !== null){
+        if(response.data.length > 0){
           this.data = response.data
         }else{
           this.data = null

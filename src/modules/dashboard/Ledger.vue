@@ -10,7 +10,11 @@
     <withdraw :item="selecteditem"></withdraw>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
+@import "~assets/style/colors.scss";
+.bg-primary{
+  background: $primary !important;
+}
 .ledgers-container-item{
   width: 100%;
   float: left;
