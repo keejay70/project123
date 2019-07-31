@@ -23,7 +23,7 @@
         </div>
          <div v-if="item.payload === 'GCASH'">
         <label>
-          <img width="110px" src="../../assets/img/GCASH.png"/></label> 
+          <img width="110px" src="../../assets/img/gcash.png"/></label> 
           <p><b>{{item.payload_value}}</b></p>
         </label>
         </div>
