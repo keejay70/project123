@@ -223,3 +223,19 @@ Route::post($route.'retrieve', $controller."retrieve");
 Route::post($route.'delete', $controller."delete");
 Route::post($route.'update', $controller."update");
 
+//Pulling of investors
+$route = env('PACKAGE_ROUTE', '').'/pullings/';
+$controller = 'PullingController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
+
+//Guarantors
+$route = env('PACKAGE_ROUTE', '').'/guarantors/';
+$controller = 'GuarantorController@';
+Route::post($route.'create', $controller."create");
+Route::post($route.'retrieve', $controller."retrieve");
+Route::post($route.'delete', $controller."delete");
+Route::post($route.'update', $controller."update");
+

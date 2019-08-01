@@ -4,45 +4,16 @@
     <span class="content">
       <span class="inputs" v-if="data !== null">
         <div class="form-group" style="margin-top: 25px;">
-          <label for="address">First Name</label>
-          <input type="text" class="form-control" placeholder="Enter First Name" v-model="data.first_name">
+          <label for="address">Email Address</label>
+          <input type="text" class="form-control" placeholder="Enter Email Address" v-model="newGuarantor.email">
         </div>
 
-        <div class="form-group">
-          <label for="address">Middle Name</label>
-          <input type="text" class="form-control" placeholder="Optional" v-model="data.middle_name">
-        </div>
+        
 
-        <div class="form-group">
-          <label for="address">Last Name</label>
-          <input type="text" class="form-control" placeholder="Enter Last Name" v-model="data.last_name">
-        </div>
-
-        <div class="form-group">
-          <label for="address">Gender</label>
-          <select class="form-control" v-model="data.sex">
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="address">Cellular Numbar</label>
-          <input type="text" class="form-control" placeholder="Optional" v-model="data.cellular_number">
-        </div>
-
-        <div class="form-group">
-          <label for="address">Address</label>
-          <input type="text" class="form-control" placeholder="Optional" v-model="data.address">
-        </div>
-
-        <div class="form-group">
-          <label for="address">Birthdate</label>
-          <input type="date" class="form-control" v-model="data.birth_date" placeholder="Optional">
-        </div>
-
-        <button class="btn btn-primary" style="margin-bottom: 25px;" @click="update()">Update</button>
-      
+        <button class="btn btn-primary" style="margin-bottom: 25px;" @click="update()">Submit</button>
+      <div v-if="this.error === true">
+        <label>Email already used. Please use another email.</label>
+      </div>
       </span>
       <span class="sidebar">
         <span class="sidebar-header" style="margin-top: 25px;">Profile Picture</span>
@@ -148,7 +119,9 @@ export default {
       tokenData: AUTH.tokenData,
       config: CONFIG,
       data: null,
-      newProfile: {
+      error: null,
+      newGuarantor: {
+        email: null,
         account_id: null,
         url: null
       }
@@ -175,13 +148,17 @@ export default {
       })
     },
     update(){
-      if(this.validate()){
-        this.APIRequest('account_informations/update', this.data).then(response => {
-          if(response.data === true){
-            this.retrieve()
-          }
-        })
-      }
+      this.newGuarantor.account_id = this.user.userID
+      this.APIRequest('guarantors/create', this.newGuarantor).then(response => {
+        if(response.data === true){
+          this.retrieve()
+          this.error = null
+        }else if(response.data === 'exists'){
+          this.error = 'exists'
+        }else{
+          this.error = true
+        }
+      })
     },
     updatePhoto(object){
       this.APIRequest('account_profiles/update', object).then(response => {

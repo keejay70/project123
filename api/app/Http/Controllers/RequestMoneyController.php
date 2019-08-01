@@ -11,6 +11,7 @@ class RequestMoneyController extends APIController
 		public $ratingClass = 'Increment\Common\Rating\Http\RatingController';
     public $investmentClass = 'App\Http\Controllers\InvestmentController';
     public $penaltyClass = 'App\Http\Controllers\PenaltyController';
+    public $pullingClass = 'App\Http\Controllers\PullingController';
     function __construct(){  
     	$this->model = new RequestMoney();
 
@@ -47,11 +48,13 @@ class RequestMoneyController extends APIController
           $invested = app($this->investmentClass)->invested($result[$i]['id']);
           $amount = floatval($result[$i]['amount']);
           $result[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('profile', $result[$i]['account_id']);
+          $result[$i]['pulling'] = app($this->pullingClass)->getTotalByParams('request_id', $result[$i]['id']);
           $result[$i]['account'] = $this->retrieveAccountDetails($result[$i]['account_id']);
           $result[$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
 
           $result[$i]['needed_on_human'] = Carbon::createFromFormat('Y-m-d', $result[$i]['needed_on'])->copy()->tz('Asia/Manila')->format('F j, Y');
           $result[$i]['total'] = $this->getTotalBorrowed($result[$i]['account_id']);
+          $result[$i]['initial_amount'] = $result[$i]['amount'];
           $result[$i]['amount'] = $amount - $invested['total'];
           $result[$i]['invested'] = $invested['size'];
           $result[$i]['billing_per_month_human'] = $this->billingPerMonth($result[$i]['billing_per_month']);

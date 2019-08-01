@@ -1,5 +1,6 @@
 <template>
   <div class="dashboard-wrapper" v-if="data !== null">
+    <button class="btn btn-primary" @click="redirect('/signup/janpalugod1234@gmail.com/LB1Q48DE0MZJ73X529W6IRAPHNGVCSYO')">Test</button>
     <div class="dashboard-left-container">
       <ledgers :data="data.ledger.ledger"></ledgers>
       <requests :data="data.ledger.total_requests"></requests>
