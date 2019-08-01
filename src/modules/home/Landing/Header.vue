@@ -1,5 +1,5 @@
 <template>
-	<div class="header bg-magento">
+	<div class="header">
     <div class="header-section">
       <span class="logo">
         <a class="navbar-brand" v-on:click="redirect('/')">
@@ -25,29 +25,13 @@
     </div>
   </div>
 </template>
-<script>
-import ROUTER from '../../../router'
-import AUTH from '../../../services/auth'
-export default {
-  mounted(){
-  },
-  data(){
-    return {
-    }
-  },
-  methods: {
-    redirect(parameter){
-      ROUTER.push(parameter)
-    }
-  }
-}
-</script>
-<style scoped>
+<style scoped lang="scss">
+@import "~assets/style/colors.scss";
 .header{
   width: 100%;
   float: left;
   min-height: 70px;
-  background: #00bff3;
+  background: $primary;
   overflow-y: hidden;
 }
 .header-section{
@@ -200,3 +184,20 @@ export default {
   }
 }
 </style>
+<script>
+import ROUTER from '../../../router'
+import AUTH from '../../../services/auth'
+export default {
+  mounted(){
+  },
+  data(){
+    return {
+    }
+  },
+  methods: {
+    redirect(parameter){
+      ROUTER.push(parameter)
+    }
+  }
+}
+</script>

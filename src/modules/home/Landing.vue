@@ -1,9 +1,8 @@
 <template>
 	<div class="body">
 		<landing-banner></landing-banner>
-    <landing-steps></landing-steps>
+    <landing-marketplace></landing-marketplace>
     <landing-mc></landing-mc>
-    <landing-features></landing-features>
 	</div>
 </template>
 <script>
@@ -12,8 +11,7 @@ import AUTH from '../../services/auth'
 export default {
   components: {
     'landing-banner': require('modules/home/Landing/Banner.vue'),
-    'landing-steps': require('modules/home/Landing/Steps.vue'),
-    'landing-features': require('modules/home/Landing/Features.vue'),
+    'landing-marketplace': require('modules/home/Landing/Marketplace.vue'),
     'landing-mc': require('modules/home/Landing/MessageAndComment.vue')
   },
   mounted(){

@@ -57,7 +57,8 @@
     </div>
   </div>  
 </template>
-<style>
+<style lang="scss">
+@import "~assets/style/colors.scss";
 .main-sidebar, .content-holder{  
   min-height: 200px;
   overflow: hidden;
@@ -90,12 +91,12 @@
 
 .header i{
   font-size: 24px;
-  color: #22b173;
+  color: $primary;
 }/*-- toggle-sidebar i --*/
 
 .header i:hover{
   cursor: pointer;
-  color: #028170;
+  color: $primary;
 }
 
 .profile-photo{
@@ -156,7 +157,7 @@
 
 .menu-holder:hover, .menu-holder i:hover, .menu-holder label:hover, .menu-holder-hidden i:hover{
   cursor: pointer;
-  color: #22b173;
+  color: $primary;
 }
 
 .sub-menu{
@@ -172,11 +173,11 @@
   height: 35px;
   line-height: 35px;
   margin-left: 5%;
-  color: #212529;
+  color: $darkPrimary;
 }
 
 .active-menu{
-  color: #22b173 !important;
+  color: $darkPrimary !important;
 }
 
 .menu-holder-hidden{
@@ -227,7 +228,7 @@
 }
 
 /*-------------- Medium Screen for Tablets  --------------*/
-@media screen (min-width: 992px), screen and (max-width: 1199px){
+@media (max-width: 1199px){
   .main-sidebar{
     width: 23%;
     float: left;
@@ -414,15 +415,13 @@ export default {
         {id: 3, users: 'INVESTOR', parent_id: 0, description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
         {id: 4, users: 'ALL', parent_id: 0, description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null},
         {id: 5, users: 'ALL', parent_id: 0, description: 'Deposit', icon: 'fa fa-money', path: 'deposits', flag: false, subMenu: null},
-        {id: 5, users: 'ALL', parent_id: 0, description: 'Withdrawals', icon: 'fa fa-money', path: 'withdrawals', flag: false, subMenu: null},
-        {id: 7, users: 'ALL', parent_id: 0, description: 'History', icon: 'fa fa-history', path: 'history', flag: false, subMenu: null}
+        {id: 5, users: 'ALL', parent_id: 0, description: 'Withdrawals', icon: 'fa fa-money', path: 'withdrawals', flag: false, subMenu: null}
       ],
       menuOff: [
         {id: 1, users: 'ALL', parent_id: 0, description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
         {id: 2, users: 'ALL', parent_id: 0, description: 'Requested', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
         {id: 3, users: 'INVESTOR', parent_id: 0, description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
-        {id: 4, users: 'ALL', parent_id: 0, description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null},
-        {id: 5, users: 'ALL', parent_id: 0, description: 'History', icon: 'fa fa-history', path: 'history', flag: false, subMenu: null}
+        {id: 4, users: 'ALL', parent_id: 0, description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null}
       ],
       toggleSidebar: 'fa fa-toggle-on',
       hide: '',
