@@ -1,38 +1,24 @@
 <template>
   <div class="profile-holder">
     <span class="header">Identification</span>
-    <span class="subheader">Upload Government Issued ID</span>
     <span class="content">
-      <span class="inputs" v-if="data !== null">
+      <span class="inputs">
         <div class="form-group" style="margin-top: 25px;">
           <label for="address">Select ID Type</label>
           <select class="form-control" v-model="selected">
-            <option v-for="option in options" v-bind:value="option.value">{{ option.text }}</option>
+            <option v-for="option in config.identifications" v-bind:value="option.value">{{ option.text }}</option>
           </select>
+          <button class="btn btn-primary" style="margin-top: 10px;" @click="showImages()">Add Image</button>
         </div>
-        
-        <div class="form-group">
-          <label for="address">Birthdate</label>
-          <input type="date" class="form-control" v-model="data.birth_date" placeholder="Optional">
-        </div>
-
-        <button class="btn btn-primary" style="margin-bottom: 25px;" @click="update()">Update</button>
-      
-      </span>
-      <span class="sidebar">
-        <span class="sidebar-header" style="margin-top: 25px;">Profile Picture</span>
-        <span class="image" v-if="user.profile !== null">
-          <img :src="config.BACKEND_URL + user.profile.url" height="auto" width="100%" >
-        </span>
-        <span class="image" v-else>
-          <i class="fa fa-user-circle-o" ></i>
-        </span>
-        <button class="btn btn-primary custom-block" style="margin-top: 5px;" @click="showImages()">Select from images
-        </button>
       </span>
     </span>
-    <browse-images-modal :object="user.profile" v-if="user.profile !== null"></browse-images-modal>
-    <browse-images-modal :object="newProfile" v-if="user.profile === null"></browse-images-modal>
+    <span class="content" v-for="(item, index) in data" :key="index">
+      <span class="title" style="text-transform: Capitalize; width: 100%; float: left;">{{item.payload}}</span>
+      <span class="images">
+        <img :src="config.BACKEND_URL + item.payload_value" width="100px">
+      </span>
+    </span>
+    <browse-images-modal></browse-images-modal>
   </div>
 </template>
 <style scoped>
@@ -124,30 +110,14 @@ import axios from 'axios'
 import CONFIG from '../../config.js'
 export default {
   mounted(){
-    this.retrieve()
+    // this.retrieve()
   },
   data(){
     return {
       user: AUTH.user,
-      tokenData: AUTH.tokenData,
       config: CONFIG,
       data: null,
-      selected: 'A',
-      options: [
-        {text: 'Driver\'s License', value: 'A'},
-        {text: 'Valid Passport', value: 'B'},
-        {text: 'Unified Multi-Purpose ID Card', value: 'C'},
-        {text: 'PhilHealth ID', value: 'D'},
-        {text: 'Postal ID', value: 'E'},
-        {text: 'Voter\'s ID', value: 'F'},
-        {text: 'PRC License', value: 'G'},
-        {text: 'Senior Citizen ID', value: 'H'},
-        {text: 'OFW ID', value: 'I'}
-      ],
-      newProfile: {
-        account_id: null,
-        url: null
-      }
+      selected: null
     }
   },
   components: {
@@ -160,64 +130,49 @@ export default {
           value: this.user.userID,
           column: 'account_id',
           clause: '='
-        }]
+        }],
+        sort: {
+          'payload': 'asc'
+        }
       }
-      this.APIRequest('account_informations/retrieve', parameter).then(response => {
+      this.APIRequest('account_cards/retrieve', parameter).then(response => {
         if(response.data.length > 0){
-          this.data = response.data[0]
+          this.data = response.data
         }else{
           this.data = null
         }
       })
     },
-    update(){
+    update(url, id){
+      let parameter = {
+        id: id,
+        payload_value: url
+      }
       if(this.validate()){
-        this.APIRequest('account_informations/update', this.data).then(response => {
+        this.APIRequest('account_cards/update', parameter).then(response => {
           if(response.data === true){
             this.retrieve()
           }
         })
       }
     },
-    updatePhoto(object){
-      this.APIRequest('account_profiles/update', object).then(response => {
-        if(response.data === true){
-          this.hideImages()
-          this.retrieve()
-          AUTH.checkAuthentication()
-        }
-      })
-    },
-    createPhoto(object){
-      this.APIRequest('account_profiles/create', object).then(response => {
-        if(response.data > 0){
-          this.hideImages()
-          AUTH.checkAuthentication()
-        }
-      })
-    },
-    validate(){
-      let i = this.data
-      if(i.first_name !== null && i.last_name !== null && i.sex !== null){
-        return true
+    create(url){
+      let parameter = {
+        account_id: this.user.userID,
+        payload: this.selected,
+        payload_value: url
       }
-      return false
+      this.APIRequest('account_cards/create', parameter).then(response => {
+        if(response.data > 0){
+          this.retrieve()
+        }
+      })
     },
     showImages(){
       $('#browseImagesModal').modal('show')
     },
-    hideImages(){
-      $('#browseImagesModal').modal('hide')
-    },
     manageImageUrl(url){
-      if(this.user.profile !== null){
-        this.user.profile.url = url
-        this.updatePhoto(this.user.profile)
-      }else{
-        this.newProfile.account_id = this.user.userID
-        this.newProfile.url = url
-        this.createPhoto(this.newProfile)
-      }
+      this.create(url)
     }
   }
 }
