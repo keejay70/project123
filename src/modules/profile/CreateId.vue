@@ -13,9 +13,9 @@
       </span>
     </span>
     <span class="content" v-for="(item, index) in data" :key="index">
-      <span class="title" style="text-transform: Capitalize; width: 100%; float: left;">{{item.payload}}</span>
+      <span class="title" style="text-transform: Capitalize; width: 100%; float: left;">{{item.title}}</span>
       <span class="images">
-        <img :src="config.BACKEND_URL + item.payload_value" width="100px">
+        <img :src="config.BACKEND_URL + img.payload_value" width="100px" v-for="(img, imgIndex) in item.content" :key="imgIndex">
       </span>
     </span>
     <browse-images-modal></browse-images-modal>
@@ -110,7 +110,7 @@ import axios from 'axios'
 import CONFIG from '../../config.js'
 export default {
   mounted(){
-    // this.retrieve()
+    this.retrieve()
   },
   data(){
     return {
@@ -126,14 +126,7 @@ export default {
   methods: {
     retrieve(){
       let parameter = {
-        condition: [{
-          value: this.user.userID,
-          column: 'account_id',
-          clause: '='
-        }],
-        sort: {
-          'payload': 'asc'
-        }
+        account_id: this.user.userID
       }
       this.APIRequest('account_cards/retrieve', parameter).then(response => {
         if(response.data.length > 0){
