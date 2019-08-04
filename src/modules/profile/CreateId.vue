@@ -13,15 +13,17 @@
       </span>
     </span>
     <span class="content" v-for="(item, index) in data" :key="index">
-      <span class="title" style="text-transform: Capitalize; width: 100%; float: left;">{{item.title}}</span>
+      <span class="title">{{item.title}}</span>
       <span class="images">
-        <img :src="config.BACKEND_URL + img.payload_value" width="100px" v-for="(img, imgIndex) in item.content" :key="imgIndex">
+        <img :src="config.BACKEND_URL + img.payload_value" v-for="(img, imgIndex) in item.content" :key="imgIndex" @click="showImage(config.BACKEND_URL + img.payload_value)">
       </span>
     </span>
     <browse-images-modal></browse-images-modal>
+    <show-image-modal ref="showImage"></show-image-modal>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
+@import "~assets/style/colors.scss";
 .profile-holder{
   width: 95%;
   float: left;
@@ -57,46 +59,32 @@
   min-height: 50px;
   overflow-y: hidden;
 }
-.sidebar{
-  width: 30%;
+
+.content .title{
+  width: 100%;
   float: left;
-  min-height: 50px;
-  overflow-y: hidden;
-}
-.sidebar-header{
   height: 40px;
   line-height: 40px;
-  width: 100%;
+  text-transform: capitalize;
+}
+
+.images img{
+  max-width: 200px;
   float: left;
+  max-height: 200px;
 }
-.sidebar .image{
-  width: 100%;
-  float: left;
-  min-height: 200px;
-  overflow-y: hidden;
-  text-align: center;
+.images img:hover{
+  cursor: pointer;
+  border: solid 1px $secondary;
 }
-.image i{
-  font-size: 150px;
-  line-height: 200px;
-}
-.image img{
-  border-radius: 5px;
-}
-.custom-block{
-  width: 100%;
-  float: left;
-}
-.custom-block input{
-  display: none;
-}
+
 @media screen and (max-width: 992px){
   .holder{
     width: 96%;
     margin-left: 2%;
     margin-right: 2%;
   }
-  .sidebar, .inputs{
+  .inputs{
     width: 100%;
     margin-right: 0%;
     margin-left: 0%;
@@ -117,11 +105,12 @@ export default {
       user: AUTH.user,
       config: CONFIG,
       data: null,
-      selected: null
+      selected: CONFIG.identifications[0].value
     }
   },
   components: {
-    'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue')
+    'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
+    'show-image-modal': require('components/increment/generic/modal/Image.vue')
   },
   methods: {
     retrieve(){
@@ -163,6 +152,9 @@ export default {
     },
     showImages(){
       $('#browseImagesModal').modal('show')
+    },
+    showImage(src){
+      this.$refs.showImage.setImage(src)
     },
     manageImageUrl(url){
       this.create(url)
