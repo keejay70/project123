@@ -148,7 +148,7 @@ export default{
         limit: 5,
         sort: sort
       }
-      $('#loading').css({display: 'none'})
+      $('#loading').css({display: 'block'})
       this.APIRequest('ledgers/summary', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response !== null){

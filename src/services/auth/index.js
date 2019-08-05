@@ -5,7 +5,7 @@ import {Howl} from 'howler'
 import Vue from 'vue'
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
-import Config from '../../config.js'
+import Config from 'src/config.js'
 export default {
   user: {
     userID: 0,
@@ -234,9 +234,11 @@ export default {
     sound.play()
   },
   checkPlan(){
-    if(this.user.plan !== null){
-      if(this.user.plan.title === 'Expired' && this.user.type !== 'ADMIN'){
-        ROUTER.push('/plan')
+    if(Config.plan === true){
+      if(this.user.plan !== null){
+        if(this.user.plan.title === 'Expired' && this.user.type !== 'ADMIN'){
+          ROUTER.push('/plan')
+        }
       }
     }
   },

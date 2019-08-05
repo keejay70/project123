@@ -26,4 +26,14 @@ class WorkController extends APIController
       }
       return $this->response();
     }
+
+    public function getByParams($column, $value){
+      $result = Work::where($column, '=', $value)->get();
+      $i = 0;
+      foreach ($result as $key) {
+        $result[$i]['verified'] = true;
+        $i++;
+      }
+      return (sizeof($result) > 0) ? $result : null;
+    }
 }

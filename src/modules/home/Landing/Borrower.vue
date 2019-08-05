@@ -1,17 +1,17 @@
 <template>
-  <div class="cw-banner bg-green">
-    <div class="text text-white">
+  <div class="cw-banner bg-white">
+    <div class="image">
+      <img src="../../../assets/img/banner.png" style="margin-bottom: 5px;" width="100%">
+    </div>
+    <div class="text text-primary">
       <span class="title">
-        <h1>Easy Communication with our Printing Partners</h1>
+        <h1>Handle your investments</h1>
       </span>
       <span class="description">
         <h4>
-          As a customer-first business, we need constant communication to ensure quality prints all the time. Always get in touch through the chat and comment feature.  
+          As investor, you are free to choose where to invest your money. Our marketplace allows you to choose specific borrower and invest your money to them.
         </h4>
       </span>
-    </div>
-    <div class="image">
-      <img src="../../../assets/img/banner.png" style="margin-bottom: 5px;" width="100%">
     </div>
   </div>
 </template>

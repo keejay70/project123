@@ -1,6 +1,6 @@
 <template>
   <div class="incre-row">
-    <label class="title"><b>Identification Cards</b></label>
+    <label class="title"><b>Co-Makers</b></label>
     <div class="incre-row">
       <div class="item" v-for="(item, index) in data" :key="index">
         {{item.title}}
