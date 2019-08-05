@@ -8,7 +8,7 @@ use Carbon\Carbon;
 class InvestmentController extends APIController
 {
 
-
+    public $pullingClass = 'App\Http\Controllers\PullingController';
     public $requestClass = 'App\Http\Controllers\RequestMoneyController';
     public $ledgerClass = 'App\Http\Controllers\LedgerController';
     public $notificationClass = 'App\Http\Controllers\NotificationSettingController';
@@ -27,6 +27,7 @@ class InvestmentController extends APIController
         'timestamps' => Carbon::now()
       );
       $data = $request->all();
+      $code = null;
       $amount = floatval($data['amount']);
       $remainingAmount = app($this->requestClass)->getAmount($data['request_id']);
       $invested = $this->invested($data['request_id']);
@@ -63,6 +64,7 @@ class InvestmentController extends APIController
               $description = 'Invested to';
               $payload = 'investments';
               $payloadValue = $invest->id;
+              app($this->pullingClass)->addToPulling($data['account_id'], $amount, $data['request_id']);
               app($this->ledgerClass)->addToLedger($data['account_id'], $amount * (-1), $description, $payload, $payloadValue);
               if($left <= 0){
                 app($this->requestClass)->updateStatus($data['request_id']);

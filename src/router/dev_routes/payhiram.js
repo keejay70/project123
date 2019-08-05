@@ -8,6 +8,13 @@ export default{
       tokenRequired: false
     }
   }, {
+    path: '/signup/:email/:code',
+    name: 'signup',
+    component: resolve => require(['components/increment/basic/Signup.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
+  }, {
     path: '/signup_partner',
     name: 'signupPartner',
     component: resolve => require(['components/increment/basic/SignupPartner.vue'], resolve),

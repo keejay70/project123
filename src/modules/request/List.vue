@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="request-list-wrapper">
     <div class="request-list-left-container">
       <div class="incre-row">
@@ -63,9 +63,17 @@
           <label>
             Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
-          <button class="btn btn-primary pull-right" @click="showInvestmentModal(item)">Invest</button>
+          <button class="btn btn-primary pull-right" style="margin-right: 5px;" @click="showInvestmentModal(item)">Invest</button>
           <button class="btn btn-warning pull-right" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
         </span>
+
+
+    <label class="mt-3" v-if="item.pulling !== 0">Percentage of amount invested</label>
+    <b-progress :max="item.initial_amount" class="progress-bar bg-warning"  style="margin-bottom: 10px;" v-if="item.pulling !== 0">
+      <b-progress-bar :value="item.pulling" :variant="'primary'" :label="getPercentage(item) + '%'"></b-progress-bar>
+    </b-progress>
+
+      
       </div>
       <empty v-if="data === null" :title="'We just launched and we\'re still growing.'" :action="' Please check back soon, we will have tons of request for you.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
     </div>
@@ -136,6 +144,7 @@
 .rl-container-item .footer{
   width: 100%;
   float: left;
+  margin-bottom: 5px;
   height: 40px;
   line-height: 40px;
 }
@@ -187,7 +196,15 @@ export default{
       user: AUTH.user,
       auth: AUTH,
       data: null,
+      showId: null,
+      percentage: null,
+      showInvest: 0,
       size: null,
+      pulling: null,
+      size2: null,
+      newPulling: {
+        requestId: null
+      },
       selecteditem: null,
       config: CONFIG,
       activePage: 0,
@@ -211,9 +228,29 @@ export default{
     redirect(parameter){
       ROUTER.push(parameter)
     },
+    show(item){
+      if(this.showId === item.id){
+        this.showId = null
+      }else{
+        this.showId = item.id
+      }
+    },
     showRequestModal(){
       this.requestModal.params.push({variable: 'account_id', value: this.user.userID})
       $('#createRequestModal').modal('show')
+    },
+    getPercentage(item){
+      this.percentage = item.pulling / item.initial_amount
+      this.percentage = this.percentage * 100
+      this.percentage = this.percentage.toFixed(2)
+      return this.percentage
+    },
+    filterItem(item, id){
+      if(item.request_id === id){
+        return item.amount
+      }else{
+        return null
+      }
     },
     showInvestmentModal(item){
       this.selecteditem = item
