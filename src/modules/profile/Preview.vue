@@ -3,7 +3,7 @@
     <profile-header :item="item" v-if="item.account !== null"></profile-header>
     <basic :item="item" v-if="item.account !== null"></basic>
     <educations :item="item" v-if="item.account !== null"></educations>
-    <works :item="item" v-if="item.account !== null"></works>
+    <works :data="item.works" v-if="item.works !== null"></works>
     <ids :item="item" v-if="item.account !== null"></ids>
     <reviews :item="item" v-if="item.account !== null"></reviews>
   </div>

@@ -26,4 +26,9 @@ class WorkController extends APIController
       }
       return $this->response();
     }
+
+    public function getByParams($column, $value){
+      $result = Work::where($column, '=', $value)->get();
+      return (sizeof($result) > 0) ? $result : null;
+    }
 }
