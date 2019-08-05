@@ -8,19 +8,13 @@
         <i class="fa fa-user-circle-o" ></i>
       </span>
     </div>
-    <div class="incre-row text-center">
+    <div class="incre-row text-center" style="text-transform: capitalize">
       <h2 class="text-primary" v-if="item.account.information !== null">
         <b v-if="item.account.information.first_name !== null">{{item.account.information.first_name}}</b>
         <b v-if="item.account.information.last_name !== null">{{item.account.information.last_name}}</b>
       </h2>
       <h2 v-else class="text-primary">{{item.account.username}}</h2>
       <label v-if="item.account.information !== null"><b>{{item.account.information.address}}</b></label>
-      <label class="text-warning">
-        <i class="fab fa-facebook action-link"></i>
-        <i class="fab fa-twitter action-link"></i>
-        <i class="fab fa-instagram action-link"></i>
-        <i class="fab fa-linkedin action-link"></i>
-      </label>
     </div>
   </div>
 </template>
