@@ -199,6 +199,11 @@ export default {
           inputs.map(input => {
             input.value = null
           })
+          this.createEducationModal.params.map(param => {
+            if(param.variable === 'account_id'){
+              param.value = this.user.userID
+            }
+          })
           break
         case 'update':
           let modalData = {...this.createEducationModal}

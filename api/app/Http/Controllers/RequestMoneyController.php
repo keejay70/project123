@@ -12,6 +12,9 @@ class RequestMoneyController extends APIController
     public $investmentClass = 'App\Http\Controllers\InvestmentController';
     public $penaltyClass = 'App\Http\Controllers\PenaltyController';
     public $pullingClass = 'App\Http\Controllers\PullingController';
+    public $workClass = 'App\Http\Controllers\WorkController';
+    public $cardClass = 'App\Http\Controllers\AccountCardController';
+    public $educationClass = 'App\Http\Controllers\EducationController';
     function __construct(){  
     	$this->model = new RequestMoney();
 
@@ -50,8 +53,10 @@ class RequestMoneyController extends APIController
           $result[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('profile', $result[$i]['account_id']);
           $result[$i]['pulling'] = app($this->pullingClass)->getTotalByParams('request_id', $result[$i]['id']);
           $result[$i]['account'] = $this->retrieveAccountDetails($result[$i]['account_id']);
+          $result[$i]['works'] = app($this->workClass)->getByParams('account_id', $result[$i]['account_id']);
+          $result[$i]['cards'] = app($this->cardClass)->getByParams('account_id', $result[$i]['account_id']);
+          $result[$i]['educations'] = app($this->educationClass)->getByParams('account_id', $result[$i]['account_id']);
           $result[$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
-
           $result[$i]['needed_on_human'] = Carbon::createFromFormat('Y-m-d', $result[$i]['needed_on'])->copy()->tz('Asia/Manila')->format('F j, Y');
           $result[$i]['total'] = $this->getTotalBorrowed($result[$i]['account_id']);
           $result[$i]['initial_amount'] = $result[$i]['amount'];
@@ -80,8 +85,10 @@ class RequestMoneyController extends APIController
           $invested = app($this->investmentClass)->invested($result[$i]['id']);
           $result[$i]['rating'] = app($this->ratingClass)->getRatingByPayload('profile', $result[$i]['account_id']);
           $result[$i]['account'] = $this->retrieveAccountDetails($result[$i]['account_id']);
+          $result[$i]['cards'] = app($this->cardClass)->getByParams('account_id', $result[$i]['account_id']);
+          $result[$i]['works'] = app($this->workClass)->getByParams('account_id', $result[$i]['account_id']);
+          $result[$i]['educations'] = app($this->educationClass)->getByParams('account_id', $result[$i]['account_id']);
           $result[$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
-
           $result[$i]['needed_on_human'] = Carbon::createFromFormat('Y-m-d', $result[$i]['needed_on'])->copy()->tz('Asia/Manila')->format('F j, Y');
           $result[$i]['total'] = $this->getTotalBorrowed($result[$i]['account_id']);
           $result[$i]['invested'] = $invested['size'];

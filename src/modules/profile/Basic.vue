@@ -15,16 +15,12 @@
             </td>
           </tr>
           <tr>
-            <td>Username</td>
-            <td>{{item.account.username}}</td>
-          </tr>
-          <tr>
             <td>Email Address</td>
-            <td><i class="fa fa-check text-primary"></i>{{item.account.email}}</td>
+            <td><i class="fa fa-check text-primary"></i>Verified</td>
           </tr>
           <tr>
             <td>Contact Number</td>
-            <td><i class="fa fa-check text-primary"></i>{{item.account.information.cellular_number}}</td>
+            <td><i class="fa fa-check text-primary"></i>Verified</td>
           </tr>
         </tbody>
       </table>

@@ -6,7 +6,7 @@
       </span>
       <span class="description">
         <h4>
-          PayHiram is the easiest and safest investment tool in the Philippines. Invest your money to your preferred borrowers and interest.
+          PayHiram is the best tool for borrowing and investing your money. Relax and just watch your investments to grow.
         </h4>
       </span>
     </div>

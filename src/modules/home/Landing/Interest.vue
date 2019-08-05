@@ -1,17 +1,17 @@
 <template>
-  <div class="cw-banner bg-white">
-    <div class="image">
-      <img src="../../../assets/img/banner.png" style="margin-bottom: 5px;" width="100%">
-    </div>
-    <div class="text text-primary">
+  <div class="cw-banner bg-green">
+    <div class="text text-white">
       <span class="title">
-        <h1>Easy Communication with our Printing Partners</h1>
+        <h1>Choose your interest rates</h1>
       </span>
       <span class="description">
         <h4>
-          As a customer-first business, we need constant communication to ensure quality prints all the time. Always get in touch through the chat and comment feature.  
+          As borrower, you are free to choose what interest you want. Interest rate starts at 2% per month to as much as 30% per month. We understand that you need instant payout so the better interest the more investors interested to your request.
         </h4>
       </span>
+    </div>
+    <div class="image">
+      <img src="../../../assets/img/banner.png" style="margin-bottom: 5px;" width="100%">
     </div>
   </div>
 </template>

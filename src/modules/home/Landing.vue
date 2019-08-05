@@ -1,8 +1,8 @@
 <template>
 	<div class="body">
 		<landing-banner></landing-banner>
-    <landing-marketplace></landing-marketplace>
-    <landing-mc></landing-mc>
+    <choose-borrower></choose-borrower>
+    <interest></interest>
 	</div>
 </template>
 <script>
@@ -11,8 +11,8 @@ import AUTH from '../../services/auth'
 export default {
   components: {
     'landing-banner': require('modules/home/Landing/Banner.vue'),
-    'landing-marketplace': require('modules/home/Landing/Marketplace.vue'),
-    'landing-mc': require('modules/home/Landing/MessageAndComment.vue')
+    'choose-borrower': require('modules/home/Landing/Borrower.vue'),
+    'interest': require('modules/home/Landing/Interest.vue')
   },
   mounted(){
   },

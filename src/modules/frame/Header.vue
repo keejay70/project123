@@ -337,11 +337,11 @@ body{
 
 }
 .dropdown-item{
-  width: 100%;
-  height: 40px;
-  float: left;
-  background: #fff;
-  padding-top: 0px;
+  width: 100% !important;
+  height: 40px !important;
+  float: left !important;
+  background: #fff !important;
+  padding-top: 0px !important;
 }
 .dropdown-item:hover{
   background: #ddd !important;
