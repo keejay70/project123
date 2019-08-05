@@ -37,6 +37,7 @@
             "Increment\\Common\\Image\\": "packages/increment/common/image/src/",
             "Increment\\Common\\Tutorial\\": "packages/increment/common/tutorial/src/",
             "Increment\\Messenger\\": "packages/increment/messenger/src/",
+            "Increment\\Common\\Notification\\": "packages/increment/common/notification/src/",
             "Increment\\Account\\": "packages/increment/account/src/"
         }
     },

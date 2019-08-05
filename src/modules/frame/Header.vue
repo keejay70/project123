@@ -64,6 +64,20 @@
             </span>
           </span>
         </div>
+
+  <div class="dropdown"> 
+          <span class="nav-item" v-bind:class="{'active-menu': settingFlag === true}" data-toggle="dropdown" id="settings" aria-haspopup="true" aria-expanded="false" v-on:click="makeActive('dropdown')" v-bind:onkeypress="makeActive('')">
+            <span>
+              <i class="fa fa-bell"></i>
+            </span>
+            <span class="dropdown-menu dropdown-menu-right" aria-labelledby="settings">
+              <span v-for="item, index in data">
+                <i style="font-size:100%;" class="fa fa-bell">
+                {{item.display}} <p>{{item.created_at_human}}</p></i>
+              </span>
+            </span>
+          </span>
+        </div>     
 <!-- 
         <div class="dropdown" v-if="user.messages !== null"> 
             <span class="nav-item" data-toggle="dropdown" id="notifications" aria-haspopup="true" aria-expanded="false">
@@ -696,10 +710,15 @@ import AUTH from '../../services/auth'
 import CONFIG from '../../config.js'
 export default {
   mounted(){
+    this.retrieve({
+      column: 'created_at',
+      value: 'desc'
+    })
   },
   data(){
     return{
       user: AUTH.user,
+      data: null,
       tokenData: AUTH.tokenData,
       settingFlag: false,
       menuFlag: false,
@@ -708,6 +727,10 @@ export default {
       confirmation: {
         message: null,
         action: null
+      },
+      sort: {
+        column: 'created_at',
+        value: 'desc'
       },
       accountNotif: null
     }
@@ -802,6 +825,22 @@ export default {
     },
     openModal(id){
       $(id).modal('show')
+    },
+    retrieve(sort){
+      let parameter = {
+        account_id: this.user.userID,
+        limit: 10,
+        sort: (sort !== null) ? sort : this.sort
+      }
+      $('#loading').css({display: 'none'})
+      this.APIRequest('notifications/retrieve', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        if(response !== null){
+          this.data = response.data
+        }else{
+          this.data = null
+        }
+      })
     }
   }
 }
