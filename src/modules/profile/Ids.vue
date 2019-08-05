@@ -2,28 +2,10 @@
   <div class="incre-row">
     <label class="title"><b>Identification Cards</b></label>
     <div class="incre-row">
-      <table class="table borderless">
-        <tbody>
-          <tr>
-            <td>Total Borrowed</td>
-            <td>PHP {{item.total.toFixed(2)}}</td>
-          </tr>
-          <tr>
-            <td>Ratings</td>
-            <td>
-              <ratings :ratings="item.rating" v-if="item.rating !== null"></ratings>
-            </td>
-          </tr>
-          <tr>
-            <td>Email Address</td>
-            <td><i class="fa fa-check text-primary"></i>{{item.account.email}}</td>
-          </tr>
-          <tr>
-            <td>Contact Number</td>
-            <td><i class="fa fa-check text-primary"></i>{{item.account.information.cellular_number}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="item" v-for="(item, index) in data" :key="index">
+        {{item.title}}
+        <i class="fas fa-check text-primary pull-right" v-if="item.verified === true"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -36,6 +18,24 @@
   color: #555;
   border-top: solid 1px #ddd;
   border-bottom: solid 1px #ddd;
+  margin-bottom: 25px;
+}
+
+.incre-row{
+  margin-bottom: 25px;
+}
+
+.item{
+  width: 50%;
+  height: 50px;
+  float: left;
+  line-height: 50px;
+  border: solid 1px #ddd;
+  padding: 0px 10px;
+  text-transform: capitalize;
+}
+.item i{
+  line-height: 50px;
 }
 
 .borderless td, .borderless th {
@@ -46,9 +46,9 @@
 
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
-import CONFIG from '../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
 export default{
   mounted(){
   },
@@ -58,10 +58,7 @@ export default{
       config: CONFIG
     }
   },
-  components: {
-    'ratings': require('components/increment/generic/rating/DirectRatings.vue')
-  },
-  props: ['item'],
+  props: ['data'],
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)

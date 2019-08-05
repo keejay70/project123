@@ -14,4 +14,14 @@ class EducationController extends APIController
       'year_started', 'year_ended', 'month_started', 'month_ended'
     );
   }
+
+  public function getByParams($column, $value){
+    $result = Education::where($column, '=', $value)->get();
+    $i = 0;
+    foreach ($result as $key) {
+      $result[$i]['verified'] = true;
+      $i++;
+    }
+    return (sizeof($result) > 0) ? $result : null;
+  }
 }

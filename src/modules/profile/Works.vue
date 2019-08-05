@@ -2,54 +2,44 @@
   <div class="incre-row">
     <label class="title"><b>Work Experiences</b></label>
     <div class="incre-row">
-      <div class="rl-container-item" v-for="(item, index) in data" :key="index">
+      <div class="rl-container-item" v-for="(item, index) in data" :key="index" v-bind:class="{'bordered': index > 0}">
         <span class="header">
-          <label class="cards-label"> 
-            {{ item.month_started }}
-            {{ item.year_started }}
-          </label>
-          -
-          <label class="cards-label" v-if="item.month_ended && item.year_ended !== null">
-            {{ item.month_ended }}
-            {{ item.year_ended }}
-          </label>
-          <label class="cards-label" v-else>
-            Present
-          </label>
-          <label class="pull-right">
-            <div class="dropdown" id="dropdownMenuButtonDropdown">
-            <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown">
-            </i>
-            <div class="dropdown-menu dropdown-more-options" aria-labelledby="dropdownMenuButton" >
-              <span class="dropdown-item action-link dropdown-label">Settings</span>
-              <span class="dropdown-item action-link" @click="showModal('update', item)">Edit</span>
-              <span class="dropdown-item action-link" @click="removeWork(item.id)">Remove</span>
-            </div>
-          </div>
-          </label>
+          <i class="fas fa-check" v-if="item.verified === true"></i>
+          {{item.position}}
         </span>
         <span class="summary-header">
-          <div style="line-height: 160%; vertical-align: middle;">
-            <i class="fas fa-sitemap" style="font-size: 15px;"></i>
-            <span style="position: relative; display: inline-block; left: 5px; font-size: 14px; font-weight: 600; color: #000">
-              {{ item.position }}
+          <div>
+            <i class="fas fa-calendar"></i>
+            <span>
+              <label class="cards-label"> 
+                {{ item.month_started }}
+                {{ item.year_started }}
+              </label>
+              -
+              <label class="cards-label" v-if="item.month_ended && item.year_ended !== null">
+                {{ item.month_ended }}
+                {{ item.year_ended }}
+              </label>
+              <label class="cards-label" v-else>
+                Present
+              </label>
             </span>
           </div>
-          <div style="line-height: 160%; vertical-align: middle;">
+          <div>
             <i class="fas fa-building"></i>
-            <span style="position: relative; display: inline-block; left: 5px; font-size: 14px;"> 
+            <span> 
               {{ item.company_name }}
             </span>
           </div>
-          <div style="line-height: 160%; vertical-align: middle;">
-            <i class="fas fa-map-marker-alt" style="font-size: 21px;"></i>
-            <span style="position: relative; display: inline-block; left: 5px; font-size: 14px;">
+          <div>
+            <i class="fas fa-map-marker-alt"></i>
+            <span>
               {{ item.location }}
             </span>
           </div>
-          <div style="line-height: 160%;">
-            <label style="margin: 5px 0 0 0; color: #000;">About Work:</label>
-            <div style="font-size: 14px;">
+          <div>
+            <label style="font-weight: bold">About Work</label>
+            <div>
               <div v-if="item.work_description.length <= 400">
                 {{ item.work_description }}
               </div>
@@ -59,16 +49,6 @@
                   {{ showDescription === true &&  showDescriptionIndex === index ? '<<<' : '>>>'}}
                 </a>
               </div>
-              <!-- <div v-if="item.work_description.length >= 400" title="See more" style="margin: 5px 47%">
-                <a :class="showDescription === true && showDescriptionIndex === index ? 'arrow-icon open' : 'arrow-icon'" @click="setShowDescription(index)">
-                  <span class="left-bar"></span>
-                  <span class="right-bar"></span>
-                </a>
-              </div> -->
-              <!-- <label v-else>
-                <span v-if="item.flag === false"> {{ item.work_description.substring(0, 400)}} <strong class="text-danger" @click="item.flag = true"> TEST </strong></span>
-                <span v-if="item.flag === true"> {{ item.work_description }} <strong class="text-danger" @click="item.flag = false"> TEST </strong></span>
-              </label> -->
             </div>
           </div>
         </span>
@@ -87,16 +67,22 @@
   border-bottom: solid 1px #ddd;
 }
 
+.incre-row{
+  margin-bottom: 25px;
+}
+
+.bordered{
+  border-top: solid 1px #ddd
+}
+
 .borderless td, .borderless th {
     border: none;
 }
 .rl-container-item{
   width: 100%;
   float: left;
-  border-radius: 5px;
   min-height: 50px;
   overflow-y: hidden;
-  border: solid 1px #ddd;
   margin-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -104,17 +90,32 @@
 .rl-container-item .header{
   width: 100%;
   float: left;
-  height: 50px;
+  height: 40px;
   line-height: 50px;
   color: #555;
+  font-weight: bold;
 }
+
+.rl-container-item .header i{
+  font-size: 13px;
+  padding-right: 5px;
+}
+
 .rl-container-item .summary-header{
   width: 100%;
   float: left;
   line-height: 25px;
-  font-size: 17px;
   color: #555; 
 }
+
+.rl-container-item .summary-header i{
+  padding: 0px 5px;
+}
+
+.rl-container-item .summary-header label{
+  margin-bottom: 0px;
+}
+
 .rl-container-item .footer{
   width: 100%;
   float: left;

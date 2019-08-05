@@ -34,4 +34,20 @@ class AccountCardController extends APIController
         'timestamps' => Carbon::now()
       ));
     }
+
+    public function getByParams($column, $value){
+      $result = AccountCard::where($column, '=', $value)->orderBy('payload', 'asc')->get()->groupBy('payload');
+
+      $keys = array();
+
+      foreach ($result as $key) {
+        $temp = array(
+          'title' => $key[0]['payload'],
+          'verified' => true 
+        );
+        $keys[] = $temp;
+      }
+
+      return sizeof($keys) > 0 ? $keys : null;
+    }
 }

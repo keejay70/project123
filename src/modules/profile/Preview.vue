@@ -2,10 +2,10 @@
   <div class="profile-preview-wrapper" v-if="item !== null">
     <profile-header :item="item" v-if="item.account !== null"></profile-header>
     <basic :item="item" v-if="item.account !== null"></basic>
-    <educations :item="item" v-if="item.account !== null"></educations>
+    <educations :data="item.educations" v-if="item.educations !== null"></educations>
     <works :data="item.works" v-if="item.works !== null"></works>
-    <ids :item="item" v-if="item.account !== null"></ids>
-    <reviews :item="item" v-if="item.account !== null"></reviews>
+    <ids :data="item.cards" v-if="item.cards !== null"></ids>
+<!--     <reviews :item="item" v-if="item.account !== null"></reviews> -->
   </div>
 </template>
 <style scoped>
@@ -20,9 +20,9 @@
 
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
-import CONFIG from '../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
 export default{
   mounted(){
   },
