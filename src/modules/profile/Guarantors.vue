@@ -3,8 +3,8 @@
     <label class="title"><b>Guarantors</b></label>
     <div class="incre-row">
       <div class="item" v-for="(item, index) in data" :key="index">
-        {{item.title}}
-        <i class="fas fa-check text-primary pull-right" v-if="item.verified === true"></i>
+        {{item.account.username}}
+        <i class="fas fa-check text-primary pull-right" v-if="item.status === 'approved'"></i>
       </div>
     </div>
   </div>
@@ -33,7 +33,6 @@
   line-height: 50px;
   border: solid 1px #ddd;
   padding: 0px 10px;
-  text-transform: capitalize;
   margin-bottom: 10px;
 }
 .item i{

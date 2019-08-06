@@ -60,7 +60,7 @@ class GuarantorController extends APIController
     }
 
     public function getByParams($column, $value){
-      $result = Guarantor::where($column, '=', $value)->where('status', '=', 'approved')->where('receiver', '!', null)->get();
+      $result = GuarantorModel::where($column, '=', $value)->where('status', '=', 'approved')->get();
       if(sizeof($result) > 0){
         $i = 0;
         foreach ($result as $key) {

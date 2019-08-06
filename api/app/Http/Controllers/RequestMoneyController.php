@@ -75,6 +75,7 @@ class RequestMoneyController extends APIController
           $result[$i]['cards'] = app($this->cardClass)->getByParams('account_id', $result[$i]['account_id']);
           $result[$i]['guarantors'] = app($this->guarantorClass)->getByParams('sender', $result[$i]['account_id']);
           $result[$i]['educations'] = app($this->educationClass)->getByParams('account_id', $result[$i]['account_id']);
+          $result[$i]['comakers'] = app($this->comakerClass)->getByParams($result[$i]['account_id'], $result[$i]['id']);
           $result[$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
           $result[$i]['needed_on_human'] = Carbon::createFromFormat('Y-m-d', $result[$i]['needed_on'])->copy()->tz('Asia/Manila')->format('F j, Y');
           $result[$i]['total'] = $this->getTotalBorrowed($result[$i]['account_id']);
@@ -108,6 +109,7 @@ class RequestMoneyController extends APIController
           $result[$i]['works'] = app($this->workClass)->getByParams('account_id', $result[$i]['account_id']);
           $result[$i]['guarantors'] = app($this->guarantorClass)->getByParams('sender', $result[$i]['account_id']);
           $result[$i]['educations'] = app($this->educationClass)->getByParams('account_id', $result[$i]['account_id']);
+          $result[$i]['comakers'] = app($this->comakerClass)->getByParams($result[$i]['account_id'], $result[$i]['id']);
           $result[$i]['created_at_human'] = Carbon::createFromFormat('Y-m-d H:i:s', $result[$i]['created_at'])->copy()->tz('Asia/Manila')->format('F j, Y');
           $result[$i]['needed_on_human'] = Carbon::createFromFormat('Y-m-d', $result[$i]['needed_on'])->copy()->tz('Asia/Manila')->format('F j, Y');
           $result[$i]['total'] = $this->getTotalBorrowed($result[$i]['account_id']);
