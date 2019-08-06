@@ -2,7 +2,7 @@
   <div class="request-list-wrapper">
     <div class="request-list-left-container">
       <div class="incre-row">
-        <button class="btn btn-primary pull-right" @click="showRequestModal()">Post a request</button>
+        <button class="btn btn-primary pull-right" @click="showRequestModal('create')">Post a request</button>
       </div>
       <div class="rl-container-header">
         <request-filter :size="size"></request-filter>
@@ -22,6 +22,8 @@
               <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown">
               </i>
               <div class="dropdown-menu dropdown-more-options" aria-labelledby="dropdownMenuButton" >
+
+                <span class="dropdown-item action-link" @click="showRequestModal('update', item)">Edit</span>
                 <span class="dropdown-item action-link" @click="showReportModal(item)">Report</span>
               </div>
             </div>
@@ -235,8 +237,81 @@ export default{
         this.showId = item.id
       }
     },
-    showRequestModal(){
-      this.requestModal.params.push({variable: 'account_id', value: this.user.userID})
+    showRequestModal(action, item = null){
+      switch(action){
+        case 'create':
+          this.requestModal = {...REQUEST}
+          let inputs = this.requestModal.inputs
+          inputs.map(input => {
+            if(input.variable === 'amount'){
+              input.value = null
+            }
+            if(input.variable === 'interest'){
+              input.value = 2
+            }
+            if(input.variable === 'months_payable'){
+              input.value = 1
+            }
+            if(input.variable === 'needed_on'){
+              input.value = null
+            }
+            if(input.variable === 'billing_per_month'){
+              input.value = 1
+            }
+            if(input.variable === 'reason'){
+              input.value = null
+            }
+          })
+          let params = this.requestModal.params
+          params.map(param => {
+            if(param.variable === 'account_id'){
+              param.value = this.user.userID
+            }
+          })
+          break
+        case 'update':
+          let modalData = {...this.requestModal}
+          let parameter = {
+            title: 'Update Requests',
+            route: 'requests/update',
+            button: {
+              left: 'Cancel',
+              right: 'Update'
+            },
+            sort: {
+              column: 'created_at',
+              value: 'desc'
+            },
+            params: [{
+              variable: 'id',
+              value: item.id
+            }]
+          }
+          modalData = {...modalData, ...parameter} // updated data without input values
+          let object = Object.keys(item)
+          modalData.inputs.map(data => {
+            if(data.variable === 'amount'){
+              data.value = item.initial_amount
+            }
+            if(data.variable === 'billing_per_month'){
+              data.value = item.billing_per_month
+            }
+            if(data.variable === 'interest'){
+              data.value = item.interest
+            }
+            if(data.variable === 'needed_on'){
+              data.value = item.needed_on
+            }
+            if(data.variable === 'reason'){
+              data.value = item.reason
+            }
+            if(data.variable === 'months_payable'){
+              data.value = item.months_payable
+            }
+          })
+          this.requestModal = {...modalData}
+          break
+      }
       $('#createRequestModal').modal('show')
     },
     getPercentage(item){
