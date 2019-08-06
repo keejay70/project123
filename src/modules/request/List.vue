@@ -261,11 +261,15 @@ export default{
             if(input.variable === 'reason'){
               input.value = null
             }
+            if(input.variable === 'comaker'){
+              input.value = null
+            }
           })
           let params = this.requestModal.params
           params.map(param => {
             if(param.variable === 'account_id'){
               param.value = this.user.userID
+              console.log(param.variable)
             }
           })
           break
@@ -307,6 +311,9 @@ export default{
             }
             if(data.variable === 'months_payable'){
               data.value = item.months_payable
+            }
+            if(data.variable === 'comaker'){
+              data.value = item.comaker
             }
           })
           this.requestModal = {...modalData}

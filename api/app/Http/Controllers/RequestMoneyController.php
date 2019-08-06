@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Increment\Account\Models\Account;
 use Illuminate\Http\Request;
 use App\RequestMoney;
 use Carbon\Carbon;
@@ -9,7 +9,9 @@ class RequestMoneyController extends APIController
 {
 
 		public $ratingClass = 'Increment\Common\Rating\Http\RatingController';
+    public $comakerClass = 'App\Http\Controllers\ComakerController'; 
     public $investmentClass = 'App\Http\Controllers\InvestmentController';
+    public $notificationClass = 'Increment\Common\Notification\Http\NotificationController';
     public $penaltyClass = 'App\Http\Controllers\PenaltyController';
     public $pullingClass = 'App\Http\Controllers\PullingController';
     public $workClass = 'App\Http\Controllers\WorkController';
@@ -27,8 +29,23 @@ class RequestMoneyController extends APIController
     public function create(Request $request){
     	$data = $request->all();
     	$data['code'] = $this->generateCode();
+      $data['status'] = 0;
     	$this->model = new RequestMoney();
     	$this->insertDB($data);
+      $getID = RequestMoney::where('code', '=', $data['code'])->get();
+      $userExist = Account::where('email', '=', $data['comaker'])->get();
+      if(sizeof($userExist) > 0){
+        $comaker = $userExist[0]->id;
+        app($this->comakerClass)->addToComaker($data['account_id'], $getID[0]->id, $comaker); 
+        $parameter = array(
+          'to' => $comaker,
+          'from' => $data['account_id'],
+          'payload' => 'comaker',
+          'payload_value' => 'tests',
+          'route' => 'tests'
+        );
+      app($this->notificationClass)->create($parameter);
+      }
     	return $this->response();
     }
 

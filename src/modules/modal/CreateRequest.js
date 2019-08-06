@@ -11,7 +11,6 @@ export default {
     placeholder: 'Enter amount',
     value: null,
     required: true,
-    disabled: false,
     id: 'amount',
     type: 'input',
     inputType: 'number',
@@ -26,12 +25,11 @@ export default {
     placeholder: null,
     value: 2,
     required: true,
-    disabled: false,
     id: 'interest',
     type: 'select_increment',
     options: {
-      max: 29,
-      start: 1,
+      max: 30,
+      start: 0,
       label: '% per month'
     }
   }, {
@@ -41,7 +39,6 @@ export default {
     placeholder: null,
     value: 1,
     required: true,
-    disabled: false,
     id: 'monthPayable',
     type: 'select_increment',
     options: {
@@ -56,7 +53,6 @@ export default {
     placeholder: 'Select Date',
     value: null,
     required: true,
-    disabled: false,
     id: 'neededOn',
     type: 'input',
     inputType: 'date',
@@ -71,7 +67,6 @@ export default {
     placeholder: null,
     value: 0,
     required: true,
-    disabled: false,
     id: 'billingPerMonth',
     type: 'select_specified',
     options: [
@@ -86,7 +81,6 @@ export default {
     placeholder: 'Enter reason here',
     value: null,
     required: true,
-    disabled: false,
     id: 'reason',
     type: 'textarea',
     validation: {
@@ -94,6 +88,20 @@ export default {
       type: 'text'
     },
     textAreaRows: 10
+  }, {
+    row: 'full',
+    label: 'Add comaker',
+    variable: 'comaker',
+    placeholder: 'Optional - Email',
+    value: null,
+    required: false,
+    id: 'comaker',
+    type: 'textarea',
+    validation: {
+      size: 5,
+      type: 'text'
+    },
+    textAreaRows: 1
   }],
   route: 'requests/create',
   button: {
@@ -105,7 +113,7 @@ export default {
     value: 'desc'
   },
   params: [{
-    variable: 'status',
+    variable: 'account_id',
     value: 0
   }]
 }

@@ -16,15 +16,6 @@
       </div>
       </span>
       <span class="sidebar">
-        <span class="sidebar-header" style="margin-top: 25px;">Profile Picture</span>
-        <span class="image" v-if="user.profile !== null">
-          <img :src="config.BACKEND_URL + user.profile.url" height="auto" width="100%" >
-        </span>
-        <span class="image" v-else>
-          <i class="fa fa-user-circle-o" ></i>
-        </span>
-        <button class="btn btn-primary custom-block" style="margin-top: 5px;" @click="showImages()">Select from images
-        </button>
       </span>
     </span>
     <browse-images-modal :object="user.profile" v-if="user.profile !== null"></browse-images-modal>
