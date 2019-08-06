@@ -11,6 +11,7 @@ export default {
     placeholder: 'Enter amount',
     value: null,
     required: true,
+    disabled: false,
     id: 'amount',
     type: 'input',
     inputType: 'number',
@@ -25,10 +26,12 @@ export default {
     placeholder: null,
     value: 2,
     required: true,
+    disabled: false,
     id: 'interest',
     type: 'select_increment',
     options: {
-      max: 30,
+      max: 29,
+      start: 1,
       label: '% per month'
     }
   }, {
@@ -38,10 +41,12 @@ export default {
     placeholder: null,
     value: 1,
     required: true,
+    disabled: false,
     id: 'monthPayable',
     type: 'select_increment',
     options: {
       max: 12,
+      start: 0,
       label: ' Month(s)'
     }
   }, {
@@ -51,6 +56,7 @@ export default {
     placeholder: 'Select Date',
     value: null,
     required: true,
+    disabled: false,
     id: 'neededOn',
     type: 'input',
     inputType: 'date',
@@ -65,6 +71,7 @@ export default {
     placeholder: null,
     value: 0,
     required: true,
+    disabled: false,
     id: 'billingPerMonth',
     type: 'select_specified',
     options: [
@@ -79,6 +86,7 @@ export default {
     placeholder: 'Enter reason here',
     value: null,
     required: true,
+    disabled: false,
     id: 'reason',
     type: 'textarea',
     validation: {
