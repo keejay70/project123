@@ -16,10 +16,10 @@ class CreateGuarantorsTable extends Migration
         Schema::create('guarantors', function (Blueprint $table) {
         $table->bigIncrements('id');
         $table->string('code');
-        $table->bigInteger('sender_id');
-        $table->bigInteger('reciever_id');
-        $table->string('email');
-        $table->string('status');
+        $table->bigInteger('sender');
+        $table->bigInteger('receiver')->nullable();
+        $table->string('email')->nullable();
+        $table->string('status')->default('pending');
         $table->timestamps();
         $table->softDeletes();
         });

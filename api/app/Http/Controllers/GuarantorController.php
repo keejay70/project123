@@ -14,14 +14,14 @@ class GuarantorController extends APIController
       public $notificationClass = 'Increment\Common\Notification\Http\NotificationController';
       public function create(Request $request){
       $data = $request->all();
-      $reciever_id = 0;
+      $receiver = 0;
       $user = $this->retrieveAccountDetails($data['account_id']);
       $emailExist = GuarantorModel::where('email', '=', $data['email'])->where('sender_id', '=', $data['account_id'])->get();
       $userExist = Account::where('email', '=', $data['email'])->get();
       if(sizeof($userExist) > 0){
-        $reciever_id = $userExist[0]->id; 
+        $receiver = $userExist[0]->id; 
         $parameter = array(
-        'to' => $reciever_id,
+        'to' => $receiver,
         'from' => $data['account_id'],
         'payload' => 'guarantor',
         'payload_value' => 'tests',
@@ -36,8 +36,8 @@ class GuarantorController extends APIController
         $code = $this->generateCode();
         $guarantor = new GuarantorModel();
         $guarantor->code = $this->generateCode();
-        $guarantor->sender_id = $data['account_id'];
-        $guarantor->reciever_id = $reciever_id;
+        $guarantor->sender = $data['account_id'];
+        $guarantor->receiver = $receiver;
         $guarantor->email = $data['email'];
         $guarantor->status = 'pending';
         $guarantor->created_at = Carbon::now();
@@ -49,7 +49,7 @@ class GuarantorController extends APIController
       }
     }
 
-      public function generateCode(){
+    public function generateCode(){
       $code = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 32);
       $codeExist = GuarantorModel::where('code', '=', $code)->get();
       if(sizeof($codeExist) > 0){
@@ -57,5 +57,17 @@ class GuarantorController extends APIController
       }else{
         return $code;
       }
+    }
+
+    public function getByParams($column, $value){
+      $result = GuarantorModel::where($column, '=', $value)->where('status', '=', 'approved')->get();
+      if(sizeof($result) > 0){
+        $i = 0;
+        foreach ($result as $key) {
+          $result[$i]['account'] = $this->retrieveAccountDetails($result[$i]['receiver']);
+          $i++;
+        }
+      }
+      return sizeof($result) > 0 ? $result : null;
     }
 }

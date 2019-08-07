@@ -5,9 +5,9 @@
     <educations :data="item.educations" v-if="item.educations !== null"></educations>
     <works :data="item.works" v-if="item.works !== null"></works>
     <ids :data="item.cards" v-if="item.cards !== null"></ids>
-    <payments :data="item.cards" v-if="item.cards !== null"></payments>
-    <comakers :data="item.cards" v-if="item.cards !== null"></comakers>
-    <guarantors :data="item.cards" v-if="item.cards !== null"></guarantors>
+    <!-- <payments :data="item.cards" v-if="item.cards !== null"></payments> -->
+    <comakers :data="item.comakers" v-if="item.comakers !== null"></comakers>
+    <guarantors :data="item.guarantors" v-if="item.guarantors !== null"></guarantors>
 <!--     <reviews :item="item" v-if="item.account !== null"></reviews> -->
   </div>
 </template>
