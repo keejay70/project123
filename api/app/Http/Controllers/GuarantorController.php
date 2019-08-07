@@ -25,7 +25,7 @@ class GuarantorController extends APIController
         'from' => $data['account_id'],
         'payload' => 'guarantor',
         'payload_value' => 'tests',
-        'route' => 'tests'
+        'route' => '/profile/guarantor'
       );
         app($this->notificationClass)->create($parameter);
       }
