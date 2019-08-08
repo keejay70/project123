@@ -69,12 +69,14 @@
 .main-sidebar{
   overflow-y: hidden;
   z-index: 10000;
+  height: calc(100vh - 60px);
 }
 
 .sidebar-menu{
   list-style: none;
   padding: 0px;
   margin: 0px;
+  height: calc(100vh - 60px);
 }
 
 .sidebar-menu .header{

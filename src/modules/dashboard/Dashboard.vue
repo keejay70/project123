@@ -112,6 +112,11 @@
     width: 100%;
     margin-left: 0%;
   }
+
+  .dr-container-header button{
+    display: none;
+  }
+
 }
 
 </style>

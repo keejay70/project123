@@ -34,6 +34,7 @@
           </tr>
         </tbody>
       </table>
+      <empty v-if="billing === null" :title="'You don\'t borrowed yet'" :action="'Start requesting a money.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
       <span class="incre-row">
         <b>Payment History</b>
       </span>
@@ -59,8 +60,6 @@
         </tbody>
       </table>
       <empty v-if="data === null" :title="'You don\'t have payments yet'" :action="'Be back soon.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
-    </div>
-    <div class="payhiram-list-right-container">
     </div>
     <invest :item="selecteditem"></invest>
     <profile :item="selecteditem"></profile>
@@ -97,7 +96,7 @@
 }
 .payhiram-list-left-container{
   float: left;
-  width: 68%;
+  width: 100%;
   min-height: 50px;
   overflow-y: hidden;
 }
