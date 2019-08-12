@@ -72,7 +72,7 @@
             </span>
             <span class="dropdown-menu dropdown-menu-right" aria-labelledby="settings">
               <span v-for="item, index in data">
-                <i style="font-size:100%;" class="fa fa-bell">
+                <i style="font-size:100%;" class="fa fa-bell" @click="redirect(item.route)">
                 {{item.display}} <p>{{item.created_at_human}}</p></i>
               </span>
             </span>

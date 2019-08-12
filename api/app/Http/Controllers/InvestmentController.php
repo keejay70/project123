@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\RequestMoney;
 use Illuminate\Http\Request;
 use App\Investment;
 use Carbon\Carbon;
 class InvestmentController extends APIController
 {
-
+    public $notifClass = 'Increment\Common\Notification\Http\NotificationController';
     public $pullingClass = 'App\Http\Controllers\PullingController';
     public $requestClass = 'App\Http\Controllers\RequestMoneyController';
     public $ledgerClass = 'App\Http\Controllers\LedgerController';
@@ -34,6 +34,7 @@ class InvestmentController extends APIController
       $remainingAmount = ($remainingAmount) ? ($remainingAmount - $invested['total']) : null;
       $myBalance = floatval(app($this->ledgerClass)->retrievePersonal($data['account_id']));
       $description = null;
+      $getID = RequestMoney::where('id', '=', $data['request_id'])->get();
       $accountId = $data['account_id'];
       if($myBalance < $amount){
         $response['error'] = 'You have insufficient balance. Your balance is PHP '.$myBalance.' balance.';
@@ -64,6 +65,14 @@ class InvestmentController extends APIController
               $description = 'Invested to';
               $payload = 'investments';
               $payloadValue = $invest->id;
+              $parameter = array(
+                'to' => $getID[0]->account_id,
+                'from' => $data['account_id'],
+                'payload' => 'invest',
+                'payload_value' => 'tests',
+                'route' => '/requests/'
+              );
+              app($this->notifClass)->create($parameter);           
               app($this->pullingClass)->addToPulling($data['account_id'], $amount, $data['request_id']);
               app($this->ledgerClass)->addToLedger($data['account_id'], $amount * (-1), $description, $payload, $payloadValue);
               if($left <= 0){

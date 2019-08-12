@@ -92,6 +92,13 @@ export default{
       tokenRequired: true
     }
   }, {
+    path: '/requests/:code',
+    name: 'requests',
+    component: resolve => require(['modules/request/List.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
+  }, {
     path: '/history/',
     name: 'history',
     component: resolve => require(['modules/history/List.vue'], resolve),
