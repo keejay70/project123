@@ -7,7 +7,7 @@
       <div class="rl-container-header">
         <request-filter :size="size"></request-filter>
       </div>
-      <div class="rl-container-item" v-for="item, index in data" v-if="data !== null">
+      <div class="rl-container-item" v-for="(item, index) in data" :key="index">
         <span class="header">
           <label class="action-link text-primary" @click="showProfileModal(item)">
             <i class="fas fa-user-circle" style="color: #555; padding-right: 5px;" v-if="item.account.profile === null"></i>
@@ -72,7 +72,7 @@
 
     <label class="mt-3" v-if="item.pulling !== 0">Percentage of amount invested</label>
     <b-progress :max="item.initial_amount" class="progress-bar bg-warning"  style="margin-bottom: 10px;" v-if="item.pulling !== 0">
-      <b-progress-bar :value="item.pulling" :variant="'primary'" :label="getPercentage(item) + '%'"></b-progress-bar>
+      <b-progress-bar :value="item.pulling" :variant="'primary'" :label="item.pulling_percentage + '%'"></b-progress-bar>
     </b-progress>
 
       
@@ -81,9 +81,9 @@
     </div>
     <div class="request-list-right-container">
     </div>
-    <invest :item="selecteditem"></invest>
-    <profile :item="selecteditem"></profile>
-    <report :item="selecteditem"></report>
+    <invest :item="selecteditemInvest"></invest>
+    <profile :item="selecteditemProfile"></profile>
+    <report :item="selecteditemReport"></report>
     <increment-modal :property="requestModal"></increment-modal>
   </div>
 </template>
@@ -207,7 +207,9 @@ export default{
       newPulling: {
         requestId: null
       },
-      selecteditem: null,
+      selecteditemInvest: null,
+      selecteditemProfile: null,
+      selecteditemReport: null,
       config: CONFIG,
       activePage: 0,
       sort: {
@@ -269,7 +271,6 @@ export default{
           params.map(param => {
             if(param.variable === 'account_id'){
               param.value = this.user.userID
-              console.log(param.variable)
             }
           })
           break
@@ -335,15 +336,15 @@ export default{
       }
     },
     showInvestmentModal(item){
-      this.selecteditem = item
+      this.selecteditemInvest = item
       $('#createTransferModal').modal('show')
     },
     showProfileModal(item){
-      this.selecteditem = item
+      this.selecteditemProfile = item
       $('#profileModal').modal('show')
     },
     showReportModal(item){
-      this.selecteditem = item
+      this.selecteditemReport = item
       $('#createReportModal').modal('show')
     },
     retrieve(sort){

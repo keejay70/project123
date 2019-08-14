@@ -41,8 +41,8 @@ class RequestMoneyController extends APIController
           'to' => $comaker,
           'from' => $data['account_id'],
           'payload' => 'comaker',
-          'payload_value' => 'tests',
-          'route' => 'tests'
+          'payload_value' => $getID[0]->id,
+          'route' => '/requests/' + $data['request_id']
         );
       app($this->notificationClass)->create($parameter);
       }
@@ -82,6 +82,7 @@ class RequestMoneyController extends APIController
           $result[$i]['initial_amount'] = $result[$i]['amount'];
           $result[$i]['amount'] = $amount - $invested['total'];
           $result[$i]['invested'] = $invested['size'];
+          $result[$i]['pulling_percentage'] = intval(($result[$i]['pulling'] /  $result[$i]['initial_amount']) * 100);
           $result[$i]['billing_per_month_human'] = $this->billingPerMonth($result[$i]['billing_per_month']);
           $i++;
         }
