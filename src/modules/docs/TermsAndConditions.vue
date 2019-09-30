@@ -133,7 +133,11 @@
     </div>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
+@import "~assets/style/colors.scss";
+.bg-primary{
+  background-color: $primary !important;
+}
 .guide-holder{
   margin-top:22px;
   width:90%;
