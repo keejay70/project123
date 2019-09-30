@@ -154,14 +154,16 @@ export default{
         sort: sort
       }
       $('#loading').css({display: 'block'})
-      this.APIRequest('ledgers/summary', parameter).then(response => {
-        $('#loading').css({display: 'none'})
-        if(response !== null){
-          this.data = response
-        }else{
-          this.data = null
-        }
-      })
+      setTimeout(() => {
+        this.APIRequest('ledgers/summary', parameter).then(response => {
+          $('#loading').css({display: 'none'})
+          if(response !== null){
+            this.data = response
+          }else{
+            this.data = null
+          }
+        })
+      }, 1000)
     }
   }
 }

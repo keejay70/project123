@@ -2,11 +2,11 @@
 	<div class="cw-banner">
     <div class="text text-white">
       <span class="title">
-        <h1>Making loan and investment a lot easier.</h1>
+        <h1>Your Marketplace for Investments, Lending and Money Transfer</h1>
       </span>
       <span class="description">
         <h4>
-          PayHiram is the best tool for borrowing and investing your money. Relax and just watch your investments to grow.
+          Monitor Investments, Borrow Money, and Transfer Funds easily at PayHiram.
         </h4>
       </span>
     </div>
