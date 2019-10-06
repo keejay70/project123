@@ -11,7 +11,7 @@
       </span>
     </div>
     <div class="image">
-      <img src="../../../assets/img/banner.png" style="margin-bottom: 5px;" width="100%">
+      <img src="../../../assets/img/2.png" style="margin-bottom: 5px;" width="100%">
     </div>
 	</div>
 </template>
