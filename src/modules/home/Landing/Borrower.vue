@@ -1,7 +1,7 @@
 <template>
   <div class="cw-banner bg-white">
     <div class="image">
-      <img src="../../../assets/img/2.png" style="margin-bottom: 5px;" width="100%">
+      <img src="../../../assets/img/3.png" style="margin-bottom: 5px;" width="100%">
     </div>
     <div class="text text-primary">
       <span class="title">
