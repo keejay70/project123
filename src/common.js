@@ -1,7 +1,7 @@
 export default {
   sidebarMenu: [
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
-    {accountType: 'ALL', accountStatus: 'ALL', description: 'Requested', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
+    {accountType: 'ALL', accountStatus: 'ALL', description: 'Requests', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
     {accountType: 'INVESTOR', accountStatus: 'ALL', description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null},
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Deposit', icon: 'fa fa-money', path: 'deposits', flag: false, subMenu: null},
