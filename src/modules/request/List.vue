@@ -354,16 +354,18 @@ export default{
         sort: (sort !== null) ? sort : this.sort
       }
       $('#loading').css({display: 'block'})
-      this.APIRequest('requests/retrieve', parameter).then(response => {
-        $('#loading').css({display: 'none'})
-        if(response.data !== null){
-          this.data = response.data
-          this.size = parseInt(response.size)
-        }else{
-          this.data = null
-          this.size = null
-        }
-      })
+      setTimeout(() => {
+        this.APIRequest('requests/retrieve', parameter).then(response => {
+          $('#loading').css({display: 'none'})
+          if(response.data !== null){
+            this.data = response.data
+            this.size = parseInt(response.size)
+          }else{
+            this.data = null
+            this.size = null
+          }
+        })
+      }, 1000)
     },
     bookmark(id){
       let parameter = {
