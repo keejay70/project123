@@ -140,6 +140,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/referrals/',
+    name: 'referrals',
+    component: resolve => require(['components/increment/generic/referral/Referrals.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }
