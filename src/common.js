@@ -1,7 +1,7 @@
 export default {
   sidebarMenu: [
+    {accountType: 'ALL', accountStatus: 'ALL', description: 'Requests', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
-    {accountType: 'ALL', accountStatus: 'ALL', description: 'Requested', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
     {accountType: 'INVESTOR', accountStatus: 'ALL', description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null},
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Deposit', icon: 'fa fa-money', path: 'deposits', flag: false, subMenu: null},
@@ -18,5 +18,17 @@ export default {
     title: 'INVESTOR'
   }],
   plan: false,
-  header: ['status', 'notification'] // 'messenger', '',
+  header: ['status', 'notification'], // 'messenger', '',
+  settingsMenu: [
+    {title: 'Profile', type: 'profile', allowed: []},
+    {title: 'Educations', type: 'educations', allowed: []},
+    {title: 'Work Experience', type: 'work-experience', allowed: []},
+    {title: 'Idenfication Cards', type: 'identifications', allowed: []},
+    {title: 'Guarantor', type: 'guarantor', allowed: []},
+    {title: 'Account', type: 'account', allowed: []},
+    {title: 'Payment Accounts', type: 'payment_method', allowed: []},
+    {title: 'Billing Information', type: 'billing_information', allowed: []},
+    // {title: 'Merchant Setting', type: 'merchant', allowed: []},
+    {title: 'Notifications', type: 'notification', allowed: []}
+  ]
 }

@@ -10,7 +10,7 @@
           {{item.description}}
         </label>
         <label v-if="item.payload === 'investments'">
-          <b class="text-primary action-link" @click="showInvestments(item.investments)">request</b>
+          <b class="text-primary action-link" @click="redirect('/requests/' + item.investments)">request</b>
         </label>
         <label  v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"class="pull-right amount"><b>{{auth.displayAmount(item.amount)}}</b></label>
       </span>

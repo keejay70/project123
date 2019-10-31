@@ -54,9 +54,9 @@
 
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
-import CONFIG from '../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
 export default {
   data(){
     return {
@@ -79,7 +79,6 @@ export default {
     },
     hideModal(){
       $('#createDepositModal').modal('hide')
-      ROUTER.push('deposits')
     },
     submit(){
       let amount = parseFloat(this.newDeposit.amount)
@@ -92,6 +91,7 @@ export default {
         $('#loading').css({display: 'none'})
         if(response.data !== null){
           this.hideModal()
+          ROUTER.push('/deposits')
           // this.$parent.retrieve({column: 'created_at', value: 'asc'})
         }else{
           this.errorMessage = response.error

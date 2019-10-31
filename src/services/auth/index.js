@@ -15,6 +15,7 @@ export default {
     status: null,
     profile: null,
     amount: null,
+    subAccount: null,
     notifications: {
       data: null,
       current: null,
@@ -55,7 +56,7 @@ export default {
   },
   echo: null,
   currentPath: false,
-  setUser(userID, username, email, type, status, profile, notifSetting){
+  setUser(userID, username, email, type, status, profile, notifSetting, subAccount){
     if(userID === null){
       username = null
       email = null
@@ -63,6 +64,7 @@ export default {
       status = null
       profile = null
       notifSetting = null
+      subAccount = null
     }
     this.user.userID = userID * 1
     this.user.username = username
@@ -71,6 +73,7 @@ export default {
     this.user.status = status
     this.user.profile = profile
     this.user.notifSetting = notifSetting
+    this.user.subAccount = subAccount
     localStorage.setItem('account_id', this.user.userID)
   },
   setToken(token){
@@ -141,7 +144,8 @@ export default {
         vue.APIRequest('accounts/retrieve', parameter).then(response => {
           let profile = response.data[0].account_profile
           let notifSetting = response.data[0].notification_settings
-          this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, notifSetting)
+          let subAccount = response.data[0].sub_account
+          this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, notifSetting, subAccount)
         }).done(response => {
           this.tokenData.verifyingToken = false
           let location = window.location.href
@@ -274,8 +278,9 @@ export default {
     let data = this.otpDataHolder.data
     let profile = data[0].account_profile
     let notifSetting = data[0].notification_settings
-    this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, notifSetting)
-    ROUTER.push('/dashboard')
+    let subAccount = data[0].sub_account
+    this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, notifSetting, subAccount)
+    ROUTER.push('/requests')
   },
   setGoogleCode(code, scope){
     localStorage.setItem('google_code', code)
