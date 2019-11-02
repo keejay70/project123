@@ -1,5 +1,12 @@
 <template>
   <div class="ledger-summary-container">
+    <basic-filter 
+      v-bind:category="category" 
+      :activeCategoryIndex="0"
+      :activeSortingIndex="0"
+      @changeSortEvent="retrieve($event.sort, $event.filter)"
+      @changeStyle="manageGrid($event)"
+      :grid="['list', 'th-large']"></basic-filter>
     <div class="summary-container-item" v-for="item, index in data" v-if="data !== null">
       <span class="header"> {{item.created_at}}</span>
       <span class="body">
@@ -56,10 +63,11 @@
 </template>
 <style scoped>
 .ledger-summary-container{
-  width: 100%;
+  width: 60%;
   float: left;
   height: auto;
   margin-bottom: 100px;
+  margin-top: 25px;
 }
 
 .ledger-summary-container-header{
@@ -97,12 +105,12 @@
 }
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
-import CONFIG from '../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
 export default{
   mounted(){
-    this.retrieve({column: 'created_at', value: 'desc'})
+    this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
   },
   data(){
     return {
@@ -113,27 +121,50 @@ export default{
         activeId: null,
         file: null
       },
-      config: CONFIG
+      config: CONFIG,
+      category: [{
+        title: 'Sort by',
+        sorting: [{
+          title: 'Date posted ascending',
+          payload: 'created_at',
+          payload_value: 'asc'
+        }, {
+          title: 'Date posted descending',
+          payload: 'created_at',
+          payload_value: 'desc'
+        }, {
+          title: 'Amount ascending',
+          payload: 'amount',
+          payload_value: 'asc'
+        }, {
+          title: 'Amount descending',
+          payload: 'amount',
+          payload_value: 'desc'
+        }]
+      }]
     }
   },
   components: {
     'empty': require('components/increment/generic/empty/Empty.vue'),
-    'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue')
+    'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
+    'basic-filter': require('components/increment/generic/filter/Basic.vue')
   },
   methods: {
     redirect(params){
       ROUTER.push(params)
     },
-    retrieve(sort){
+    retrieve(sort, filter){
       let parameter = {
         condition: [{
           column: 'account_id',
           value: this.user.userID,
           clause: '='
+        }, {
+          column: filter.column,
+          clause: 'like',
+          value: filter.value + '%'
         }],
-        sort: {
-          created_at: 'desc'
-        }
+        sort: sort
       }
       $('#loading').css({display: 'none'})
       this.APIRequest('withdrawals/retrieve', parameter).then(response => {
@@ -144,6 +175,14 @@ export default{
           this.data = null
         }
       })
+    },
+    manageGrid(event){
+      switch(event){
+        case 'th-large': this.listStyle = 'columns'
+          break
+        case 'list': this.listStyle = 'list'
+          break
+      }
     }
   }
 }

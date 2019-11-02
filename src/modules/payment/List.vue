@@ -1,10 +1,14 @@
 <template>
   <div class="payhiram-list-wrapper">
     <div class="payhiram-list-left-container">
-<!--       <div class="payhiram-container-header">
-        <request-filter :size="size"></request-filter>
-      </div> -->
-      <span class="incre-row">
+      <basic-filter 
+      v-bind:category="category" 
+      :activeCategoryIndex="0"
+      :activeSortingIndex="0"
+      @changeSortEvent="retrieve($event.sort, $event.filter)"
+      @changeStyle="manageGrid($event)"
+      :grid="['list', 'th-large']"></basic-filter>
+      <span style="width: 100%; float: left; margin-top: 10px;">
         <b>Billing</b>
       </span>
       <table class="table table-responsive table-bordered" v-if="billing !== null">
@@ -35,7 +39,7 @@
         </tbody>
       </table>
       <empty v-if="billing === null" :title="'You don\'t borrowed yet'" :action="'Start requesting a money.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
-      <span class="incre-row">
+      <span style="width: 100%; float: left">
         <b>Payment History</b>
       </span>
       <table class="table table-responsive table-bordered" v-if="data !== null">
@@ -68,7 +72,7 @@
 </template>
 <style scoped>
 .payhiram-list-wrapper{
-  width: 100%;
+  width: 60%;
   float: left;
   min-height: 400px;
   overflow-y: hidden;
@@ -125,15 +129,12 @@
 
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
-import CONFIG from '../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
 export default{
   mounted(){
-    this.retrieve({
-      column: 'created_at',
-      value: 'desc'
-    })
+    this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
   },
   data(){
     return {
@@ -144,20 +145,37 @@ export default{
       selecteditem: null,
       config: CONFIG,
       activePage: 0,
-      sort: {
-        column: 'created_at',
-        value: 'desc'
-      },
-      auth: AUTH
+      auth: AUTH,
+      category: [{
+        title: 'Sort by',
+        sorting: [{
+          title: 'Date posted ascending',
+          payload: 'created_at',
+          payload_value: 'asc'
+        }, {
+          title: 'Date posted descending',
+          payload: 'created_at',
+          payload_value: 'desc'
+        }, {
+          title: 'Amount ascending',
+          payload: 'amount',
+          payload_value: 'asc'
+        }, {
+          title: 'Amount descending',
+          payload: 'amount',
+          payload_value: 'desc'
+        }]
+      }],
+      listStyle: null
     }
   },
   components: {
     'invest': require('modules/request/Invest.vue'),
     'profile': require('modules/request/Profile.vue'),
     'report': require('modules/request/Report.vue'),
-    'request-filter': require('modules/request/Filter.vue'),
     'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
-    'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue')
+    'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
+    'basic-filter': require('components/increment/generic/filter/Basic.vue')
   },
   methods: {
     redirect(parameter){
@@ -178,15 +196,18 @@ export default{
       this.selecteditem = item
       $('#createReportModal').modal('show')
     },
-    retrieve(sort){
+    retrieve(sort, filter){
+      let key = Object.keys(sort)
       let parameter = {
         account_id: this.user.userID,
         limit: 10,
         offset: 0,
         sort: {
-          column: 'created_at',
-          value: 'desc'
-        }
+          column: key[0],
+          value: sort[key[0]]
+        },
+        value: filter.value + '%',
+        column: filter.column
       }
       this.APIRequest('payments/retrieve', parameter).then(response => {
         this.billing = response.billing
@@ -210,6 +231,14 @@ export default{
           value: 'desc'
         })
       })
+    },
+    manageGrid(event){
+      switch(event){
+        case 'th-large': this.listStyle = 'columns'
+          break
+        case 'list': this.listStyle = 'list'
+          break
+      }
     }
   }
 

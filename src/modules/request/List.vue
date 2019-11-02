@@ -4,9 +4,13 @@
       <div class="incre-row">
         <button class="btn btn-primary pull-right" @click="showRequestModal('create')">Post a request</button>
       </div>
-      <div class="rl-container-header">
-        <request-filter :size="size"></request-filter>
-      </div>
+      <basic-filter 
+      v-bind:category="category" 
+      :activeCategoryIndex="0"
+      :activeSortingIndex="0"
+      @changeSortEvent="retrieve($event.sort, $event.filter)"
+      @changeStyle="manageGrid($event)"
+      :grid="['list', 'th-large']"></basic-filter>
       <div class="rl-container-item" v-for="(item, index) in data" :key="index">
         <span class="header">
           <label class="action-link text-primary" @click="showProfileModal(item)">
@@ -182,16 +186,13 @@
 
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
-import CONFIG from '../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
 import REQUEST from '../modal/CreateRequest.js'
 export default{
   mounted(){
-    this.retrieve({
-      column: 'created_at',
-      value: 'desc'
-    })
+    this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
   },
   data(){
     return {
@@ -212,18 +213,59 @@ export default{
       selecteditemReport: null,
       config: CONFIG,
       activePage: 0,
-      sort: {
-        column: 'created_at',
-        value: 'desc'
-      },
-      requestModal: REQUEST
+      requestModal: REQUEST,
+      category: [{
+        title: 'Sort by',
+        sorting: [{
+          title: 'Date posted ascending',
+          payload: 'created_at',
+          payload_value: 'asc'
+        }, {
+          title: 'Date posted descending',
+          payload: 'created_at',
+          payload_value: 'desc'
+        }, {
+          title: 'Amount ascending',
+          payload: 'amount',
+          payload_value: 'asc'
+        }, {
+          title: 'Amount descending',
+          payload: 'amount',
+          payload_value: 'desc'
+        }, {
+          title: 'Interest ascending',
+          payload: 'interest',
+          payload_value: 'asc'
+        }, {
+          title: 'Interest descending',
+          payload: 'interest',
+          payload_value: 'desc'
+        }, {
+          title: 'Months payable ascending',
+          payload: 'months_payable',
+          payload_value: 'asc'
+        }, {
+          title: 'Months payable descending',
+          payload: 'status',
+          payload_value: 'desc'
+        }, {
+          title: 'Needed on ascending',
+          payload: 'needed_on',
+          payload_value: 'asc'
+        }, {
+          title: 'Needed on descending',
+          payload: 'needed_on',
+          payload_value: 'desc'
+        }]
+      }],
+      listStyle: null
     }
   },
   components: {
     'invest': require('modules/transfer/Invest.vue'),
     'profile': require('modules/request/Profile.vue'),
     'report': require('modules/request/Report.vue'),
-    'request-filter': require('modules/request/Filter.vue'),
+    'basic-filter': require('components/increment/generic/filter/Basic.vue'),
     'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
     'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
     'increment-modal': require('components/increment/generic/modal/Modal.vue')
@@ -347,11 +389,17 @@ export default{
       this.selecteditemReport = item
       $('#createReportModal').modal('show')
     },
-    retrieve(sort){
+    retrieve(sort, filter){
+      let key = Object.keys(sort)
       let parameter = {
         limit: 10,
         offset: this.activePage,
-        sort: (sort !== null) ? sort : this.sort
+        sort: {
+          value: sort[key[0]],
+          column: key[0]
+        },
+        value: filter.value + '%',
+        column: filter.column
       }
       $('#loading').css({display: 'block'})
       setTimeout(() => {
@@ -375,6 +423,14 @@ export default{
       this.APIRequest('bookmarks/create', parameter).then(response => {
         //
       })
+    },
+    manageGrid(event){
+      switch(event){
+        case 'th-large': this.listStyle = 'columns'
+          break
+        case 'list': this.listStyle = 'list'
+          break
+      }
     }
   }
 

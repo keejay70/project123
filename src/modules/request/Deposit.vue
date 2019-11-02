@@ -15,7 +15,7 @@
           <br v-if="errorMessage !== null">
           <div class="form-group">
             <label for="exampleInputEmail1" color="black">Amount to Deposit</label>
-            <input type="text" class="form-control" v-model="newDeposit.amount">
+            <input type="number" class="form-control" v-model="newDeposit.amount">
           </div>
 
           <div class="form-group">
