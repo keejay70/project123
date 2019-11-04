@@ -69,8 +69,8 @@
           <label>
             Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
-          <button class="btn btn-primary pull-right" style="margin-right: 5px;" @click="showInvestmentModal(item)">Invest</button>
-          <button class="btn btn-warning pull-right" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
+          <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)">Invest</button>
+          <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
         </span>
 
 
@@ -151,8 +151,17 @@
   width: 100%;
   float: left;
   margin-bottom: 5px;
-  height: 40px;
+  min-height: 40px;
   line-height: 40px;
+  overflow-y: hidden;
+}
+
+.footer label{
+  float: left;
+}
+
+.footer button{
+  float: right;
 }
 
 .request-list-left-container{
@@ -181,6 +190,9 @@
   .request-list-right-container, .request-list-left-container{
     width: 100%;
     margin-left: 0%;
+  }
+  .footer button{
+    float: left;
   }
 }
 
