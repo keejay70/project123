@@ -78,6 +78,11 @@
 
 .summary-container-item .amount{
 }
+@media (max-width: 992px){
+  .ledger-summary-container{
+    width: 100%;
+  }
+}
 </style>
 <script>
 import ROUTER from 'src/router'

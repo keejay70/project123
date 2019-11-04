@@ -120,6 +120,7 @@
 @media (max-width: 992px){
   .payhiram-list-wrapper{
     margin-bottom: 200px;
+    width: 100%;
   }
   .payhiram-list-right-container, .payhiram-list-left-container{
     width: 100%;
