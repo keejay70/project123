@@ -12,6 +12,7 @@ export default {
   APP_EMAIL: 'support@payhiram.ph',
   COMPANY: 'Increment Technologies',
   COMPANY_URL: 'www.increment.ltd',
+  COPYRIGHT: 'PAYHIRAM 2019',
   USER_TYPE: [{
     title: 'USER'
   }, {
@@ -30,5 +31,12 @@ export default {
     {title: 'Billing Information', type: 'billing_information', allowed: []},
     // {title: 'Merchant Setting', type: 'merchant', allowed: []},
     {title: 'Notifications', type: 'notification', allowed: []}
-  ]
+  ],
+  referral: {
+    message: 'to help them in case of emergency.',
+    emailMessage: '.They help me to manage my investments and allow me to borrow money and approved instantly by other investors. It\'s awesome.'
+  },
+  socialMedia: {
+    facebook: 'payhiram'
+  }
 }
