@@ -1,15 +1,15 @@
 <template>
   <div class="investments-list-wrapper">
     <div class="investments-list-left-container">
-<!--       <div class="rl-container-header">
-        <request-filter :size="size"></request-filter>
-      </div> -->
+      <basic-filter 
+      v-bind:category="category" 
+      :activeCategoryIndex="0"
+      :activeSortingIndex="0"
+      @changeSortEvent="retrieve($event.sort, $event.filter)"
+      @changeStyle="manageGrid($event)"
+      :grid="['list', 'th-large']"></basic-filter>
       <div class="il-container-item" v-for="item, index in data" v-if="data !== null">
-<!--         <span class="summary-header">
-          {{item.created_at_human}}
-        </span> -->
         <span class="summary-header">
-
         </span>
         <span class="body">
           <table class="table table-responsive borderless investment-table">
@@ -83,7 +83,7 @@
           </label>
         </span>
       </div>
-      <empty v-if="data === null" :title="'You don\'t have investments right now'" :action="'Go to requested and start investing to our users'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
+      <empty v-if="data === null" :title="'You don\'t have investments right now'" :action="'Go to requests and start investing to our users'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
     </div>
     <div class="investments-list-right-container">
     </div>
@@ -93,7 +93,7 @@
 </template>
 <style scoped>
 .investments-list-wrapper{
-  width: 100%;
+  width: 60%;
   float: left;
   min-height: 400px;
   overflow-y: hidden;
@@ -172,12 +172,12 @@
 
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
-import CONFIG from '../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
 export default{
   mounted(){
-    this.retrieve()
+    this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
   },
   data(){
     return {
@@ -185,13 +185,43 @@ export default{
       auth: AUTH,
       data: null,
       selecteditem: null,
-      config: CONFIG
+      config: CONFIG,
+      category: [{
+        title: 'Sort by',
+        sorting: [{
+          title: 'Date posted ascending',
+          payload: 'created_at',
+          payload_value: 'asc'
+        }, {
+          title: 'Date posted descending',
+          payload: 'created_at',
+          payload_value: 'desc'
+        }, {
+          title: 'Amount ascending',
+          payload: 'amount',
+          payload_value: 'asc'
+        }, {
+          title: 'Amount descending',
+          payload: 'amount',
+          payload_value: 'desc'
+        }, {
+          title: 'Message ascending',
+          payload: 'message',
+          payload_value: 'asc'
+        }, {
+          title: 'Message descending',
+          payload: 'message',
+          payload_value: 'desc'
+        }]
+      }],
+      listStyle: null
     }
   },
   components: {
     'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
     'profile': require('modules/request/Profile.vue'),
-    'payments': require('modules/payment/Payments.vue')
+    'payments': require('modules/payment/Payments.vue'),
+    'basic-filter': require('components/increment/generic/filter/Basic.vue')
   },
   methods: {
     redirect(parameter){
@@ -222,6 +252,14 @@ export default{
           this.data = null
         }
       })
+    },
+    manageGrid(event){
+      switch(event){
+        case 'th-large': this.listStyle = 'columns'
+          break
+        case 'list': this.listStyle = 'list'
+          break
+      }
     }
   }
 

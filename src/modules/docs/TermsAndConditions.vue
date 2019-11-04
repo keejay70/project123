@@ -161,14 +161,10 @@ ul li{
 }
 </style>
 <script>
-  import ROUTER from '../../router'
+  import ROUTER from 'src/router'
   import Vue from 'vue'
-  import AUTH from '../../services/auth'
-  import Chart from 'chart.js'
+  import AUTH from 'src/services/auth'
   export default{
-    components: {
-      'pie-chart': require('../../components/chart/Pie.vue')
-    },
     data(){
       return {
         user: AUTH.user

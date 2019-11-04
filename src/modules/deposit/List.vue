@@ -1,7 +1,18 @@
 <template>
   <div class="ledger-summary-container">
+    <basic-filter 
+      v-bind:category="category" 
+      :activeCategoryIndex="0"
+      :activeSortingIndex="0"
+      @changeSortEvent="retrieve($event.sort, $event.filter)"
+      @changeStyle="manageGrid($event)"
+      :grid="['list', 'th-large']"></basic-filter>
     <div class="summary-container-item" v-for="item, index in data" v-if="data !== null">
-      <span class="header">{{item.created_at}}</span>
+      <span class="header">
+        {{item.created_at_human}}
+        <i class="fa fa-circle" style="font-size: 11px"></i>
+        <label style="text-transform: UPPERCASE">{{item.status}}</label>
+      </span>
       <span class="body">
         <label>
           {{item.description}}
@@ -12,17 +23,13 @@
         <label  v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"class="pull-right amount"><b>{{auth.displayAmount(item.amount)}}</b></label>
       </span>
       <span class="footer">
-        
       <div>
-        <button class="btn btn-primary" @click="showImages(item.id)">Attach File</button>
-
+        <button class="btn btn-primary" @click="showImages(item.id)" style="margin-bottom: 10px;">Attach File</button>
       </div>
-
       <div v-if="item.attachments.length > 0">
           <br>
          <img v-for="(image, imageIndex) in item.attachments" :key="imageIndex" :src="config.BACKEND_URL + image.file" height="200" width="200"/>
       </div>
-
       </span>
     </div>
     <empty v-if="data === null" :title="'Looks like you do not have deposit yet!'" :action="'Deposit now or start requesting money.'"></empty>
@@ -31,10 +38,11 @@
 </template>
 <style scoped>
 .ledger-summary-container{
-  width: 100%;
+  width: 60%;
   float: left;
   height: auto;
   margin-bottom: 100px;
+  margin-top: 25px;
 }
 
 .ledger-summary-container-header{
@@ -72,12 +80,12 @@
 }
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
-import CONFIG from '../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
 export default{
   mounted(){
-    this.retrieve({column: 'created_at', value: 'desc'})
+    this.retrieve({column: 'created_at', value: 'desc'}, {column: 'created_at', value: ''})
   },
   data(){
     return {
@@ -88,12 +96,49 @@ export default{
         activeId: null,
         file: null
       },
-      config: CONFIG
+      config: CONFIG,
+      category: [{
+        title: 'Sort by',
+        sorting: [{
+          title: 'Date posted ascending',
+          payload: 'created_at',
+          payload_value: 'asc'
+        }, {
+          title: 'Date posted descending',
+          payload: 'created_at',
+          payload_value: 'desc'
+        }, {
+          title: 'Amount ascending',
+          payload: 'amount',
+          payload_value: 'asc'
+        }, {
+          title: 'Amount descending',
+          payload: 'amount',
+          payload_value: 'desc'
+        }, {
+          title: 'Description ascending',
+          payload: 'description',
+          payload_value: 'asc'
+        }, {
+          title: 'Description descending',
+          payload: 'description',
+          payload_value: 'desc'
+        }, {
+          title: 'Status ascending',
+          payload: 'status',
+          payload_value: 'asc'
+        }, {
+          title: 'Status descending',
+          payload: 'status',
+          payload_value: 'desc'
+        }]
+      }]
     }
   },
   components: {
     'empty': require('components/increment/generic/empty/Empty.vue'),
-    'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue')
+    'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
+    'basic-filter': require('components/increment/generic/filter/Basic.vue')
   },
   methods: {
     redirect(params){
@@ -117,12 +162,16 @@ export default{
         }
       })
     },
-    retrieve(sort){
+    retrieve(sort, filter){
       let parameter = {
         condition: [{
           column: 'account_id',
           value: this.user.userID,
           clause: '='
+        }, {
+          column: filter.column,
+          clause: 'like',
+          value: filter.value + '%'
         }],
         sort: {
           created_at: 'desc'
@@ -137,6 +186,14 @@ export default{
           this.data = null
         }
       })
+    },
+    manageGrid(event){
+      switch(event){
+        case 'th-large': this.listStyle = 'columns'
+          break
+        case 'list': this.listStyle = 'list'
+          break
+      }
     }
   }
 }
