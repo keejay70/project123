@@ -182,7 +182,7 @@ export default{
           created_at: 'desc'
         }
       }
-      $('#loading').css({display: 'none'})
+      $('#loading').css({display: 'block'})
       this.APIRequest('deposits/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){

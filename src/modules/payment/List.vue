@@ -210,7 +210,9 @@ export default{
         value: filter.value + '%',
         column: filter.column
       }
+      $('#loading').css({display: 'block'})
       this.APIRequest('payments/retrieve', parameter).then(response => {
+        $('#loading').css({display: 'none'})
         this.billing = response.billing
         if(response.data.length > 0){
           this.data = response.data

@@ -169,7 +169,7 @@ export default{
         }],
         sort: sort
       }
-      $('#loading').css({display: 'none'})
+      $('#loading').css({display: 'block'})
       this.APIRequest('withdrawals/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
