@@ -5,7 +5,6 @@ test/e2e/reports
 selenium-debug.log
 api/vendor/
 payhirambe/
-api/
 api/composer.lock
 src/components/increment
 node_modules/
