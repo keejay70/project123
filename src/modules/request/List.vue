@@ -402,6 +402,10 @@ export default{
       $('#createReportModal').modal('show')
     },
     retrieve(sort, filter){
+      if(this.user.type === 'USER'){
+        filter.column = 'account_id'
+        filter.value = this.user.userID
+      }
       let key = Object.keys(sort)
       let parameter = {
         limit: 10,
