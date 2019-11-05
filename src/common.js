@@ -4,8 +4,8 @@ export default {
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
     {accountType: 'INVESTOR', accountStatus: 'ALL', description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null},
-    {accountType: 'ALL', accountStatus: 'ALL', description: 'Deposit', icon: 'fa fa-money', path: 'deposits', flag: false, subMenu: null},
-    {accountType: 'ALL', accountStatus: 'ALL', description: 'Withdrawals', icon: 'fa fa-money', path: 'withdrawals', flag: false, subMenu: null}
+    {accountType: 'ALL', accountStatus: 'ALL', description: 'Deposits', icon: 'fas fa-piggy-bank', path: 'deposits', flag: false, subMenu: null},
+    {accountType: 'ALL', accountStatus: 'ALL', description: 'Withdrawals', icon: 'fas fa-money-check', path: 'withdrawals', flag: false, subMenu: null}
   ],
   APP_NAME: 'PAYHIRAM',
   APP_NAME_HTML: 'PAYHIRAM',
