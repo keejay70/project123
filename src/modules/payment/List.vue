@@ -38,7 +38,7 @@
           </tr>
         </tbody>
       </table>
-      <empty v-if="billing === null" :title="'You don\'t borrowed yet'" :action="'Start requesting a money.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
+      <empty v-if="billing === null" :title="'You don\'t have borrowed yet'" :action="'Start requesting a money.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
       <span style="width: 100%; float: left">
         <b>Payment History</b>
       </span>
