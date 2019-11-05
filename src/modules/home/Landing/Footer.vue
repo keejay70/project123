@@ -2,7 +2,7 @@
   <footer>
     <div class="footer">
       <ul class="footer-widget contact-us">
-        <li class="title"><b>ID Factory</b></li>
+        <li class="title"><b>{{common.APP_NAME}}</b></li>
         <li class="link"><a v-on:click="redirect('/')">Home</a></li>
        <!--  <li class="link"><a v-on:click="redirect('/')">About Us</a></li>
         <li class="link"><a v-on:click="redirect('/')">Contact Us</a></li> -->
@@ -20,12 +20,12 @@
       <span class="footer-widget community">
         <span class="title"><b>Community</b></span>
         <span class="link">
-          <a target="_BLANK" class="text-gray" href="https://www.facebook.com/idfactoryph"><i class="fab fa-facebook"></i></a>
+          <a target="_BLANK" class="text-gray" :href="'https://www.facebook.com/' + common.socialMedia.facebook" ><i class="fab fa-facebook"></i></a>
         </span>
       </span>
       
       <span class="copyright">
-        <label>Copyright @idfactory 2019. All rights reserved.</label>
+        <label>Copyright @{{common.COPYRIGHT}}. All rights reserved.</label>
       </span>
     </div>
   </footer>
@@ -145,9 +145,10 @@ footer-widget .title:hover{
 }
 </style>
 <script>
-import ROUTER from '../../../router'
-import AUTH from '../../../services/auth'
-import CONFIG from '../../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
+import COMMON from 'src/common.js'
 export default {
   mounted(){
   },
@@ -157,7 +158,8 @@ export default {
       tokenData: AUTH.tokenData,
       account: [],
       config: CONFIG,
-      host: null
+      host: null,
+      common: COMMON
     }
   },
   methods: {

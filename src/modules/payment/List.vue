@@ -120,6 +120,7 @@
 @media (max-width: 992px){
   .payhiram-list-wrapper{
     margin-bottom: 200px;
+    width: 100%;
   }
   .payhiram-list-right-container, .payhiram-list-left-container{
     width: 100%;
@@ -209,7 +210,9 @@ export default{
         value: filter.value + '%',
         column: filter.column
       }
+      $('#loading').css({display: 'block'})
       this.APIRequest('payments/retrieve', parameter).then(response => {
+        $('#loading').css({display: 'none'})
         this.billing = response.billing
         if(response.data.length > 0){
           this.data = response.data
