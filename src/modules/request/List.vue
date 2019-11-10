@@ -204,6 +204,7 @@ import CONFIG from 'src/config.js'
 import REQUEST from '../modal/CreateRequest.js'
 export default{
   mounted(){
+    $('#loading').css({display: 'block'})
     this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
   },
   data(){
@@ -417,7 +418,6 @@ export default{
         value: filter.value + '%',
         column: filter.column
       }
-      $('#loading').css({display: 'block'})
       setTimeout(() => {
         this.APIRequest('requests/retrieve', parameter).then(response => {
           $('#loading').css({display: 'none'})
@@ -429,15 +429,16 @@ export default{
             this.size = null
           }
         })
-      }, 1000)
+      }, 100)
     },
     bookmark(id){
       let parameter = {
         account_id: this.user.userID,
         request_id: id
       }
+      $('#loading').css({display: 'block'})
       this.APIRequest('bookmarks/create', parameter).then(response => {
-        //
+        this.retrieve()
       })
     },
     manageGrid(event){

@@ -1,6 +1,6 @@
 // src/auth/index.js
-import {router} from '../../router/index'
-import ROUTER from '../../router'
+import {router} from 'src/router/index'
+import ROUTER from 'src/router'
 import {Howl} from 'howler'
 import Vue from 'vue'
 import Echo from 'laravel-echo'

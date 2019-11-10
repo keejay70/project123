@@ -17,47 +17,31 @@
           <div v-if="step === 1">
             <br v-if="errorMessage !== null">
             <div class="form-group">
-              <label for="exampleInputEmail1"><b>CHECKOUT OPTIONS</b></label>
-              <br><br>
-                    &nbsp&nbsp   <input type="radio" id="one" value="Banco De Oro" v-model="picked">
-                          <label for="one" style="padding-right: 80px"><img width="150px" src="../../assets/img/bdo.png"/></label>
-                          <input type="radio" id="two" value="Cebuana Lhuillier" v-model="picked">
-                          <label for="two"><img width="150px" src="../../assets/img/cebuanalhuillier.png"/></label>
-                          <br>
-                    &nbsp&nbsp    <input type="radio" id="three" value="Palawan Pawnshop" v-model="picked">
-                          <label for="three" style="padding-right: 80px"><img width="150px" src="../../assets/img/palawanpawnshop.png"/></label>
-                          <input type="radio" id="four" value="GCASH" v-model="picked">
-                          <label for="four"><img width="150px" src="../../assets/img/gcash.png"/></label>
-                          <br><br>
-                    &nbsp&nbsp      <input type="radio" id="five" value="Union Bank" v-model="picked">
-                          <label for="five" style="padding-right: 80px"><img width="150px" src="../../assets/img/unionbank.png"/></label>
-                          <input type="radio" id="six" value="M Lhuillier" v-model="picked">
-                          <label for="six"><img width="150px" src="../../assets/img/mlhuillier.png"/></label>
-                          <br><br><br>                                 
+              <label for="exampleInputEmail1">Select options:</label>
+              <select class="form-control" v-model="payment.type">
+                <option v-for="(item, index) in common.payments" :key="index" :value="item.title" class="form-control">{{item.title}}</option>
+              </select>
             </div>
           </div>
-            <div v-if="step === 1 && picked !== null">
+          <div v-if="step === 1 && payment.type !== null">
             <br v-if="errorMessage !== null">
             <div class="form-group">
-              <label for="exampleInputEmail1"><b>PAYMENT DETAILS</b></label>
-              <textarea class="form-control" style="height:200px" v-model="checkoutDetails.details"></textarea>                           
+              <label for="exampleInputEmail1">Account Name</label>
+              <input type="text" class="form-control" v-model="payment.account.name" placeholder="Enter account name">                           
             </div>
-          </div>
-
-           
-
-
-          <div v-if="step === 2">
-            <br v-if="errorMessage !== null">
             <div class="form-group">
+              <label for="exampleInputEmail1">Account Number</label>
+              <input type="number" class="form-control" v-model="payment.account.number" placeholder="Enter account number">
+            </div>
+            <div class="form-group" v-if="payment.account.number !== null && payment.account.name !== null">
               <label for="exampleInputEmail1">Amount to withdraw</label>
-              <input type="number" class="form-control" v-model="newInput.amount">
+              <input type="number" class="form-control" v-model="payment.withdrawal.amount" placeholder="Enter amount">
             </div>
           </div>
 
           <!-- Step 3 OTP -->
 
-          <div v-if="step === 3">
+          <div v-if="step === 2">
             <div class="form-group text-center">
               <label for="exampleInputEmail1 text-gray">
                 Please enter the OTP Code sent to your email address.
@@ -71,7 +55,7 @@
           </div>
 
           <!-- Step 3 Deduct -->
-          <div v-if="step === 4" class="text-center">
+          <div v-if="step === 3" class="text-center">
             <i class="fa fa-check text-primary" style="font-size: 100px"></i>
             <label class="text-primary">Your transaction was succcessfully sent!</label>
           </div>
@@ -81,9 +65,7 @@
             <button type="button" class="btn btn-danger" @click="hideModal()" v-if="loading === false">Cancel</button>
             <button type="button" class="btn btn-primary" @click="next()" v-if="step === 1 && loading === false">Next
             </button>
-            <button type="button" class="btn btn-primary" @click="next()" v-if="step === 2 && loading === false">Withdraw
-            </button>
-            <button type="button" class="btn btn-primary" @click="next()" v-if="step === 3 && loading === false">
+            <button type="button" class="btn btn-primary" @click="next()" v-if="step === 2 && loading === false">
               Verify
             </button>
             <label v-if="loading === true" class="text-primary">
@@ -183,28 +165,32 @@ padding-top: 15px;
 }
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
-import CONFIG from '../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
+import COMMON from 'src/common.js'
 export default {
   data(){
     return {
       user: AUTH.user,
       config: CONFIG,
-      imgIndex: 0,
-      picked: null,
-      checkoutDetails: {
-        details: null
+      payment: {
+        type: null,
+        account: {
+          name: null,
+          number: null
+        },
+        withdrawal: {
+          amount: null
+        }
       },
       errorMessage: null,
       step: 1,
-      newInput: {
-        amount: 0
-      },
       otpUseCounter: 0,
       otp: '',
       payload: null,
-      loading: false
+      loading: false,
+      common: COMMON
     }
   },
   props: ['item'],
@@ -215,42 +201,58 @@ export default {
     hideModal(){
       $('#createWithdrawModal').modal('hide')
       this.step = 1
-      this.checkoutDetails.details = null
-      this.picked = null
       this.errorMessage = null
+      this.payment = {
+        type: null,
+        account: {
+          name: null,
+          number: null
+        },
+        withdrawal: {
+          amount: null
+        }
+      }
     },
     next(){
       if(this.step === 1){
-        if(this.picked == null){
-          this.errorMessage = 'Please select a service'
-        }else if(this.checkoutDetails.details == null){
+        if(this.payment.type == null){
+          this.errorMessage = 'Please select a service.'
+        }else if(this.payment.account.name == null){
           this.errorMessage = null
-          this.errorMessage = 'Please input payment details'
+          this.errorMessage = 'Please input account name.'
+        }else if(this.payment.account.number == null){
+          this.errorMessage = null
+          this.errorMessage = 'Please input account number.'
+        }else if(this.payment.withdrawal.amount == null){
+          this.errorMessage = null
+          this.errorMessage = 'Please withdrawal.'
         }else{
           this.errorMessage = null
-          this.step++
+          this.withdrawal(0)
         }
       }else if(this.step === 2){
-        this.invest(0)
-      }else if(this.step === 3){
         this.verifyOtp()
       }
     },
-    invest(otp){
-      let amount = parseFloat(this.newInput.amount)
+    withdrawal(otp){
+      let amount = parseFloat(this.payment.withdrawal.amount)
+      console.log(this.item)
       let remainingAmount = parseFloat(this.item) - amount
-      if(remainingAmount < this.config.MINIMUM_WITHDRAWAL && remainingAmount > 0){
-        this.errorMessage = 'Remaining amount should not be less than the minimum amount of investment.'
-      }else if(amount < this.config.MINIMUM_WITHDRAWAL){
-        this.errorMessage = 'The minimum investment is PHP ' + this.config.MINIMUM_WITHDRAWAL + '.'
+      if(amount < COMMON.MINIMUM_WITHDRAWAL){
+        this.errorMessage = 'The minimum withdrawal is PHP ' + COMMON.MINIMUM_WITHDRAWAL + '.'
+      }else if(remainingAmount < 0){
+        this.errorMessage = 'Insufficient Balance! Your withdrawal amount is greater than your current balance.'
       }else if(amount <= parseFloat(this.item)){
         this.errorMessage = null
-        this.newInput['payload_value'] = this.checkoutDetails.details
-        this.newInput['payload'] = this.picked
-        this.newInput['account_id'] = this.user.userID
-        this.newInput['otp'] = otp
+        let parameter = {
+          account_id: this.user.userID,
+          amount: this.payment.withdrawal.amount,
+          payload: this.payment.type,
+          payload_value: this.payment.account.name + '/' + this.payment.account.number,
+          otp: otp
+        }
         this.loading = true
-        this.APIRequest('withdrawals/create', this.newInput, response => {
+        this.APIRequest('withdrawals/create', parameter, response => {
           this.loading = false
           if(response.data !== null){
             // this.$parent.retrieve({column: 'created_at', value: 'asc'})
@@ -263,8 +265,6 @@ export default {
         }, () => {
           this.loading = false
         })
-      }else{
-        this.errorMessage = 'Amount must be less than to the borrowed amount.'
       }
     },
     verifyOtp(){
@@ -290,7 +290,7 @@ export default {
       this.loading = true
       this.APIRequest('notification_settings/retrieve', parameter).then(response => {
         if(response.data.length > 0){
-          this.invest(1)
+          this.withdrawal(1)
           this.step++
           this.hideModal()
         }else{

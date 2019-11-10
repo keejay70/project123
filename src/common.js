@@ -38,5 +38,25 @@ export default {
   },
   socialMedia: {
     facebook: 'payhiram'
-  }
+  },
+  payments: [{
+    title: 'BDO',
+    logo: require('src/assets/img/bdo.png')
+  }, {
+    title: 'UnionBank of the Philippines',
+    logo: require('src/assets/img/unionbank.png')
+  }, {
+    title: 'Chinabank Corporation',
+    logo: require('src/assets/img/unionbank.png')
+  }, {
+    title: 'Cebuana Lhuillier',
+    logo: require('src/assets/img/cebuanalhuillier.png')
+  }, {
+    title: 'MLhuillier',
+    logo: require('src/assets/img/mlhuillier.png')
+  }, {
+    title: 'GCash',
+    logo: require('src/assets/img/gcash.png')
+  }],
+  MINIMUM_WITHDRAWAL: 1000
 }
