@@ -155,6 +155,7 @@ import Education from '../modal/CreateEducation.js'
 
 export default {
   mounted(){
+    $('#loading').css({display: 'block'})
     this.retrieve()
   },
   data(){
@@ -184,6 +185,7 @@ export default {
         }]
       }
       this.APIRequest('educations/retrieve', parameter).then(response => {
+        $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data
         }else{
@@ -242,11 +244,13 @@ export default {
       let parameter = {
         id: id
       }
+      $('#loading').css({display: 'block'})
       this.APIRequest('educations/delete', parameter).then(response => {
         this.retrieve()
       })
     },
     updatePhoto(object){
+      $('#loading').css({display: 'block'})
       this.APIRequest('account_profiles/update', object).then(response => {
         if(response.data === true){
           this.hideImages()
