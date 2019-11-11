@@ -39,23 +39,45 @@
             </div>
           </div>
 
+          <div v-if="step === 2">
+            <div class="form-group">
+              <label>Summary</label>
+              <span class="incre-row transfer-details">
+                <label>Current balance</label>
+                <label class="pull-right"><b>{{auth.displayAmount(this.item)}}</b></label>
+              </span>
+              <span class="incre-row transfer-details">
+                <label>Withdrawal amount</label>
+                <label class="pull-right"><b>{{auth.displayAmount(this.payment.withdrawal.amount)}}</b></label>
+              </span>
+              <span class="incre-row transfer-details">
+                <label>Withdrawal charge</label>
+                <label class="pull-right"><b>{{auth.displayAmount(this.payment.charge)}}</b></label>
+              </span>
+              <span class="incre-row transfer-details" style="border-top: solid 1px #ccc;">
+                <label>Remaining balance</label>
+                <label class="pull-right"><b>{{auth.displayAmount(this.item - (this.payment.charge + this.payment.withdrawal.amount))}}</b></label>
+              </span>
+            </div>
+          </div>
+
           <!-- Step 3 OTP -->
 
-          <div v-if="step === 2">
-            <div class="form-group text-center">
+          <div v-if="step === 3">
+            <div class="form-group">
               <label for="exampleInputEmail1 text-gray">
                 Please enter the OTP Code sent to your email address.
               </label>
               <input type="text" class="form-control" v-model="otp" placeholder="123456">
             </div>
-            <div class="form-group text-center text-gray">
+            <div class="form-group text-gray">
               <label>Didn't received an email? Click the link below.</label>
               <label class="text-center action-link text-primary">Resend</label>
             </div>
           </div>
 
           <!-- Step 3 Deduct -->
-          <div v-if="step === 3" class="text-center">
+          <div v-if="step === 4" class="text-center">
             <i class="fa fa-check text-primary" style="font-size: 100px"></i>
             <label class="text-primary">Your transaction was succcessfully sent!</label>
           </div>
@@ -66,6 +88,9 @@
             <button type="button" class="btn btn-primary" @click="next()" v-if="step === 1 && loading === false">Next
             </button>
             <button type="button" class="btn btn-primary" @click="next()" v-if="step === 2 && loading === false">
+              Continue
+            </button>
+            <button type="button" class="btn btn-primary" @click="next()" v-if="step === 3 && loading === false">
               Verify
             </button>
             <label v-if="loading === true" class="text-primary">
@@ -76,7 +101,8 @@
     </div>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
+@import "~assets/style/colors.scss";
 .container {
   display: block;
   position: relative;
@@ -163,6 +189,10 @@ padding-top: 15px;
 .fa-spin{
   animation-duration: 0.50s;
 }
+
+.transfer-details label{
+  line-height: 30px;
+}
 </style>
 <script>
 import ROUTER from 'src/router'
@@ -173,6 +203,7 @@ export default {
   data(){
     return {
       user: AUTH.user,
+      auth: AUTH,
       config: CONFIG,
       payment: {
         type: null,
@@ -182,7 +213,8 @@ export default {
         },
         withdrawal: {
           amount: null
-        }
+        },
+        charge: null
       },
       errorMessage: null,
       step: 1,
@@ -228,11 +260,40 @@ export default {
           this.errorMessage = 'Please withdrawal.'
         }else{
           this.errorMessage = null
-          this.withdrawal(0)
+          this.charges()
         }
       }else if(this.step === 2){
+        this.withdrawal(0)
+      }else if(this.step === 3){
         this.verifyOtp()
       }
+    },
+    charges(){
+      let paremeter = {
+        condition: [{
+          column: 'min_amount',
+          clause: '<=',
+          value: this.payment.withdrawal.amount
+        }, {
+          column: 'max_amount',
+          clause: '>=',
+          value: this.payment.withdrawal.amount
+        }, {
+          column: 'type',
+          clause: '=',
+          value: this.payment.type
+        }]
+      }
+      this.APIRequest('transfer_charges/retrieve', paremeter).then(response => {
+        this.errorMessage = null
+        if(response.data.length > 0){
+          this.payment.charge = response.data[0].charge
+          this.step++
+        }else{
+          this.payment.charge = null
+          this.errorMessage = 'Charge not found!'
+        }
+      })
     },
     withdrawal(otp){
       let amount = parseFloat(this.payment.withdrawal.amount)
@@ -249,6 +310,7 @@ export default {
           amount: this.payment.withdrawal.amount,
           payload: this.payment.type,
           payload_value: this.payment.account.name + '/' + this.payment.account.number,
+          otp_code: this.otp,
           otp: otp
         }
         this.loading = true
