@@ -201,6 +201,7 @@ import Work from '../modal/CreateWork.js'
 
 export default {
   mounted(){
+    $('#loading').css({display: 'block'})
     this.retrieve()
   },
   data(){
@@ -242,6 +243,7 @@ export default {
         }
       }
       this.APIRequest('works/retrieve', parameter).then(response => {
+        $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data
         }else{
@@ -295,6 +297,7 @@ export default {
       let parameter = {
         id: id
       }
+      $('#loading').css({display: 'block'})
       this.APIRequest('works/delete', parameter).then(response => {
         this.retrieve()
       })

@@ -101,7 +101,10 @@
   padding-right: 10px;
 }
 
-.summary-container-item .amount{
+@media (max-width: 992px){
+  .ledger-summary-container{
+    width: 100%;
+  }
 }
 </style>
 <script>
@@ -166,7 +169,7 @@ export default{
         }],
         sort: sort
       }
-      $('#loading').css({display: 'none'})
+      $('#loading').css({display: 'block'})
       this.APIRequest('withdrawals/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){

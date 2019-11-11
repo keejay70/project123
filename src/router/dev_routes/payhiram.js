@@ -147,6 +147,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/transfer_charges/',
+    name: 'transferCharges',
+    component: resolve => require(['modules/admin/TransferCharges.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }

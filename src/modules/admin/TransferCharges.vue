@@ -1,5 +1,8 @@
 <template>
   <div class="ledger-summary-container">
+    <div class="incre-row">
+      <button class="btn btn-primary pull-right" @click="showTransferModal('create')">Add</button>
+    </div>
     <basic-filter 
       v-bind:category="category" 
       :activeCategoryIndex="0"
@@ -7,33 +10,30 @@
       @changeSortEvent="retrieve($event.sort, $event.filter)"
       @changeStyle="manageGrid($event)"
       :grid="['list', 'th-large']"></basic-filter>
-    <div class="summary-container-item" v-for="item, index in data" v-if="data !== null">
-      <span class="header">
-        {{item.created_at_human}}
-        <i class="fa fa-circle" style="font-size: 11px"></i>
-        <label style="text-transform: UPPERCASE">{{item.status}}</label>
-      </span>
-      <span class="body">
-        <label>
-          {{item.description}}
-        </label>
-        <label v-if="item.payload === 'investments'">
-          <b class="text-primary action-link">request</b>
-        </label>
-        <label  v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"class="pull-right amount"><b>{{auth.displayAmount(item.amount)}}</b></label>
-      </span>
-      <span class="footer">
-      <div>
-        <button class="btn btn-primary" @click="showImages(item.id)" style="margin-bottom: 10px;">Attach File</button>
-      </div>
-      <div v-if="item.attachments.length > 0">
-          <br>
-         <img v-for="(image, imageIndex) in item.attachments" :key="imageIndex" :src="config.BACKEND_URL + image.file" height="200" width="200"/>
-      </div>
-      </span>
-    </div>
-    <empty v-if="data === null" :title="'Looks like you do not have deposit yet!'" :action="'Deposit now or start requesting money.'"></empty>
+    
+    <table class="table table-bordered" v-if="data !== null">
+      <thead>
+        <tr>
+          <td>Type</td>
+          <td>Minimum Amount</td>
+          <td>Max Amount</td>
+          <td>Charge</td>
+          <td>Date Added</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in data" :ke="index">
+          <td>{{item.type}}</td>
+          <td>{{item.min_amount}}</td>
+          <td>{{item.max_amount}}</td>
+          <td>{{item.charge}}</td>
+          <td>{{item.created_at}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <empty v-if="data === null" :title="'No charges specified!'" :action="'Click add to create.'"></empty>
     <browse-images-modal></browse-images-modal>
+    <increment-modal :property="transferModal"></increment-modal>
   </div>
 </template>
 <style scoped>
@@ -76,8 +76,6 @@
   padding-right: 10px;
 }
 
-.summary-container-item .amount{
-}
 @media (max-width: 992px){
   .ledger-summary-container{
     width: 100%;
@@ -88,9 +86,11 @@
 import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
+import transferCharges from 'src/modules/modal/CreateTransferCharges.js'
 export default{
   mounted(){
-    this.retrieve({column: 'created_at', value: 'desc'}, {column: 'created_at', value: ''})
+    $('#loading').css({display: 'block'})
+    this._retrieve({type: 'asc'}, {column: 'created_at', value: ''})
   },
   data(){
     return {
@@ -102,6 +102,7 @@ export default{
         file: null
       },
       config: CONFIG,
+      transferModal: transferCharges,
       category: [{
         title: 'Sort by',
         sorting: [{
@@ -113,28 +114,36 @@ export default{
           payload: 'created_at',
           payload_value: 'desc'
         }, {
-          title: 'Amount ascending',
-          payload: 'amount',
+          title: 'Type ascending',
+          payload: 'type',
           payload_value: 'asc'
         }, {
-          title: 'Amount descending',
-          payload: 'amount',
+          title: 'Type descending',
+          payload: 'type',
           payload_value: 'desc'
         }, {
-          title: 'Description ascending',
-          payload: 'description',
+          title: 'Charge ascending',
+          payload: 'charge',
           payload_value: 'asc'
         }, {
-          title: 'Description descending',
-          payload: 'description',
+          title: 'Charge descending',
+          payload: 'charge',
           payload_value: 'desc'
         }, {
-          title: 'Status ascending',
-          payload: 'status',
+          title: 'Minimum amount ascending',
+          payload: 'min_amount',
           payload_value: 'asc'
         }, {
-          title: 'Status descending',
-          payload: 'status',
+          title: 'Minimum amount descending',
+          payload: 'min_amount',
+          payload_value: 'desc'
+        }, {
+          title: 'Maximum amount ascending',
+          payload: 'max_amount',
+          payload_value: 'asc'
+        }, {
+          title: 'Maximum amount descending',
+          payload: 'max_amount',
           payload_value: 'desc'
         }]
       }]
@@ -143,47 +152,23 @@ export default{
   components: {
     'empty': require('components/increment/generic/empty/Empty.vue'),
     'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
-    'basic-filter': require('components/increment/generic/filter/Basic.vue')
+    'basic-filter': require('components/increment/generic/filter/Basic.vue'),
+    'increment-modal': require('components/increment/generic/modal/Modal.vue')
   },
   methods: {
     redirect(params){
       ROUTER.push(params)
     },
-    showImages(id){
-      this.newAttachment.activeId = id
-      $('#browseImagesModal').modal('show')
-    },
-    manageImageUrl(url){
-      this.newAttachment.file = url
-      this.attach(this.newAttachment)
-    },
-    attach(){
-      this.APIRequest('deposit_attachments/update', this.newAttachment).then(response => {
-        $('#loading').css({display: 'none'})
-        if(response.data !== null){
-          this.data = response.data
-        }else{
-          this.data = null
-        }
-      })
-    },
-    retrieve(sort, filter){
+    _retrieve(sort, filter){
       let parameter = {
         condition: [{
-          column: 'account_id',
-          value: this.user.userID,
-          clause: '='
-        }, {
           column: filter.column,
           clause: 'like',
           value: filter.value + '%'
         }],
-        sort: {
-          created_at: 'desc'
-        }
+        sort: sort
       }
-      $('#loading').css({display: 'block'})
-      this.APIRequest('deposits/retrieve', parameter).then(response => {
+      this.APIRequest('transfer_charges/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data
@@ -191,6 +176,36 @@ export default{
           this.data = null
         }
       })
+    },
+    retrieve(sort){
+      let parameter = {
+        sort: {
+          created_at: 'desc'
+        }
+      }
+      $('#loading').css({display: 'block'})
+      this.APIRequest('transfer_charges/retrieve', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        if(response.data.length > 0){
+          this.data = response.data
+        }else{
+          this.data = null
+        }
+      })
+    },
+    showTransferModal(action, item = null){
+      switch(action){
+        case 'create':
+          this.transferModal = {...transferCharges}
+          let inputs = this.transferModal.inputs
+          inputs.map(input => {
+            input.value = null
+          })
+          break
+        case 'update':
+          break
+      }
+      $('#createTransferChargesModal').modal('show')
     },
     manageGrid(event){
       switch(event){

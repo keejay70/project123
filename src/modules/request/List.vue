@@ -69,8 +69,8 @@
           <label>
             Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
-          <button class="btn btn-primary pull-right" style="margin-right: 5px;" @click="showInvestmentModal(item)">Invest</button>
-          <button class="btn btn-warning pull-right" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
+          <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)">Invest</button>
+          <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
         </span>
 
 
@@ -151,8 +151,17 @@
   width: 100%;
   float: left;
   margin-bottom: 5px;
-  height: 40px;
+  min-height: 40px;
   line-height: 40px;
+  overflow-y: hidden;
+}
+
+.footer label{
+  float: left;
+}
+
+.footer button{
+  float: right;
 }
 
 .request-list-left-container{
@@ -182,6 +191,9 @@
     width: 100%;
     margin-left: 0%;
   }
+  .footer button{
+    float: left;
+  }
 }
 
 </style>
@@ -192,6 +204,7 @@ import CONFIG from 'src/config.js'
 import REQUEST from '../modal/CreateRequest.js'
 export default{
   mounted(){
+    $('#loading').css({display: 'block'})
     this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
   },
   data(){
@@ -390,6 +403,10 @@ export default{
       $('#createReportModal').modal('show')
     },
     retrieve(sort, filter){
+      if(this.user.type === 'USER'){
+        filter.column = 'account_id'
+        filter.value = this.user.userID
+      }
       let key = Object.keys(sort)
       let parameter = {
         limit: 10,
@@ -401,7 +418,6 @@ export default{
         value: filter.value + '%',
         column: filter.column
       }
-      $('#loading').css({display: 'block'})
       setTimeout(() => {
         this.APIRequest('requests/retrieve', parameter).then(response => {
           $('#loading').css({display: 'none'})
@@ -413,15 +429,16 @@ export default{
             this.size = null
           }
         })
-      }, 1000)
+      }, 100)
     },
     bookmark(id){
       let parameter = {
         account_id: this.user.userID,
         request_id: id
       }
+      $('#loading').css({display: 'block'})
       this.APIRequest('bookmarks/create', parameter).then(response => {
-        //
+        this.retrieve()
       })
     },
     manageGrid(event){

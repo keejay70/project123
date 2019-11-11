@@ -38,7 +38,7 @@
           </tr>
         </tbody>
       </table>
-      <empty v-if="billing === null" :title="'You don\'t borrowed yet'" :action="'Start requesting a money.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
+      <empty v-if="billing === null" :title="'You don\'t have borrowed yet'" :action="'Start requesting a money.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
       <span style="width: 100%; float: left">
         <b>Payment History</b>
       </span>
@@ -120,6 +120,7 @@
 @media (max-width: 992px){
   .payhiram-list-wrapper{
     margin-bottom: 200px;
+    width: 100%;
   }
   .payhiram-list-right-container, .payhiram-list-left-container{
     width: 100%;
@@ -209,7 +210,9 @@ export default{
         value: filter.value + '%',
         column: filter.column
       }
+      $('#loading').css({display: 'block'})
       this.APIRequest('payments/retrieve', parameter).then(response => {
+        $('#loading').css({display: 'none'})
         this.billing = response.billing
         if(response.data.length > 0){
           this.data = response.data

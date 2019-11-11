@@ -98,6 +98,7 @@ import axios from 'axios'
 import CONFIG from '../../config.js'
 export default {
   mounted(){
+    $('#loading').css({display: 'block'})
     this.retrieve()
   },
   data(){
@@ -118,6 +119,7 @@ export default {
         account_id: this.user.userID
       }
       this.APIRequest('account_cards/retrieve', parameter).then(response => {
+        $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data
         }else{
@@ -131,6 +133,7 @@ export default {
         payload_value: url
       }
       if(this.validate()){
+        $('#loading').css({display: 'block'})
         this.APIRequest('account_cards/update', parameter).then(response => {
           if(response.data === true){
             this.retrieve()
@@ -144,6 +147,7 @@ export default {
         payload: this.selected,
         payload_value: url
       }
+      $('#loading').css({display: 'block'})
       this.APIRequest('account_cards/create', parameter).then(response => {
         if(response.data > 0){
           this.retrieve()
