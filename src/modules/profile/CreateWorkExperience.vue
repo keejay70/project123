@@ -8,14 +8,18 @@
       <span class="display">
         <div class="rl-container-item" v-for="(item, index) in data" :key="index">
           <span class="header">
-            <label class="cards-label"> 
-              {{ item.month_started }}
-              {{ item.year_started }}
+            <label class="cards-label">
+              <div style="font-weight: 600; font-size: 14px; color: #000">
+                {{ item.month_started }}
+                {{ item.year_started }}
+              </div>
             </label>
             -
             <label class="cards-label" v-if="item.month_ended && item.year_ended !== null">
-              {{ item.month_ended }}
-              {{ item.year_ended }}
+              <div style="font-weight: 600; font-size: 14px; color: #000">
+                {{ item.month_ended }}
+                {{ item.year_ended }}
+              </div>
             </label>
             <label class="cards-label" v-else>
               Present
@@ -34,26 +38,26 @@
           </span>
           <span class="summary-header">
             <div style="line-height: 160%; vertical-align: middle;">
-              <i class="fas fa-sitemap" style="font-size: 15px;"></i>
-              <span style="position: relative; display: inline-block; left: 5px; font-size: 14px; font-weight: 600; color: #000">
+              <i class="fas fa-sitemap" style="font-size: 14px;"></i>
+              <span style="position: relative; display: inline-block; left: 5px; font-size: 14px; color: #000">
                 {{ item.position }}
               </span>
             </div>
             <div style="line-height: 160%; vertical-align: middle;">
               <i class="fas fa-building"></i>
-              <span style="position: relative; display: inline-block; left: 5px; font-size: 14px;"> 
+              <span style="position: relative; display: inline-block; left: 5px; font-size: 14px; color: #000"> 
                 {{ item.company_name }}
               </span>
             </div>
             <div style="line-height: 160%; vertical-align: middle;">
               <i class="fas fa-map-marker-alt" style="font-size: 21px;"></i>
-              <span style="position: relative; display: inline-block; left: 5px; font-size: 14px;">
+              <span style="position: relative; display: inline-block; left: 5px; font-size: 14px; color: #000">
                 {{ item.location }}
               </span>
             </div>
             <div style="line-height: 160%;">
-              <label style="margin: 5px 0 0 0; color: #000;">About Work:</label>
-              <div style="font-size: 14px;">
+              <label style="margin: 5px 0 0 0; color: #000; font-size: 14px; font-weight: 600">About Work</label>
+              <div style="font-size: 14px; color: #000">
                 <div v-if="item.work_description.length <= 400">
                   {{ item.work_description }}
                 </div>
