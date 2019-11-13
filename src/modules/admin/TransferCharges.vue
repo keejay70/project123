@@ -27,7 +27,7 @@
           <td>{{item.min_amount}}</td>
           <td>{{item.max_amount}}</td>
           <td>{{item.charge}}</td>
-          <td>{{item.created_at}}</td>
+          <td>{{item.created_at_human}}</td>
         </tr>
       </tbody>
     </table>
@@ -86,7 +86,7 @@
 import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
-import transferCharges from 'src/modules/modal/CreateTransferCharges.js'
+import transferCharges from 'src/modules/admin/CreateTransferCharges.js'
 export default{
   mounted(){
     $('#loading').css({display: 'block'})
