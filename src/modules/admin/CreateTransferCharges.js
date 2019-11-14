@@ -11,7 +11,7 @@ COMMON.payments.map(item => {
 })
 export default {
   id: 'createTransferChargesModal',
-  size: 'modal-sm',
+  size: 'modal-md',
   title: 'Add Transfer Charges',
   background: null,
   inputs: [{

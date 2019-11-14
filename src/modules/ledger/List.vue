@@ -1,8 +1,12 @@
 <template>
   <div class="ledger-summary-container">
-    <div class="ledger-summary-container-header">
-      <ledger-filter :size="size"></ledger-filter>
-    </div>
+    <basic-filter 
+      v-bind:category="category" 
+      :activeCategoryIndex="0"
+      :activeSortingIndex="0"
+      @changeSortEvent="retrieve($event.sort, $event.filter)"
+      @changeStyle="manageGrid($event)"
+      :grid="['list', 'th-large']"></basic-filter>
     <div class="summary-container-item" v-for="item, index in data" v-if="data !== null">
       <span class="header">{{item.created_at_human}}</span>
       <span class="body">
@@ -60,14 +64,22 @@
 
 .summary-container-item .amount{
 }
+
+@media (max-width: 992px){
+  .ledger-summary-container{
+    margin-bottom: 200px;
+    width: 100%;
+  }
+}
+
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
-import CONFIG from '../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
 export default{
   mounted(){
-    this.retrieve({column: 'created_at', value: 'desc'})
+    this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
   },
   data(){
     return {
@@ -75,23 +87,59 @@ export default{
       data: null,
       activePage: 0,
       size: 0,
-      auth: AUTH
+      auth: AUTH,
+      category: [{
+        title: 'Sort by',
+        sorting: [{
+          title: 'Date posted ascending',
+          payload: 'created_at',
+          payload_value: 'asc'
+        }, {
+          title: 'Date posted descending',
+          payload: 'created_at',
+          payload_value: 'desc'
+        }, {
+          title: 'Amount ascending',
+          payload: 'amount',
+          payload_value: 'asc'
+        }, {
+          title: 'Amount descending',
+          payload: 'amount',
+          payload_value: 'desc'
+        }, {
+          title: 'Description ascending',
+          payload: 'description',
+          payload_value: 'asc'
+        }, {
+          title: 'Description descending',
+          payload: 'description',
+          payload_value: 'desc'
+        }]
+      }],
+      listStyle: null
     }
   },
   components: {
     'empty': require('components/increment/generic/empty/Empty.vue'),
-    'ledger-filter': require('modules/ledger/Filter.vue')
+    'ledger-filter': require('modules/ledger/Filter.vue'),
+    'basic-filter': require('components/increment/generic/filter/Basic.vue')
   },
   methods: {
     redirect(params){
       ROUTER.push(params)
     },
-    retrieve(sort){
+    retrieve(sort, filter){
+      let key = Object.keys(sort)
       let parameter = {
         account_id: this.user.userID,
         offset: 0,
         limit: 50,
-        sort: sort
+        sort: {
+          column: key[0],
+          value: sort[key[0]]
+        },
+        value: filter.value + '%',
+        column: filter.column
       }
       $('#loading').css({display: 'none'})
       this.APIRequest('ledgers/summary', parameter).then(response => {
@@ -104,6 +152,14 @@ export default{
           this.size = null
         }
       })
+    },
+    manageGrid(event){
+      switch(event){
+        case 'th-large': this.listStyle = 'columns'
+          break
+        case 'list': this.listStyle = 'list'
+          break
+      }
     }
   }
 }

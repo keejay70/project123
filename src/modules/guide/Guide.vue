@@ -11,13 +11,13 @@
           <div class="modal-body">
             <div class="guide-holder">
                 <div class="jumbotron">
-                  <h2>Hi {{user.username}}! Welcome to ClassWorx!</h2>
+                  <h2>Hi {{user.username}}! Welcome to {{common.COMPANY}}!</h2>
                 </div>
 
                 <div class="jumbotron">
-                  <h5>What is ClassWorx?</h5>
+                  <h5>What is {{common.COMPANY}}?</h5>
                   <div class="alert alert-info">
-                    ClassWorx is an online classroom management website application which aims to create an e-learning community that is interactive and engaging. 
+                    {{common.COMPANY}} is an online classroom management website application which aims to create an e-learning community that is interactive and engaging. 
                     <br>
                     <br>
                     A community that helps students at the same time sharing what they learn through online discussions.
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="jumbotron">
-                  <h6>What are the types of accounts in ClassWorx?</h6>
+                  <h6>What are the types of accounts in {{common.COMPANY}}?</h6>
                   <div class="alert alert-info">
                     <strong>Teacher Account</strong>
                     <br>
@@ -57,7 +57,7 @@
                  
                   <div class="alert alert-info">
                      <h6>Personal Information</h6>
-                    Fill up the information needed on ClassWorx such as Personal Information, Educational Background and Work Experience (Optional). These are important so your teacher can easily verify and identify you as her/his student. Go to or click <strong>Account Settings</strong> on the left sidebar menu. 
+                    Fill up the information needed on {{common.COMPANY}} such as Personal Information, Educational Background and Work Experience (Optional). These are important so your teacher can easily verify and identify you as her/his student. Go to or click <strong>Account Settings</strong> on the left sidebar menu. 
                   </div>
 
                   <div class="alert alert-info">
@@ -86,7 +86,7 @@
                   <div class="alert alert-info">
                     <strong>Account Information</strong>
                     <br>
-                    Under the <strong>Settings</strong> menu, you can view your account information. Click the <strong>Account Information.</strong> Your username, email and date started here in ClassWorx is shown here. That's It!
+                    Under the <strong>Settings</strong> menu, you can view your account information. Click the <strong>Account Information.</strong> Your username, email and date started here in {{common.COMPANY}} is shown here. That's It!
                   </div>
 
 
@@ -184,10 +184,12 @@
   import ROUTER from 'src/router'
   import Vue from 'vue'
   import AUTH from 'src/services/auth'
+  import COMMON from 'src/common.js'
   export default{
     data(){
       return {
-        user: AUTH.user
+        user: AUTH.user,
+        common: COMMON
       }
     },
     props: {

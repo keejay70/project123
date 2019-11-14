@@ -7,56 +7,26 @@
       @changeSortEvent="retrieve($event.sort, $event.filter)"
       @changeStyle="manageGrid($event)"
       :grid="['list', 'th-large']"></basic-filter>
-    <div class="summary-container-item" v-for="item, index in data" v-if="data !== null">
-      <span class="header"> {{item.created_at}}</span>
-      <span class="body">
-         <div v-if="item.payload === 'Banco De Oro'">
-        <label>
-          <img width="110px" src="../../assets/img/bdo.png"/></label> 
-          <p><b>{{item.payload_value}}</b></p>
-        </label>
-        </div>
-         <div v-if="item.payload === 'Cebuana Lhuillier'">
-        <label>
-          <img width="110px" src="../../assets/img/cebuanalhuillier.png"/></label> 
-          <p><b>{{item.payload_value}}</b></p>
-        </label>
-        </div>
-         <div v-if="item.payload === 'Palawan Pawnshop'">
-        <label>
-          <img width="110px" src="../../assets/img/palawanpawnshop.png"/></label> 
-          <p><b>{{item.payload_value}}</b></p>
-        </label>
-        </div>
-         <div v-if="item.payload === 'GCASH'">
-        <label>
-          <img width="110px" src="../../assets/img/gcash.png"/></label> 
-          <p><b>{{item.payload_value}}</b></p>
-        </label>
-        </div>
-         <div v-if="item.payload === 'Union Bank'">
-        <label>
-          <img width="110px" src="../../assets/img/unionbank.png"/></label> 
-          <p><b>{{item.payload_value}}</b></p>
-        </label>
-        </div>
-         <div v-if="item.payload === 'M Lhuillier'">
-        <label>
-          <img width="110px" src="../../assets/img/mlhuillier.png"/></label> 
-          <p><b>{{item.payload_value}}</b></p>
-        </label>
-        </div>
-
-        <label v-if="item.payload === 'investments'">
-          <b class="text-primary action-link">request</b>
-        </label>
-        <label  v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"class="pull-right amount"><b>{{auth.displayAmount(item.amount)}}</b></label>
-      </span>
-      <span class="footer">
-      
-
-      </span>
-    </div>
+    <table class="table table-bordered" v-if="data !== null">
+      <thead>
+        <td>Transfer via</td>
+        <td>Details</td>
+        <td>Amount</td>
+        <td>Charge</td>
+        <td>Status</td>
+        <td>Date</td>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in data" :key="index">
+          <td>{{item.payload}}</td>
+          <td>{{item.payload_value}}</td>
+          <td>{{auth.displayAmount(item.amount)}}</td>
+          <td>{{auth.displayAmount(item.charge)}}</td>
+          <td style="text-transform: UPPERCASE">{{item.status}}</td>
+          <td>{{item.created_at_human}}</td>
+        </tr>
+      </tbody>
+    </table>
     <empty v-if="data === null" :title="'Looks like you do not have withdrawals yet!'" :action="'Deposit now or start requesting money.'"></empty>
     <browse-images-modal></browse-images-modal>
   </div>
@@ -117,9 +87,9 @@ export default{
   },
   data(){
     return {
+      auth: AUTH,
       user: AUTH.user,
       data: null,
-      auth: AUTH,
       newAttachment: {
         activeId: null,
         file: null
@@ -136,12 +106,36 @@ export default{
           payload: 'created_at',
           payload_value: 'desc'
         }, {
+          title: 'Transfer via ascending',
+          payload: 'payload',
+          payload_value: 'asc'
+        }, {
+          title: 'Transfer via descending',
+          payload: 'payload',
+          payload_value: 'desc'
+        }, {
           title: 'Amount ascending',
           payload: 'amount',
           payload_value: 'asc'
         }, {
           title: 'Amount descending',
           payload: 'amount',
+          payload_value: 'desc'
+        }, {
+          title: 'Charge ascending',
+          payload: 'charge',
+          payload_value: 'asc'
+        }, {
+          title: 'Charge descending',
+          payload: 'charge',
+          payload_value: 'desc'
+        }, {
+          title: 'Status ascending',
+          payload: 'status',
+          payload_value: 'asc'
+        }, {
+          title: 'Status descending',
+          payload: 'status',
           payload_value: 'desc'
         }]
       }]

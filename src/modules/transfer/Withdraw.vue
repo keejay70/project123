@@ -311,6 +311,7 @@ export default {
           payload: this.payment.type,
           payload_value: this.payment.account.name + '/' + this.payment.account.number,
           otp_code: this.otp,
+          charge: this.payment.charge,
           otp: otp
         }
         this.loading = true

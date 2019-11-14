@@ -23,20 +23,22 @@
         <label  v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"class="pull-right amount"><b>{{auth.displayAmount(item.amount)}}</b></label>
       </span>
       <span class="footer">
-      <div>
+      <div class="attachment-header">
         <button class="btn btn-primary" @click="showImages(item.id)" style="margin-bottom: 10px;">Attach File</button>
       </div>
       <div v-if="item.attachments.length > 0">
           <br>
-         <img v-for="(image, imageIndex) in item.attachments" :key="imageIndex" :src="config.BACKEND_URL + image.file" height="200" width="200"/>
+         <img v-for="(image, imageIndex) in item.attachments" :key="imageIndex" :src="config.BACKEND_URL + image.file" class="attachment-image" @click="viewImage(config.BACKEND_URL + image.file)"/>
       </div>
       </span>
     </div>
     <empty v-if="data === null" :title="'Looks like you do not have deposit yet!'" :action="'Deposit now or start requesting money.'"></empty>
     <browse-images-modal></browse-images-modal>
+    <image-viewer :src="selectedImage"></image-viewer>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
+@import "~assets/style/colors.scss";
 .ledger-summary-container{
   width: 60%;
   float: left;
@@ -77,6 +79,25 @@
 }
 
 .summary-container-item .amount{
+}
+
+.attachment-header{
+  width: 100%;
+  float: left;
+  border-bottom: solid 1px #eee;
+}
+
+.attachment-image{
+  width: auto;
+  height: 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.attachment-image:hover{
+  cursor: pointer;
+  border: solid 1px $primary;
 }
 @media (max-width: 992px){
   .ledger-summary-container{
@@ -137,13 +158,17 @@ export default{
           payload: 'status',
           payload_value: 'desc'
         }]
-      }]
+      }],
+      selectedImage: null,
+      filter: null,
+      sort: null
     }
   },
   components: {
     'empty': require('components/increment/generic/empty/Empty.vue'),
     'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
-    'basic-filter': require('components/increment/generic/filter/Basic.vue')
+    'basic-filter': require('components/increment/generic/filter/Basic.vue'),
+    'image-viewer': require('components/increment/generic/modal/Image.vue')
   },
   methods: {
     redirect(params){
@@ -152,6 +177,12 @@ export default{
     showImages(id){
       this.newAttachment.activeId = id
       $('#browseImagesModal').modal('show')
+    },
+    viewImage(src){
+      this.selectedImage = src
+      setTimeout(() => {
+        $('#imageView').modal('show')
+      })
     },
     manageImageUrl(url){
       this.newAttachment.file = url
@@ -165,9 +196,12 @@ export default{
         }else{
           this.data = null
         }
+        this.retrieve(this.sort, this.filter)
       })
     },
     retrieve(sort, filter){
+      this.filter = filter
+      this.sort = sort
       let parameter = {
         condition: [{
           column: 'account_id',
