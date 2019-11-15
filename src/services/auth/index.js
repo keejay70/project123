@@ -56,7 +56,6 @@ export default {
   },
   echo: null,
   currentPath: false,
-  tempToken: null,
   setUser(userID, username, email, type, status, profile, notifSetting, subAccount){
     if(userID === null){
       username = null
@@ -99,8 +98,7 @@ export default {
       status: 'VERIFIED'
     }
     vue.APIRequest('authenticate', credentials, (response) => {
-      // this.setToken(response.token)
-      this.tempToken = response.token
+      this.tokenData.token = response.token
       vue.APIRequest('authenticate/user', {}, (userInfo) => {
         let parameter = {
           'condition': [{
@@ -276,7 +274,7 @@ export default {
     }
   },
   proceedToLogin(){
-    this.setToken(this.tempToken)
+    this.setToken(this.tokenData.token)
     let userInfo = this.otpDataHolder.userInfo
     let data = this.otpDataHolder.data
     let profile = data[0].account_profile
