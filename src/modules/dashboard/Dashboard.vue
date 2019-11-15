@@ -126,7 +126,7 @@ import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
 export default{
   mounted(){
-    this.retrieve({column: 'created_at', value: 'desc'})
+    this.retrieve({column: 'created_at', value: 'desc'}, {column: 'created_at', value: ''})
   },
   data(){
     return {
@@ -146,12 +146,14 @@ export default{
     redirect(parameter){
       ROUTER.push(parameter)
     },
-    retrieve(sort){
+    retrieve(sort, filter){
       let parameter = {
         account_id: this.user.userID,
         offset: 0,
         limit: 5,
-        sort: sort
+        sort: sort,
+        value: filter.value + '%',
+        column: filter.column
       }
       $('#loading').css({display: 'block'})
       setTimeout(() => {
