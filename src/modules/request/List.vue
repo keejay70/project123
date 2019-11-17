@@ -26,7 +26,6 @@
               <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown">
               </i>
               <div class="dropdown-menu dropdown-more-options" aria-labelledby="dropdownMenuButton" >
-
                 <span class="dropdown-item action-link" @click="showRequestModal('update', item)">Edit</span>
                 <span class="dropdown-item action-link" @click="showReportModal(item)">Report</span>
               </div>
@@ -181,6 +180,19 @@
 .dropdown-item{
   height: 40px !important;
   line-height: 40px;
+}
+
+.dropdown-item{
+  width: 100% !important;
+  height: 40px !important;
+  float: left !important;
+  background: #fff !important;
+  padding-top: 0px !important;
+  line-height: 40px !important;
+}
+
+.dropdown-item:hover{
+  background: #ddd !important;
 }
 
 @media (max-width: 992px){
