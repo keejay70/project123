@@ -114,8 +114,8 @@ export default {
             this.checkOtp(response.data[0].notification_settings)
           }
         })
-        // this.retrieveNotifications(userInfo.id)
-        this.retrieveMessages(userInfo.id, userInfo.account_type)
+        this.retrieveNotifications(userInfo.id)
+        // this.retrieveMessages(userInfo.id, userInfo.account_type)
         this.connect()
         if(callback){
           callback(userInfo)
@@ -156,8 +156,8 @@ export default {
             window.location.href = location
           }
         })
-        // this.retrieveNotifications(userInfo.id)
-        this.retrieveMessages(userInfo.id, userInfo.account_type)
+        this.retrieveNotifications(userInfo.id)
+        // this.retrieveMessages(userInfo.id, userInfo.account_type)
         this.getGoogleCode()
       }, (response) => {
         this.setToken(null)
@@ -194,7 +194,7 @@ export default {
     vue.APIRequest('notifications/retrieve', parameter).then(response => {
       if(response.data.length > 0){
         this.user.notifications.data = response.data
-        this.user.notifications.current = response.notification_current
+        this.user.notifications.current = response.size
         if(this.user.notifications.current > 0){
           // this.playNotificationSound()
         }
@@ -211,8 +211,13 @@ export default {
       account_type: type
     }
     vue.APIRequest('messenger_groups/retrieve_summary', parameter).then(response => {
-      this.user.messages.data = response.data
-      this.user.messages.totalUnreadMessages = response.total_unread_messages
+      if(response.data !== null){
+        this.user.messages.data = response.data
+        this.user.messages.totalUnreadMessages = response.size
+      }else{
+        this.user.messages.data = null
+        this.user.messages.totalUnreadMessages = null
+      }
     })
   },
   startNotifTimer(accountId){
