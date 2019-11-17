@@ -96,12 +96,13 @@ export default {
     value: null,
     required: false,
     id: 'comaker',
-    type: 'textarea',
+    type: 'input',
+    inputType: 'email',
     validation: {
       size: 5,
-      type: 'text'
-    },
-    textAreaRows: 1
+      type: 'email',
+      flag: true
+    }
   }],
   route: 'requests/create',
   button: {

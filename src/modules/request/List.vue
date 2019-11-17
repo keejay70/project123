@@ -381,7 +381,12 @@ export default{
               data.value = item.months_payable
             }
             if(data.variable === 'comaker'){
-              data.value = item.comaker
+              data.validation['flag'] = true
+              if(item.comakers !== null){
+                data.value = item.comakers[0].account.email
+              }else{
+                data.value = null
+              }
             }
           })
           this.requestModal = {...modalData}
