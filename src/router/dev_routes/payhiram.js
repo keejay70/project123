@@ -154,6 +154,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/bookmarks/',
+    name: 'bookmarks',
+    component: resolve => require(['modules/bookmark/List.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }
