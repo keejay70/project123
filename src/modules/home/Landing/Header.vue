@@ -19,8 +19,8 @@
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item" v-on:click="redirect('/signup')"><a class="nav-link">Register</a></li>
-        <li class="nav-item" v-on:click="redirect('/login')"><a class="nav-link">Login</a></li>
+        <li class="nav-item" v-on:click="redirect('/signup')" data-toggle="collapse" data-target="#navbarSupportedContent"><a class="nav-link">Register</a></li>
+        <li class="nav-item" v-on:click="redirect('/login')" data-toggle="collapse" data-target="#navbarSupportedContent"><a class="nav-link">Login</a></li>
       </ul>
     </div>
   </div>
@@ -177,12 +177,10 @@
     width: 100%;
     text-align: right;
     float: left;
-    display: block;
-  }
-  .navbar-collapse .show{
-    display: block !important;
+    display: block ;
   }
 }
+
 </style>
 <script>
 import ROUTER from '../../../router'
