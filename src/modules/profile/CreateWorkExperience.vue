@@ -114,7 +114,12 @@
   font-weight: 400;
 }
 span.dropdown-item.action-link {
-  height: 50px !important;
+  width: 100% !important;
+  height: 40px !important;
+  float: left !important;
+  background: #fff !important;
+  padding-top: 0px !important;
+  line-height: 40px !important;
 }
 .dropdown-menu.dropdown-more-options.show {
   padding: 0 !important;
