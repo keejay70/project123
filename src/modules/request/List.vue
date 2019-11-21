@@ -26,7 +26,7 @@
               <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown">
               </i>
               <div class="dropdown-menu dropdown-more-options" aria-labelledby="dropdownMenuButton" >
-                <span class="dropdown-item action-link" @click="showRequestModal('update', item)">Edit</span>
+                <span class="dropdown-item action-link" @click="showRequestModal('update', item)" v-if="parseInt(item.account_id) === user.userID || (item.comakers !== null && user.userID === parseInt(item.comakers[0].comaker))">Edit</span>
                 <span class="dropdown-item action-link" @click="showReportModal(item)">Report</span>
               </div>
             </div>
@@ -71,13 +71,11 @@
           <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)">Invest</button>
           <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
         </span>
-
-
-    <label class="mt-3" v-if="item.pulling !== 0">Percentage of amount invested</label>
-    <b-progress :max="item.initial_amount" class="progress-bar bg-warning"  style="margin-bottom: 10px;" v-if="item.pulling !== 0">
-      <b-progress-bar :value="item.pulling" :variant="'primary'" :label="item.pulling_percentage + '%'"></b-progress-bar>
-    </b-progress>
-
+        
+        <label class="mt-3" v-if="parseInt(item.invested) > 0 && parseInt(item.amount) > 0">Percentage of amount invested</label>
+        <b-progress :max="item.initial_amount" class="progress-bar bg-warning"  style="margin-bottom: 10px;" v-if="parseInt(item.invested) > 0 && parseInt(item.amount) > 0">
+          <b-progress-bar :value="parseFloat(item.initial_amount) - item.amount" :variant="'bg-primary'" :label="parseInt((1 - (item.amount / parseFloat(item.initial_amount))) * 100) + '%'"></b-progress-bar>
+        </b-progress>
       
       </div>
       <empty v-if="data === null" :title="'We just launched and we\'re still growing.'" :action="' Please check back soon, we will have tons of request for you.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
@@ -362,6 +360,9 @@ export default{
           modalData = {...modalData, ...parameter} // updated data without input values
           let object = Object.keys(item)
           modalData.inputs.map(data => {
+            if(parseInt(item.invested) > 0){
+              data.disabled = true
+            }
             if(data.variable === 'amount'){
               data.value = item.initial_amount
             }
@@ -382,6 +383,7 @@ export default{
             }
             if(data.variable === 'comaker'){
               data.validation['flag'] = true
+              data.disabled = true
               if(item.comakers !== null){
                 data.value = item.comakers[0].account.email
               }else{
