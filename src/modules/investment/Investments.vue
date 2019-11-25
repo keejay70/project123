@@ -8,81 +8,39 @@
       @changeSortEvent="retrieve($event.sort, $event.filter)"
       @changeStyle="manageGrid($event)"
       :grid="['list', 'th-large']"></basic-filter>
-      <div class="il-container-item" v-for="item, index in data" v-if="data !== null">
-        <span class="summary-header">
-        </span>
-        <span class="body">
-          <table class="table table-responsive borderless investment-table">
-            <tr>
-              <td>Requested by</td>
-              <td>
-                {{item.request.account.username}}
-              </td>
-              <td>Reference #</td>
-              <td>
-                <label>{{item.code}}</label>
-              </td>
-            </tr>
-
-            <tr>
-              <td>Principal Amount</td>
-              <td  class="text-primary">
-                {{auth.displayAmount(item.request.amount)}}
-              </td>
-              <td>Approved Date</td>
-              <td>
-                {{item.created_at_human}}
-              </td>
-            </tr>
-            
-            <tr>
-              <td>Invested Amount</td>
-              <td class="text-primary">{{auth.displayAmount(item.amount)}}</td>
-              <td>Interest Rate</td>
-              <td>
-                {{item.request.interest}}% per month
-              </td>
-            </tr>
-
-            <tr>
-              <td>ROI per month</td>
-              <td>
-                {{auth.displayAmount(item.return_per_month)}}
-              </td>
-              <td>Payable in</td>
-              <td>
-                {{item.request.months_payable}}
+      <table v-if="data !== null" class="table table-responsive table-bordered">
+        <thead>
+          <td>Reference #</td>
+          <td>Requested by</td>
+          <td>Amount</td>
+          <td>Invested</td>
+          <td>ROI per month</td>
+          <td>Approved Date</td>
+          <td>Interest Rate</td>
+          <td>Payment Terms</td>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in data" :key="index">
+            <td>
+              <label class="text-primary action-link" @click="redirect('/requests/' + item.request.code)">{{item.request.code}}</label>
+            </td>
+            <td>
+              <label class="text-primary action-link" @click="showProfileModal(item.request)">{{item.request.account.username}}</label>
+            </td>
+            <td>{{auth.displayAmount(item.request.amount)}}</td>
+            <td>{{auth.displayAmount(item.amount)}}</td>
+            <td>{{auth.displayAmount(item.return_per_month)}}</td>
+            <td>{{item.created_at_human}}</td>
+            <td>{{item.request.interest}}% per month</td>
+            <td>
+              {{item.request.months_payable}}
                 <label v-if="parseInt(item.request.months_payable) > 1">months</label>
                 <label v-else>month</label>
                 and pay {{item.request.billing_per_month_human}}
-              </td>
-            </tr>
-          </table>
-        </span>
-        <span class="footer">
-          <label>
-            <div class="dropdown">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                My Options
-              </button>
-              <div class="dropdown-menu">
-                <div class="dropdown-item action-link" data-toggle="dropdown">Summary</div>
-              </div>
-            </div>
-          </label>
-          <label>
-            <div class="dropdown">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                Borrower
-              </button>
-              <div class="dropdown-menu">
-                <div class="dropdown-item action-link" data-toggle="dropdown" @click="showProfileModal(item.request)" v-if="item.request !== null">Profile</div>
-                <div class="dropdown-item action-link" data-toggle="dropdown" @click="showPaymentModal(item.request)">Payments Summary</div>
-              </div>
-            </div>
-          </label>
-        </span>
-      </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <empty v-if="data === null" :title="'You don\'t have investments right now'" :action="'Go to requests and start investing to our users'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
     </div>
     <div class="investments-list-right-container">
@@ -93,7 +51,7 @@
 </template>
 <style scoped>
 .investments-list-wrapper{
-  width: 60%;
+  width: 100%;
   float: left;
   min-height: 400px;
   overflow-y: hidden;

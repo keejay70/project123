@@ -140,7 +140,7 @@ export default {
           this.loading = false
           if(response.data !== null){
             this.hideModal()
-            this.$parent.retrieve({column: 'created_at', value: 'asc'})
+            this.$parent.retrieve(null, null)
             this.step++
           }else if(response.otp === true){
             this.step++

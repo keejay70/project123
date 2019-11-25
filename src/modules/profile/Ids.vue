@@ -5,6 +5,7 @@
       <div class="item" v-for="(item, index) in data" :key="index">
         {{item.title}}
         <i class="fas fa-check text-primary pull-right" v-if="item.verified === true"></i>
+        <img :src="config.BACKEND_URL + item.payload_value" v-if="user.type === 'ADMIN'" style="width: 100%; height: auto">
       </div>
     </div>
   </div>
@@ -23,11 +24,12 @@
 
 .incre-row{
   margin-bottom: 25px;
+  min-height: 50px;
 }
 
 .item{
   width: 49%;
-  height: 50px;
+  min-height: 50px;
   margin-right: 1%;
   float: left;
   line-height: 50px;
@@ -35,6 +37,7 @@
   padding: 0px 10px;
   text-transform: capitalize;
   margin-bottom: 10px;
+  overflow-y: hidden;
 }
 .item i{
   line-height: 50px;

@@ -33,7 +33,7 @@
 </template>
 <style scoped>
 .ledger-summary-container{
-  width: 60%;
+  width: 100%;
   float: left;
   height: auto;
   margin-bottom: 100px;

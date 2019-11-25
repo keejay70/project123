@@ -6,12 +6,16 @@
         <label>
           {{item.description}}
         </label>
-        <label v-if="item.payload === 'investments'">
-          <b class="text-primary action-link" @click="showInvestments(item.investments)">request</b>
-        </label>
         <label v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"class="pull-right amount"><b>{{auth.displayAmount(item.amount)}}</b></label>
       </span>
-      <span class="footer"></span>
+      <span class="footer" v-if="item.payload === 'investments'">
+        <label style="padding: 10px 0px 10px 0px;">
+          Transaction ID:
+        </label>
+        <label style="padding: 10px 10px 10px 0px;" class="text-primary action-link" @click="redirect('/requests/' + item.investments.request.code)">
+          {{item.investments.request.code}}
+        </label>
+      </span>
     </div>
     <div class="icnre-row text-center" v-if="data !== null">
       <span class="view-more" @click="redirect('/ledgers')">View more</span>

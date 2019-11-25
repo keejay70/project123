@@ -4,7 +4,7 @@
     <div class="incre-row">
       <table class="table borderless">
         <tbody>
-          <tr>
+          <tr v-if="item.payload === 'request'">
             <td>Total Borrowed</td>
             <td>PHP {{item.total.toFixed(2)}}</td>
           </tr>
@@ -16,11 +16,24 @@
           </tr>
           <tr>
             <td>Email Address</td>
-            <td><i class="fa fa-check text-primary"></i>Verified</td>
+            <td><i class="fa fa-check text-primary"></i>{{item.status === 'NOT_VERIFIED' ? item.status : 'Verified'}}</td>
           </tr>
           <tr>
             <td>Contact Number</td>
-            <td><i class="fa fa-check text-primary"></i>Verified</td>
+            <td v-if="user.type !== 'ADMIN'"><i class="fa fa-check text-primary"></i>Verified</td>
+            <td v-if="user.type === 'ADMIN'">{{item.account.information.cellular_number}}</td>
+          </tr>
+<!--           <tr v-if="user.type === 'ADMIN'">
+            <td>Address</td>
+            <td>{{item.account.information.address}}</td>
+          </tr> -->
+          <tr v-if="user.type === 'ADMIN'">
+            <td>Gender</td>
+            <td style="text-transform:UPPERCASE">{{item.account.information.sex}}</td>
+          </tr>
+          <tr v-if="user.type === 'ADMIN'">
+            <td>Birth Date</td>
+            <td>{{item.account.information.birth_date}}</td>
           </tr>
         </tbody>
       </table>
@@ -46,9 +59,9 @@
 
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
-import CONFIG from '../../config.js'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import CONFIG from 'src/config.js'
 export default{
   mounted(){
   },

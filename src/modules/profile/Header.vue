@@ -9,7 +9,7 @@
       </span>
     </div>
     <div class="incre-row text-center" style="text-transform: capitalize">
-      <h2 class="text-primary" v-if="item.account.information !== null">
+      <h2 class="text-primary" v-if="item.account.information !== null && item.account.information.first_name !== null">
         <b v-if="item.account.information.first_name !== null">{{item.account.information.first_name}}</b>
         <b v-if="item.account.information.last_name !== null">{{item.account.information.last_name}}</b>
       </h2>

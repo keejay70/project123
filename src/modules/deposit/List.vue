@@ -40,7 +40,7 @@
 <style scoped lang="scss">
 @import "~assets/style/colors.scss";
 .ledger-summary-container{
-  width: 60%;
+  width: 100%;
   float: left;
   height: auto;
   margin-bottom: 100px;
@@ -73,7 +73,7 @@
 .summary-container-item .body{
   width: 100%;
   float: left;
-  min-height: 50px;
+  min-height: 10px;
   overflow-y: hidden;
   padding-right: 10px;
 }

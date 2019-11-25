@@ -13,19 +13,23 @@
         <label>
           {{item.description}}
         </label>
-        <label v-if="item.payload === 'investments'">
-          <b class="text-primary action-link" @click="redirect('/requests/' + item.investments)">request</b>
-        </label>
         <label  v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"class="pull-right amount"><b>{{auth.displayAmount(item.amount)}}</b></label>
       </span>
-      <span class="footer"></span>
+      <span class="footer" v-if="item.payload === 'investments'">
+        <label style="padding: 10px 0px 10px 0px;">
+          Transaction ID:
+        </label>
+        <label style="padding: 10px 10px 10px 0px;" class="text-primary action-link" @click="redirect('/requests/' + item.investments.request.code)">
+          {{item.investments.request.code}}
+        </label>
+      </span>
     </div>
     <empty v-if="data === null" :title="'Looks like your ledger is empty!'" :action="'Deposit now or start requesting money.'"></empty>
   </div>
 </template>
 <style scoped>
 .ledger-summary-container{
-  width: 60%;
+  width: 100%;
   float: left;
   height: auto;
   margin-bottom: 100px;
@@ -57,7 +61,7 @@
 .summary-container-item .body{
   width: 100%;
   float: left;
-  min-height: 50px;
+  min-height: 10px;
   overflow-y: hidden;
   padding-right: 10px;
 }

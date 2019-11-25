@@ -73,7 +73,7 @@
         </span>
         
         <label class="mt-3" v-if="parseInt(item.invested) > 0 && parseInt(item.amount) > 0">Percentage of amount invested</label>
-        <b-progress :max="item.initial_amount" class="progress-bar bg-warning"  style="margin-bottom: 10px;" v-if="parseInt(item.invested) > 0 && parseInt(item.amount) > 0">
+        <b-progress :max="parseInt(item.initial_amount)" class="progress-bar bg-warning"  style="margin-bottom: 10px;" v-if="parseInt(item.invested) > 0 && parseInt(item.amount) > 0">
           <b-progress-bar :value="parseFloat(item.initial_amount) - item.amount" :variant="'bg-primary'" :label="parseInt((1 - (item.amount / parseFloat(item.initial_amount))) * 100) + '%'"></b-progress-bar>
         </b-progress>
       
@@ -281,7 +281,9 @@ export default{
           payload_value: 'desc'
         }]
       }],
-      listStyle: null
+      listStyle: null,
+      sort: null,
+      filter: null
     }
   },
   components: {
@@ -415,6 +417,7 @@ export default{
     },
     showProfileModal(item){
       this.selecteditemProfile = item
+      this.selecteditemProfile['payload'] = 'request'
       $('#profileModal').modal('show')
     },
     showReportModal(item){
@@ -425,6 +428,18 @@ export default{
       if(this.user.type === 'USER'){
         filter.column = 'account_id'
         filter.value = this.user.userID
+      }
+      if(sort !== null){
+        this.sort = sort
+      }
+      if(filter !== null){
+        this.filter = filter
+      }
+      if(sort === null && this.sort !== null){
+        sort = this.sort
+      }
+      if(filter === null && this.filter !== null){
+        filter = this.filter
       }
       let key = Object.keys(sort)
       let parameter = {

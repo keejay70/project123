@@ -19,6 +19,7 @@
           <td>Max Amount</td>
           <td>Charge</td>
           <td>Date Added</td>
+          <td>Actions</td>
         </tr>
       </thead>
       <tbody>
@@ -28,6 +29,9 @@
           <td>{{item.max_amount}}</td>
           <td>{{item.charge}}</td>
           <td>{{item.created_at_human}}</td>
+          <td>
+            <button class="btn btn-primary" @click="showTransferModal('update', item)">Edit</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -38,7 +42,7 @@
 </template>
 <style scoped>
 .ledger-summary-container{
-  width: 60%;
+  width: 100%;
   float: left;
   height: auto;
   margin-bottom: 100px;
@@ -203,6 +207,40 @@ export default{
           })
           break
         case 'update':
+          let modalData = {...this.transferModal}
+          let parameter = {
+            title: 'Update Requests',
+            route: 'transfer_charges/update',
+            button: {
+              left: 'Cancel',
+              right: 'Update'
+            },
+            sort: {
+              column: 'created_at',
+              value: 'desc'
+            },
+            params: [{
+              variable: 'id',
+              value: item.id
+            }]
+          }
+          modalData = {...modalData, ...parameter} // updated data without
+          let object = Object.keys(item)
+          modalData.inputs.map(data => {
+            if(data.variable === 'type'){
+              data.value = item.type
+            }
+            if(data.variable === 'min_amount'){
+              data.value = item.min_amount
+            }
+            if(data.variable === 'max_amount'){
+              data.value = item.max_amount
+            }
+            if(data.variable === 'charge'){
+              data.value = item.charge
+            }
+          })
+          this.transferModal = {...modalData}
           break
       }
       $('#createTransferChargesModal').modal('show')

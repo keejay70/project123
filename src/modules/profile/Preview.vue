@@ -6,7 +6,7 @@
     <works :data="item.works" v-if="item.works !== null"></works>
     <ids :data="item.cards" v-if="item.cards !== null"></ids>
     <!-- <payments :data="item.cards" v-if="item.cards !== null"></payments> -->
-    <comakers :data="item.comakers" v-if="item.comakers !== null"></comakers>
+    <comakers :data="item.comakers" v-if="item.comakers !== null && item.payload === 'request'"></comakers>
     <guarantors :data="item.guarantors" v-if="item.guarantors !== null"></guarantors>
 <!--     <reviews :item="item" v-if="item.account !== null"></reviews> -->
   </div>
