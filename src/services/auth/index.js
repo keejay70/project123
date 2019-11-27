@@ -116,7 +116,6 @@ export default {
         })
         this.retrieveNotifications(userInfo.id)
         // this.retrieveMessages(userInfo.id, userInfo.account_type)
-        this.connect()
         if(callback){
           callback(userInfo)
         }
@@ -149,7 +148,6 @@ export default {
         }).done(response => {
           this.tokenData.verifyingToken = false
           let location = window.location.href
-          this.connect()
           if(this.currentPath){
             // ROUTER.push(this.currentPath)
           }else{
@@ -203,6 +201,19 @@ export default {
         this.user.notifications.current = null
       }
     })
+  },
+  addNotification(notification){
+    console.log(notification)
+    if(parseInt(this.user.userID) === parseInt(notification.to)){
+      if(this.user.notifications.data === null){
+        this.user.notifications.data = []
+        this.user.notifications.data.push(notification)
+        this.user.notifications.current = 1
+      }else{
+        this.user.notifications.data.unshift(notification)
+        this.user.notifications.current += 1
+      }
+    }
   },
   retrieveMessages(accountId, type){
     let vue = new Vue()
@@ -297,29 +308,6 @@ export default {
   getGoogleCode(){
     this.google.code = localStorage.getItem('google_code')
     this.google.scope = localStorage.getItem('google_scope')
-  },
-  connect(){
-    // if(!this.echo){
-    //   this.echo = new Echo({
-    //     broadcaster: 'pusher',
-    //     key: Config.PUSHER_KEY,
-    //     cluster: 'ap1',
-    //     forceTLS: true,
-    //     auth: {
-    //       headers: {
-    //         Authorization: 'Bearer' + this.tokenData.token,
-    //         'Access-Control-Allow-Origin': '*'
-    //       }
-    //     }
-    //   })
-    //   $.ajaxSetup({
-    //     beforeSend: function() {}
-    //   })
-    // }
-    // var channel = this.echo.channel('payhiram')
-    // channel.listen('Notification', response => {
-    //   console.log(response)
-    // })
   },
   displayAmount(amount){
     // amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '1,')

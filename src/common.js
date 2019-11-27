@@ -73,5 +73,9 @@ export default {
     title: 'GCash',
     logo: require('src/assets/img/gcash.png')
   }],
-  MINIMUM_WITHDRAWAL: 1000
+  MINIMUM_WITHDRAWAL: 1000,
+  pusher: {
+    channel: 'payhiram',
+    event: 'notification'
+  }
 }
