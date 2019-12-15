@@ -2,7 +2,8 @@
   <div class="request-list-wrapper">
     <div class="request-list-left-container">
       <div class="incre-row">
-        <button class="btn btn-primary pull-right" @click="showRequestModal('create')">Post a request</button>
+        <button class="btn btn-primary pull-right" @click="redirect('/createRequest')">Post a request</button>
+        <!-- <button class="btn btn-primary pull-right" @click="showRequestModal('create')">Post a request</button> -->
       </div>
       <basic-filter 
       v-bind:category="category" 
@@ -19,7 +20,7 @@
             {{item.account.username}}
           </label>
           <label>
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>Cebu City
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>{{item.account.information.address}}
           </label>
           <label class="pull-right">
             <div class="dropdown" id="dropdownMenuButtonDropdown">
@@ -69,7 +70,9 @@
             Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
           <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)">Invest</button>
-          <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">Bookmark</button>
+          <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">
+            <i class="fas fa-star" v-if="item.bookmark === true"></i>
+            Bookmark</button>
         </span>
         
         <label class="mt-3" v-if="parseInt(item.invested) > 0 && parseInt(item.amount) > 0">Percentage of amount invested</label>
@@ -215,7 +218,11 @@ import REQUEST from '../modal/CreateRequest.js'
 export default{
   mounted(){
     $('#loading').css({display: 'block'})
-    this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
+    if(this.$route.params.code){
+      this.retrieve({created_at: 'desc'}, {column: 'code', value: this.$route.params.code})
+    }else{
+      this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
+    }
   },
   data(){
     return {
@@ -450,7 +457,9 @@ export default{
           column: key[0]
         },
         value: filter.value + '%',
-        column: filter.column
+        column: filter.column,
+        type: this.user.type,
+        account_id: this.user.userID
       }
       setTimeout(() => {
         this.APIRequest('requests/retrieve', parameter).then(response => {
@@ -472,7 +481,7 @@ export default{
       }
       $('#loading').css({display: 'block'})
       this.APIRequest('bookmarks/create', parameter).then(response => {
-        this.retrieve()
+        this.retrieve(null, null)
       })
     },
     manageGrid(event){

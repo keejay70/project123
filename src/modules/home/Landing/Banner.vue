@@ -1,17 +1,22 @@
 <template>
-	<div class="cw-banner">
-    <div class="text text-white">
-      <span class="title">
-        <h1>Your marketplace for investments, lending and money transfer</h1>
-      </span>
-      <span class="description">
-        <h4>
-          Make and monitor investments, borrow money in times of emergency or business need, and transfer funds easily at PayHiram.
-        </h4>
-      </span>
-    </div>
-    <div class="image">
-      <img src="../../../assets/img/2.png" style="margin-bottom: 5px;" width="100%">
+	<div class="incre-row">
+    <div v-for="(item, index) in settings.page" :key="index" class="cw-banner" :style="{'background': item.background}">
+      <div class="image" v-if="item.template === 'left'">
+        <img :src="item.image" style="margin-bottom: 5px;" width="100%">
+      </div>
+      <div class="text" :class="item.textColor">
+        <span class="title">
+          <h1>{{item.title}}</h1>
+        </span>
+        <span class="description">
+          <h4>
+            {{item.description}}
+          </h4>
+        </span>
+      </div>
+      <div class="image" v-if="item.template === 'right'">
+        <img :src="item.image" style="margin-bottom: 5px;" width="100%">
+      </div>
     </div>
 	</div>
 </template>
@@ -21,7 +26,6 @@
   width: 100%;
   float: left;
   height: 600px;
-  background: $primary;
 }
 .text{
   width: 45%;
@@ -68,13 +72,15 @@
 }
 </style>
 <script>
-import ROUTER from '../../../router'
-import AUTH from '../../../services/auth'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import SETTINGS from 'src/modules/home/settings.js'
 export default {
   mounted(){
   },
   data(){
     return {
+      settings: SETTINGS
     }
   },
   methods: {

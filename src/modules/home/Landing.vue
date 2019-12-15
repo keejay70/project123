@@ -1,18 +1,14 @@
 <template>
 	<div class="body">
 		<landing-banner></landing-banner>
-    <choose-borrower></choose-borrower>
-    <interest></interest>
 	</div>
 </template>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
 export default {
   components: {
-    'landing-banner': require('modules/home/Landing/Banner.vue'),
-    'choose-borrower': require('modules/home/Landing/Borrower.vue'),
-    'interest': require('modules/home/Landing/Interest.vue')
+    'landing-banner': require('modules/home/Landing/Banner.vue')
   },
   mounted(){
   },

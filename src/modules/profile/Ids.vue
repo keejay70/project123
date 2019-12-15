@@ -5,7 +5,7 @@
       <div class="item" v-for="(item, index) in data" :key="index">
         {{item.title}}
         <i class="fas fa-check text-primary pull-right" v-if="item.verified === true"></i>
-        <img :src="config.BACKEND_URL + item.payload_value" v-if="user.type === 'ADMIN'" style="width: 100%; height: auto">
+        <img :src="config.BACKEND_URL + item.payload_value" v-if="user.type === 'ADMIN' && typeof item.payload_value !== 'undefined'" style="width: 100%; height: auto">
       </div>
     </div>
   </div>

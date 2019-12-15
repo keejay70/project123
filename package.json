@@ -40,6 +40,7 @@
     "vue-chartjs": "^3.3.2",
     "vue-clip": "^1.0.0",
     "vue-directive-tooltip": "^1.4.5",
+    "vue-echo": "^1.0.2",
     "vue-paypal-checkout": "^3.2.0",
     "vue-pusher": "^1.0.0",
     "vue-router": "^2.8.1",

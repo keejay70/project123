@@ -1,25 +1,42 @@
 <template>
   <div class="profile-holder">
-    <span class="header">Guarantor</span>
+    <span class="header">Guarantors</span>
     <span class="content">
-      <span class="inputs" v-if="data !== null">
+      <span class="inputs">
         <div class="form-group" style="margin-top: 25px;">
+          <div v-if="error !== null">
+            <label class="text-danger"><b>Opps!</b> {{error}}</label>
+          </div>
           <label for="address">Email Address</label>
           <input type="text" class="form-control" placeholder="Enter Email Address" v-model="newGuarantor.email">
         </div>
-
-        
-
-        <button class="btn btn-primary" style="margin-bottom: 25px;" @click="update()">Submit</button>
-      <div v-if="this.error === true">
-        <label>Email already used. Please use another email.</label>
-      </div>
+        <button class="btn btn-primary" style="margin-bottom: 25px;" @click="add()">Submit</button>
       </span>
       <span class="sidebar">
       </span>
     </span>
-    <browse-images-modal :object="user.profile" v-if="user.profile !== null"></browse-images-modal>
-    <browse-images-modal :object="newProfile" v-if="user.profile === null"></browse-images-modal>
+    <table class="table table-bordered table-responsive" v-if="data !== null">
+      <thead>
+        <tr>
+          <td>Email</td>
+          <td>Status</td>
+          <td>Date</td>
+          <td>Actions</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in data">
+          <td>{{item.email}}</td>
+          <td>{{item.status}}</td>
+          <td>{{item.created_at}}</td>
+          <td>
+            <i class="fas fa-check text-primary action-link" title="Approve" v-if="user.userID === parseInt(item.receiver)" @click="update(item, 'approved')"></i>
+            <i class="fas fa-close text-warning action-link" title="Decline" v-if="user.userID === parseInt(item.receiver)" @click="update(item, 'declined')"></i>
+            <i class="fas fa-trash text-danger action-link"  title="Delete" v-if="user.userID === parseInt(item.sender)" @click="remove(item.id)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 <style scoped>
@@ -114,87 +131,55 @@ export default {
       error: null,
       newGuarantor: {
         email: null,
-        account_id: null,
-        url: null
+        account_id: null
       }
     }
-  },
-  components: {
-    'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue')
   },
   methods: {
     retrieve(){
       let parameter = {
-        condition: [{
-          value: this.user.userID,
-          column: 'account_id',
-          clause: '='
-        }]
+        account_id: this.user.userID
       }
-      this.APIRequest('account_informations/retrieve', parameter).then(response => {
+      this.APIRequest('guarantors/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
-          this.data = response.data[0]
+          this.data = response.data
         }else{
           this.data = null
         }
       })
     },
-    update(){
+    add(){
       this.newGuarantor.account_id = this.user.userID
       this.APIRequest('guarantors/create', this.newGuarantor).then(response => {
-        if(response.data === true){
+        if(response.data !== null){
           this.retrieve()
           this.error = null
-        }else if(response.data === 'exists'){
-          this.error = 'exists'
+          this.newGuarantor.account_id = null
+          this.newGuarantor.email = null
         }else{
-          this.error = true
+          this.error = response.error
         }
       })
     },
-    updatePhoto(object){
-      $('#loading').css({display: 'block'})
-      this.APIRequest('account_profiles/update', object).then(response => {
-        if(response.data === true){
-          this.hideImages()
-          this.retrieve()
-          AUTH.checkAuthentication()
-        }else{
-          $('#loading').css({display: 'none'})
-        }
-      })
-    },
-    createPhoto(object){
-      this.APIRequest('account_profiles/create', object).then(response => {
-        if(response.data > 0){
-          this.hideImages()
-          AUTH.checkAuthentication()
-        }
-      })
-    },
-    validate(){
-      let i = this.data
-      if(i.first_name !== null && i.last_name !== null && i.sex !== null){
-        return true
+    update(item, status){
+      let parameter = {
+        id: item.id,
+        status: status
       }
-      return false
+      this.APIRequest('guarantors/update', parameter).then(response => {
+        $('#loading').css({display: 'block'})
+        this.retrieve()
+      })
     },
-    showImages(){
-      $('#browseImagesModal').modal('show')
-    },
-    hideImages(){
-      $('#browseImagesModal').modal('hide')
-    },
-    manageImageUrl(url){
-      if(this.user.profile !== null){
-        this.user.profile.url = url
-        this.updatePhoto(this.user.profile)
-      }else{
-        this.newProfile.account_id = this.user.userID
-        this.newProfile.url = url
-        this.createPhoto(this.newProfile)
+    remove(id){
+      let parameter = {
+        id: id
       }
+      this.APIRequest('guarantors/delete', parameter).then(response => {
+        $('#loading').css({display: 'block'})
+        this.retrieve()
+      })
     }
   }
 }

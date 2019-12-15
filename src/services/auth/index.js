@@ -203,8 +203,8 @@ export default {
     })
   },
   addNotification(notification){
-    console.log(notification)
     if(parseInt(this.user.userID) === parseInt(notification.to)){
+      this.playNotificationSound()
       if(this.user.notifications.data === null){
         this.user.notifications.data = []
         this.user.notifications.data.push(notification)
@@ -247,7 +247,7 @@ export default {
     }
   },
   playNotificationSound(){
-    let audio = require('../../assets/audio/notification.mp3')
+    let audio = require('src/assets/audio/notification.mp3')
     let sound = new Howl({
       src: [audio]
     })

@@ -199,7 +199,8 @@ export default{
           value: this.user.userID,
           column: 'account_id',
           clause: '='
-        }]
+        }],
+        type: this.user.type
       }
       $('#loading').css({display: 'none'})
       this.APIRequest('investments/retrieve', parameter).then(response => {

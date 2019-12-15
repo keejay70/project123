@@ -85,14 +85,7 @@ export default{
       tokenRequired: true
     }
   }, {
-    path: '/requests/',
-    name: 'requests',
-    component: resolve => require(['modules/request/List.vue'], resolve),
-    meta: {
-      tokenRequired: true
-    }
-  }, {
-    path: '/requests/:code',
+    path: '/requests/:code?',
     name: 'requests',
     component: resolve => require(['modules/request/List.vue'], resolve),
     meta: {
@@ -165,6 +158,20 @@ export default{
     path: '/accounts/',
     name: 'accounts',
     component: resolve => require(['modules/admin/Accounts.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
+  }, {
+    path: '/transfer/',
+    name: 'transfer',
+    component: resolve => require(['modules/peer/Peer.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
+  }, {
+    path: '/createRequest',
+    name: 'createRequest',
+    component: resolve => require(['modules/request/Create.vue'], resolve),
     meta: {
       tokenRequired: true
     }
