@@ -82,7 +82,7 @@
             Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
           <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) > 100">Invest</button>
-          <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) < 101">Process</button>
+          <button class="btn btn-primary" style="margin-right: 5px;" @click="processPeering(item)" v-if="parseInt(item.type) < 101">Process</button>
           <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">
             <i class="fas fa-star" v-if="item.bookmark === true"></i>
             Bookmark</button>
@@ -523,6 +523,18 @@ export default{
     },
     showImage(src){
       this.$refs.showImage.setImage(src)
+    },
+    processPeering(item){
+      let parameter = {
+        charge: 500,
+        account_id: this.user.userID,
+        request_id: item.id,
+        currency: 'PHP',
+        status: 'requesting',
+        to: item.account_id
+      }
+      this.APIRequest('request_peers/create', parameter).then(response => {
+      })
     }
   }
 
