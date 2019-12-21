@@ -86,5 +86,31 @@ export default {
   charges: {
     minimum: 20,
     maximum: 100
-  }
+  },
+  fulfillmentTypes: [{
+    value: 1,
+    label: 'Send',
+    description: 'Allow other peer to process your transaction when you want to send money to your family, friends or to businesses.',
+    money_type: 'Cash'
+  }, {
+    value: 2,
+    label: 'Withdrawal',
+    description: 'Allow other peer to process your withdrawals.',
+    money_type: 'Cash'
+  }, {
+    value: 3,
+    label: 'Deposit',
+    description: 'Allow other peer to process your deposits.',
+    money_type: 'Wallet'
+  }, {
+    value: 101,
+    label: 'Lending',
+    description: 'In case of emergency, let other peer fulfil your need.',
+    money_type: 'Wallet'
+  }, {
+    value: 102,
+    label: 'Installments',
+    description: 'What something but can not afford to? Let other peer get that something.',
+    money_type: 'Wallet'
+  }]
 }

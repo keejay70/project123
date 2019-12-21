@@ -28,7 +28,7 @@
               <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown" style="padding-top: 10px;">
               </i>
               <div class="dropdown-menu dropdown-more-options" aria-labelledby="dropdownMenuButton" >
-                <span class="dropdown-item action-link" @click="showRequestModal('update', item)" v-if="parseInt(item.account_id) === user.userID || (item.comakers !== null && user.userID === parseInt(item.comakers[0].comaker))">Edit</span>
+                <!-- <span class="dropdown-item action-link" @click="showRequestModal('update', item)" v-if="parseInt(item.account_id) === user.userID || (item.comakers !== null && user.userID === parseInt(item.comakers[0].comaker))">Edit</span> -->
                 <span class="dropdown-item action-link" @click="showReportModal(item)">Report</span>
               </div>
             </div>

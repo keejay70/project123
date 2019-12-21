@@ -2,9 +2,12 @@
   <div class="profile-holder">
     <span class="content">
       <span class="inputs">
-        <div class="form-group" style="margin-top: 25px;">
+        <div class="alert alert-danger" role="alert" style="margin-top: 25px;">
+          Hi <b>{{user.username}}!</b> Investors are excited to fulfil your request! Just Gentle reminder, you can't change any information of the request once posted.
+        </div>
+        <div class="form-group">
           <label for="address" style="width: 100%;">Select type of fulfilment <b class="text-danger">*</b></label>
-          <div class="card" style="width: 24%; margin-right: 1%; float: left;" v-for="(item, index) in types" :key="index" :class="{'bg-primary': request.type == item.value}" @click="request.type = item.value, request.money_type = item.money_type">
+          <div class="card" v-for="(item, index) in common.fulfillmentTypes" :key="index" :class="{'bg-primary': request.type == item.value}" @click="request.type = item.value, request.money_type = item.money_type">
             <div class="card-body">
               <label class="card-title"><b>{{item.label}}</b></label>
               <p class="card-text" style="text-align: justify; font-size: 13px;"><i>{{item.description}}</i></p>
@@ -13,7 +16,7 @@
         </div>
         <div>
           <label for="address" style="width: 100%;">I need <b class="text-danger">*</b></label>
-          <button class="btn btn-primary" v-if="request.money_type === 'cash'" style="width: 25% !important; height: 75px !important;">Cash</button>
+          <button class="btn btn-primary" v-if="request.money_type === 'Cash'" style="width: 25% !important; height: 75px !important;">Cash</button>
           <button class="btn btn-primary" v-else style="width: 25% !important; height: 75px !important;" >E-Money</button>
         </div>
         <div v-if="request.type < 101">
@@ -227,6 +230,9 @@
 .card{
   min-height: 220px !important;
   margin-bottom: 10px;
+  width: 24%;
+  margin-right: 1%;
+  float: left;
 }
 .card:hover{
   cursor: pointer;
@@ -251,6 +257,9 @@
     width: 100%;
     margin-right: 0%;
     margin-left: 0%;
+  }
+  .card{
+    width: 49%;
   }
 }
 </style>
@@ -293,32 +302,6 @@ export default {
         images: [],
         comaker: null
       },
-      types: [{
-        value: 1,
-        label: 'Send',
-        description: 'Allow other peer to process your transaction when you want to send money to your family, friends or to businesses.',
-        money_type: 'Cash'
-      }, {
-        value: 2,
-        label: 'Withdrawal',
-        description: 'Allow other peer to process your withdrawals.',
-        money_type: 'Cash'
-      }, {
-        value: 3,
-        label: 'Deposit',
-        description: 'Allow other peer to process your deposits.',
-        money_type: 'Wallet'
-      }, {
-        value: 101,
-        label: 'Lending',
-        description: 'In case of emergency, let other peer fulfil your need.',
-        money_type: 'Wallet'
-      }, {
-        value: 102,
-        label: 'Installments',
-        description: 'What something but can not afford to? Let other peer get that something.',
-        money_type: 'Wallet'
-      }],
       billingOptions: [
         {value: 0, label: 'Every end of the month'},
         {value: 1, label: 'Twice a month'},
