@@ -23,10 +23,6 @@
             <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
             <b>{{auth.displayAmount(item.amount)}}</b>
           </label>
-          <label style="text-transform: UPPERCASE; margin-right: 25px;">
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
-            <b>{{auth.showRequestType(item.type) + ' - ' + item.money_type}}</b>
-          </label>
           <label class="pull-right">
             <div class="dropdown" id="dropdownMenuButtonDropdown">
               <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown" style="padding-top: 10px;">
@@ -38,30 +34,36 @@
             </div>
           </label>
         </span>
+        <span class="summary-header text-primary">
+          <label style="text-transform: UPPERCASE; margin-right: 25px;">
+            {{auth.showRequestType(item.type) + ' - ' + item.money_type}}
+          </label>
+        </span>
+        <span class="summary-header">
+          <label>
+           <b>Posted on:</b> {{item.created_at_human}}
+          </label>
+        </span>
         <span class="summary-header">
           <label v-if="item.location !== null">
-            {{item.location.route + ', ' + item.location.locality + ', ' + item.location.country}}
+            <b>Location: </b>{{item.location.route + ', ' + item.location.locality + ', ' + item.location.country}}
           </label>
-          <label class="pull-right" v-if="parseInt(item.type) < 101">
-            <!-- <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i> -->
-            <b>Needed on {{item.needed_on_human}}</b>
+        </span>
+        <span class="summary-header">
+          <label>
+            <b>Needed on: </b> {{item.needed_on_human}}
           </label>
         </span>
         <span class="summary-header">
           <label v-if="parseInt(item.type) > 100">
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
-            {{item.interest}}% interest per Month for {{item.months_payable}} 
+            <b>Interest: </b>{{item.interest}}% interest per Month for {{item.months_payable}} 
             <label v-if="parseInt(item.months_payable) > 1">Months</label>
             <label v-else>Month</label>
           </label>
         </span>
         <span class="summary-header">
           <label v-if="parseInt(item.type) > 100">
-            Pay {{item.billing_per_month_human}}
-          </label>
-          <label v-if="parseInt(item.type) > 100">
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;" ></i>
-            Needed on {{item.needed_on_human}}
+            <b>Billing per month: </b> {{item.billing_per_month_human}}
           </label>
         </span>
         <span class="body">
@@ -69,15 +71,15 @@
            {{item.reason}}
           </label>
         </span>
+        <span class="body" v-if="item.images !== null">
+          <img :src="config.BACKEND_URL + imageItem.url" v-for="(imageItem, imageIndex) in item.images" :key="imageIndex" class="request-image" @click="showImage(config.BACKEND_URL + imageItem.url)" :style="{'width': (parseInt(100 / item.images.length) - 1) + '%', 'max-width': (parseInt(100 / item.images.length) - 1) + '%'}">
+        </span>
         <span class="footer">
           <label>
             <ratings :ratings="item.rating" v-if="item.rating !== null"></ratings>
           </label>
           <label v-if="parseInt(item.type) > 100">
             Total Borrowed: {{auth.displayAmount(item.total)}}
-          </label>
-          <label>
-           Posted on {{item.created_at_human}}
           </label>
           <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) > 100">Invest</button>
           <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) < 101">Process</button>
@@ -100,9 +102,11 @@
     <profile :item="selecteditemProfile"></profile>
     <report :item="selecteditemReport"></report>
     <increment-modal :property="requestModal"></increment-modal>
+    <show-image-modal ref="showImage"></show-image-modal>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
+@import "~assets/style/colors.scss";
 .request-list-wrapper{
   width: 100%;
   float: left;
@@ -206,6 +210,18 @@
 
 .dropdown-item:hover{
   background: #ddd !important;
+}
+
+.request-image{
+  float: left;
+  margin-right: 1%;
+  max-height: auto;
+  margin-bottom: 10px;
+}
+
+.request-image:hover{
+  cursor: pointer;
+  border: solid 1px $secondary;
 }
 
 @media (max-width: 992px){
@@ -312,7 +328,8 @@ export default{
     'basic-filter': require('components/increment/generic/filter/Basic.vue'),
     'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
     'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
-    'increment-modal': require('components/increment/generic/modal/Modal.vue')
+    'increment-modal': require('components/increment/generic/modal/Modal.vue'),
+    'show-image-modal': require('components/increment/generic/modal/Image.vue')
   },
   methods: {
     redirect(parameter){
@@ -503,6 +520,9 @@ export default{
         case 'list': this.listStyle = 'list'
           break
       }
+    },
+    showImage(src){
+      this.$refs.showImage.setImage(src)
     }
   }
 

@@ -81,20 +81,22 @@
           </div>
 
           <div class="form-group">
-            <label for="address">Message <b class="text-danger">*</b></label>
-            <textarea class="form-control" placeholder="Type message here" v-model="request.reason" rows="10">
+            <label for="address">Details <b class="text-danger">*</b></label>
+            <textarea class="form-control" placeholder="Type details here" v-model="request.reason" rows="10">
             </textarea>
           </div>
 
           <div class="form-group">
-            <button class="btn btn-primary btn-custom" style="margin-top: 5px;" @click="showImages()">Add images</button>
+            <button class="btn btn-primary btn-custom" style="margin-top: 5px;" @click="showImages()">Add images (Optional)</button>
+          </div>
+          <div v-if="request.images.length > 0">
+            <img :src="config.BACKEND_URL + item.url" v-for="(item, index) in request.images" :key="index" class="request-image">
           </div>
 
           <div class="form-group" style="margin-bottom: 100px; float: left; width: 100%;">
             <label for="address" style="float: left; width: 100%;">Comaker (Optional)</label>
-            <input type="email" class="form-control form-control-custom" v-model="request.needed_on" style="width: 80% !important; float: left;"
+            <input type="email" class="form-control form-control-custom" v-model="request.comaker"
             placeholder="Type email address">
-            <button class="btn btn-primary pull-right btn-custom" style="width: 15%!important; margin-left: 5%;" @click="addComaker()">Add</button>
           </div>
         </div>
       </span>
@@ -230,6 +232,15 @@
   cursor: pointer;
 }
 
+.request-image{
+  width: 24%;
+  float: left;
+  margin-right: 1%;
+  max-height: 200px;
+  max-width: 24%;
+  margin-bottom: 10px;
+}
+
 @media screen and (max-width: 992px){
   .holder{
     width: 96%;
@@ -278,7 +289,9 @@ export default {
           country: null,
           latitude: 0,
           longitude: 0
-        }
+        },
+        images: [],
+        comaker: null
       },
       types: [{
         value: 1,
@@ -328,28 +341,45 @@ export default {
     },
     post(){
       this.errorMessage = null
+      if(this.request.amount < COMMON.MINIMUM_WITHDRAWAL){
+        this.errorMessage = 'Minimum transaction is ' + AUTH.displayAmount(COMMON.MINIMUM_WITHDRAWAL)
+        return
+      }
+      if(this.request.reason === null || this.request.reason === ''){
+        this.errorMessage = 'Details is required.'
+        return
+      }
+      if(this.request.needed_on === null || this.request.needed_on === ''){
+        this.errorMessage = 'Needed on is required.'
+        return
+      }
       if(this.request.type < 101){
-        if(this.request.amount < COMMON.MINIMUM_WITHDRAWAL){
-          this.errorMessage = 'Minimum transaction is ' + AUTH.displayAmount(COMMON.MINIMUM_WITHDRAWAL)
-          return false
-        }
         if(this.request.location.route === null){
           this.errorMessage = 'Location is required.'
-          return false
-        }
-        if(this.request.reason === null || this.request.reason === ''){
-          this.errorMessage = 'Details is required.'
-          return false
-        }
-        if(this.request.needed_on === null || this.request.needed_on === ''){
-          this.errorMessage = 'Needed on is required.'
-          return false
+          return
         }
       }else{
         // lending
-        return false
+        if(this.request.months_payable === null){
+          this.errorMessage = 'Months payable is required.'
+          return
+        }
+        if(this.request.interest === null){
+          this.errorMessage = 'Interest is required.'
+          return
+        }
+        if(this.request.billing_per_month === null){
+          this.errorMessage = 'Billing per month is required.'
+          return
+        }
+        if(this.request.comaker !== null && this.request.comaker !== '' && AUTH.validateEmail(this.request.comaker) === false){
+          this.errorMessage = 'Invalid email address.'
+          return
+        }
       }
+      $('#loading').css({display: 'block'})
       this.APIRequest('requests/create', this.request).then(response => {
+        $('#loading').css({display: 'none'})
         if(response.data !== null){
           this.redirect('/requests/' + response.data)
         }
@@ -370,6 +400,12 @@ export default {
         latitude: addressData.latitude,
         longitude: addressData.longitude
       }
+    },
+    manageImageUrl(url){
+      let object = {
+        url: url
+      }
+      this.request.images.push(object)
     }
   }
 }
