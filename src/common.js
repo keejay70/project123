@@ -82,5 +82,9 @@ export default {
   interest: {
     max: 30,
     min: 1
+  },
+  charges: {
+    minimum: 20,
+    maximum: 100
   }
 }

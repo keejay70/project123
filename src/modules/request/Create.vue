@@ -1,0 +1,376 @@
+<template>
+  <div class="profile-holder">
+    <span class="content">
+      <span class="inputs">
+        <div class="form-group" style="margin-top: 25px;">
+          <label for="address" style="width: 100%;">Select type of fulfilment <b class="text-danger">*</b></label>
+          <div class="card" style="width: 24%; margin-right: 1%; float: left;" v-for="(item, index) in types" :key="index" :class="{'bg-primary': request.type == item.value}" @click="request.type = item.value, request.money_type = item.money_type">
+            <div class="card-body">
+              <label class="card-title"><b>{{item.label}}</b></label>
+              <p class="card-text" style="text-align: justify; font-size: 13px;"><i>{{item.description}}</i></p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label for="address" style="width: 100%;">I need <b class="text-danger">*</b></label>
+          <button class="btn btn-primary" v-if="request.money_type === 'cash'" style="width: 25% !important; height: 75px !important;">Cash</button>
+          <button class="btn btn-primary" v-else style="width: 25% !important; height: 75px !important;" >E-Money</button>
+        </div>
+        <div v-if="request.type < 101">
+          <div class="form-group" style="margin-top: 25px;">
+            <label for="address">Amount <b class="text-danger">*</b></label>
+            <input type="number" class="form-control form-control-custom" placeholder="Type Amount" v-model="request.amount">
+          </div>
+          <div class="form-group" style="margin-top: 25px;">
+            <label for="address" style="width: 100%; float: left;">Location <b class="text-danger">*</b></label>
+            <vue-google-autocomplete
+              ref="address"
+              id="map"
+              classname="form-control"
+              placeholder="Please type meetup address"
+              v-on:placechanged="getAddressData"
+              style="height: 45px !important;"
+              :country="['ph']"
+            >
+            </vue-google-autocomplete>
+            <!-- <button class="btn btn-primary btn-custom pull-right" style="width: 15%!important;" @click="showMap()"> 
+              Add location
+            </button> -->
+          </div>
+          <div class="form-group" style="margin-top: 25px; width: 100%; float: left;">
+            <label for="address">Needed on <b class="text-danger">*</b></label>
+            <input type="date" class="form-control form-control-custom" placeholder="Type Amount" v-model="request.needed_on">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 100px;">
+            <label for="address">Details <b class="text-danger">*</b></label>
+            <textarea class="form-control" placeholder="Add more details here" v-model="request.reason" rows="10">
+            </textarea>
+          </div>
+        </div>
+        <div v-else style="float: left; width: 100%;">
+          <div class="form-group" style="margin-top: 25px;">
+            <label for="address">I want to borrow the amount of <b class="text-danger">*</b></label>
+            <input type="number" class="form-control form-control-custom" placeholder="Type Amount" v-model="request.amount">
+          </div>
+
+          <div class="form-group">
+            <label for="address">I will pay the interest of <b class="text-danger">*</b></label>
+            <select class="form-control form-control-custom" v-model="request.interest">
+              <option v-for="(item, index) in common.interest.max" :value="item" v-if="item >= common.interest.min">{{item}} % per month</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="address">I will pay within <b class="text-danger">*</b></label>
+            <select class="form-control form-control-custom" v-model="request.months_payable">
+              <option v-for="(item, index) in 12" :value="item">{{item}} {{item > 1 ? 'Months' : 'Month'}}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="address">I will pay <b class="text-danger">*</b></label>
+            <select class="form-control form-control-custom" v-model="request.billing_per_month">
+              <option v-for="(item, index) in billingOptions" :value="item.value">{{item.label}}</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-top: 25px;">
+            <label for="address">I need this on <b class="text-danger">*</b></label>
+            <input type="date" class="form-control form-control-custom" v-model="request.needed_on">
+          </div>
+
+          <div class="form-group">
+            <label for="address">Message <b class="text-danger">*</b></label>
+            <textarea class="form-control" placeholder="Type message here" v-model="request.reason" rows="10">
+            </textarea>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-primary btn-custom" style="margin-top: 5px;" @click="showImages()">Add images</button>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 100px; float: left; width: 100%;">
+            <label for="address" style="float: left; width: 100%;">Comaker (Optional)</label>
+            <input type="email" class="form-control form-control-custom" v-model="request.needed_on" style="width: 80% !important; float: left;"
+            placeholder="Type email address">
+            <button class="btn btn-primary pull-right btn-custom" style="width: 15%!important; margin-left: 5%;" @click="addComaker()">Add</button>
+          </div>
+        </div>
+      </span>
+
+      <span class="sidebar">
+        <span class="sidebar-header" style="margin-top: 25px;"><b>Summary</b></span>
+        <span class="incre-row" v-if="errorMessage !== null">
+          <label class="text-danger" style="width: 100%;"><b>Opps!</b> {{errorMessage}}</label>
+        </span>
+        <span  class="incre-row" style="line-height: 45px;">
+          <label class="pull-left">Amount</label>
+          <label class="pull-right"><b>{{auth.displayAmount(request.amount)}}</b></label>
+        </span>
+        <div v-if="request.type > 100">
+          <span style="line-height: 45px;" class="incre-row">
+            <label class="pull-left">Interest</label>
+            <label class="pull-right">{{request.interest}}% per month</label>
+          </span>
+          <span style="line-height: 45px;" class="incre-row">
+            <label class="pull-left">Billing cycle</label>
+            <label class="pull-right">{{billingOptions[request.billing_per_month].label}}</label>
+          </span>
+          <span style="line-height: 45px;" class="incre-row" v-if="request.billing_per_month === 0">
+            <label class="pull-left">Charge per billing</label>
+            <label class="pull-right">{{auth.displayAmount((request.interest / 100) * request.amount)}}</label>
+          </span>
+          <span style="line-height: 45px;" class="incre-row" v-if="request.billing_per_month === 1">
+            <label class="pull-left">Charge per billing</label>
+            <label class="pull-right">{{auth.displayAmount(((request.interest / 100) * request.amount) / 2)}}</label>
+          </span>
+          <span style="line-height: 45px;" class="incre-row" v-if="request.billing_per_month === 2">
+            <label class="pull-left">Charge per billing</label>
+            <label class="pull-right">{{auth.displayAmount(((request.interest / 100) * request.amount) / 4)}}</label>
+          </span>
+          <span style="line-height: 45px; border-top: solid 1px #ddd;" class="incre-row">
+            <label class="pull-left">Total</label>
+            <label class="pull-right"><b>{{auth.displayAmount(parseInt(request.amount))}}</b></label>
+          </span>
+        </div>
+        <div v-else>
+          <span style="line-height: 45px;" class="incre-row">
+            <label class="pull-left">Charges</label>
+            <label class="pull-right">{{auth.displayAmount(common.charges.minimum)}}</label>
+          </span>
+          <span style="line-height: 45px; border-top: solid 1px #ddd;" class="incre-row">
+            <label class="pull-left">Total</label>
+            <label class="pull-right"><b>{{auth.displayAmount(parseInt(request.amount) + parseInt(common.charges.minimum))}}</b></label>
+          </span>
+        </div>
+        <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 100px; width: 100%!important;" @click="post()">Post</button>
+      </span>
+    </span>
+    <browse-images-modal></browse-images-modal>
+    <browse-map-modal></browse-map-modal>
+  </div>
+</template>
+<style scoped lang="scss">
+@import "~assets/style/colors.scss";
+.bg-primary{
+  background-color: $primary !important;
+}
+.profile-holder{
+  width: 100%;
+  float: left;
+}
+.header{
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  font-size: 24px;
+  border-bottom: solid 1px #ddd;
+  float: left;
+}
+.content{
+  width: 100%;
+  min-height: 50px;
+  float: left;
+  overflow-y: hidden;
+}
+.inputs{
+  width: 65%;
+  float: left;
+  margin-right: 5%;
+  min-height: 50px;
+  overflow-y: hidden;
+}
+.sidebar{
+  width: 30%;
+  float: left;
+  min-height: 50px;
+  overflow-y: hidden;
+}
+.sidebar-header{
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+  float: left;
+}
+.sidebar .image{
+  width: 100%;
+  float: left;
+  min-height: 200px;
+  overflow-y: hidden;
+  text-align: center;
+}
+.image i{
+  font-size: 150px;
+  line-height: 200px;
+}
+.image img{
+  border-radius: 5px;
+}
+.custom-block{
+  width: 100%;
+  float: left;
+}
+.custom-block input{
+  display: none;
+}
+
+.form-control-custom{
+  height: 45px !important;
+}
+
+.btn-custom{
+  height: 45px !important;
+}
+.card{
+  min-height: 220px !important;
+  margin-bottom: 10px;
+}
+.card:hover{
+  cursor: pointer;
+}
+
+@media screen and (max-width: 992px){
+  .holder{
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+  .sidebar, .inputs{
+    width: 100%;
+    margin-right: 0%;
+    margin-left: 0%;
+  }
+}
+</style>
+<script>
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
+import axios from 'axios'
+import CONFIG from 'src/config.js'
+import COMMON from 'src/common.js'
+import VueGoogleAutocomplete from 'vue-google-autocomplete'
+export default {
+  mounted(){
+  },
+  data(){
+    return {
+      user: AUTH.user,
+      auth: AUTH,
+      tokenData: AUTH.tokenData,
+      config: CONFIG,
+      errorMessage: null,
+      common: COMMON,
+      request: {
+        account_id: AUTH.user.userID,
+        money_type: 'cash',
+        type: 1,
+        amount: 0,
+        interest: COMMON.interest.min,
+        months_payable: 1,
+        needed_on: null,
+        billing_per_month: 0,
+        reason: null,
+        location: {
+          route: null,
+          locality: null,
+          region: null,
+          country: null,
+          latitude: 0,
+          longitude: 0
+        }
+      },
+      types: [{
+        value: 1,
+        label: 'Send',
+        description: 'Allow other peer to process your transaction when you want to send money to your family, friends or to businesses.',
+        money_type: 'Cash'
+      }, {
+        value: 2,
+        label: 'Withdrawal',
+        description: 'Allow other peer to process your withdrawals.',
+        money_type: 'Cash'
+      }, {
+        value: 3,
+        label: 'Deposit',
+        description: 'Allow other peer to process your deposits.',
+        money_type: 'Wallet'
+      }, {
+        value: 101,
+        label: 'Lending',
+        description: 'In case of emergency, let other peer fulfil your need.',
+        money_type: 'Wallet'
+      }, {
+        value: 102,
+        label: 'Installments',
+        description: 'What something but can not afford to? Let other peer get that something.',
+        money_type: 'Wallet'
+      }],
+      billingOptions: [
+        {value: 0, label: 'Every end of the month'},
+        {value: 1, label: 'Twice a month'},
+        {value: 2, label: 'Every end of the week'}
+      ]
+    }
+  },
+  props: ['allowed'],
+  components: {
+    'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
+    'browse-map-modal': require('components/increment/generic/modal/Map.vue'),
+    VueGoogleAutocomplete
+  },
+  methods: {
+    redirect(parameter){
+      ROUTER.push(parameter)
+    },
+    addComaker(){
+      //
+    },
+    post(){
+      this.errorMessage = null
+      if(this.request.type < 101){
+        if(this.request.amount < COMMON.MINIMUM_WITHDRAWAL){
+          this.errorMessage = 'Minimum transaction is ' + AUTH.displayAmount(COMMON.MINIMUM_WITHDRAWAL)
+          return false
+        }
+        if(this.request.location.route === null){
+          this.errorMessage = 'Location is required.'
+          return false
+        }
+        if(this.request.reason === null || this.request.reason === ''){
+          this.errorMessage = 'Details is required.'
+          return false
+        }
+        if(this.request.needed_on === null || this.request.needed_on === ''){
+          this.errorMessage = 'Needed on is required.'
+          return false
+        }
+      }else{
+        // lending
+        return false
+      }
+      this.APIRequest('requests/create', this.request).then(response => {
+        if(response.data !== null){
+          this.redirect('/requests/' + response.data)
+        }
+      })
+    },
+    showImages(){
+      $('#browseImagesModal').modal('show')
+    },
+    showMap(){
+      $('#selectLocationModal').modal('show')
+    },
+    getAddressData(addressData, placeResultData, id) {
+      this.request.location = {
+        route: addressData.route,
+        locality: addressData.locality,
+        region: addressData.administrative_area_level_1,
+        country: addressData.country,
+        latitude: addressData.latitude,
+        longitude: addressData.longitude
+      }
+    }
+  }
+}
+</script>

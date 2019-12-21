@@ -19,12 +19,17 @@
             <img :src="config.BACKEND_URL + item.account.profile.url" height="30px" width="30px;" style="border-radius: 50%;" v-else>
             {{item.account.username}}
           </label>
-          <label>
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>{{item.account.information.address}}
+          <label class="text-primary">
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
+            <b>{{auth.displayAmount(item.amount)}}</b>
+          </label>
+          <label style="text-transform: UPPERCASE; margin-right: 25px;">
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
+            <b>{{auth.showRequestType(item.type) + ' - ' + item.money_type}}</b>
           </label>
           <label class="pull-right">
             <div class="dropdown" id="dropdownMenuButtonDropdown">
-              <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown">
+              <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown" style="padding-top: 10px;">
               </i>
               <div class="dropdown-menu dropdown-more-options" aria-labelledby="dropdownMenuButton" >
                 <span class="dropdown-item action-link" @click="showRequestModal('update', item)" v-if="parseInt(item.account_id) === user.userID || (item.comakers !== null && user.userID === parseInt(item.comakers[0].comaker))">Edit</span>
@@ -34,14 +39,16 @@
           </label>
         </span>
         <span class="summary-header">
-          <label>
-            {{item.created_at_human}}
+          <label v-if="item.location !== null">
+            {{item.location.route + ', ' + item.location.locality + ', ' + item.location.country}}
           </label>
-          <label class="text-primary">
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
-            <b>{{auth.displayAmount(item.amount)}}</b>
+          <label class="pull-right" v-if="parseInt(item.type) < 101">
+            <!-- <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i> -->
+            <b>Needed on {{item.needed_on_human}}</b>
           </label>
-          <label>
+        </span>
+        <span class="summary-header">
+          <label v-if="parseInt(item.type) > 100">
             <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
             {{item.interest}}% interest per Month for {{item.months_payable}} 
             <label v-if="parseInt(item.months_payable) > 1">Months</label>
@@ -49,11 +56,11 @@
           </label>
         </span>
         <span class="summary-header">
-          <label>
+          <label v-if="parseInt(item.type) > 100">
             Pay {{item.billing_per_month_human}}
           </label>
-          <label>
-            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
+          <label v-if="parseInt(item.type) > 100">
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;" ></i>
             Needed on {{item.needed_on_human}}
           </label>
         </span>
@@ -66,10 +73,14 @@
           <label>
             <ratings :ratings="item.rating" v-if="item.rating !== null"></ratings>
           </label>
-          <label>
+          <label v-if="parseInt(item.type) > 100">
             Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
-          <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)">Invest</button>
+          <label>
+           Posted on {{item.created_at_human}}
+          </label>
+          <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) > 100">Invest</button>
+          <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) < 101">Process</button>
           <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">
             <i class="fas fa-star" v-if="item.bookmark === true"></i>
             Bookmark</button>
@@ -134,6 +145,7 @@
 }
 .rl-container-item .header label, .rl-container-item .summary-header label{
   margin-bottom: 0px;
+  line-height: 30px;
 }
 .rl-container-item .body{
   width: 100%;
