@@ -3,6 +3,7 @@
     <div class="request-list-left-container">
       <div class="incre-row">
         <button class="btn btn-primary pull-right" @click="redirect('/createRequest')">Post a request</button>
+        <button class="btn btn-primary pull-right" @click="showMyRequest()" style="margin-right: 10px;">View my request</button>
         <!-- <button class="btn btn-primary pull-right" @click="showRequestModal('create')">Post a request</button> -->
       </div>
       <basic-filter 
@@ -82,7 +83,7 @@
             Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
           <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) > 100">Invest</button>
-          <button class="btn btn-primary" style="margin-right: 5px;" @click="processPeering(item)" v-if="parseInt(item.type) < 101">Process</button>
+          <button class="btn btn-primary" style="margin-right: 5px;" @click="showChargeModal(item)" v-if="parseInt(item.type) < 101">Process</button>
           <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">
             <i class="fas fa-star" v-if="item.bookmark === true"></i>
             Bookmark</button>
@@ -92,6 +93,28 @@
         <b-progress :max="parseInt(item.initial_amount)" class="progress-bar bg-warning"  style="margin-bottom: 10px;" v-if="parseInt(item.invested) > 0 && parseInt(item.amount) > 0">
           <b-progress-bar :value="parseFloat(item.initial_amount) - item.amount" :variant="'bg-primary'" :label="parseInt((1 - (item.amount / parseFloat(item.initial_amount))) * 100) + '%'"></b-progress-bar>
         </b-progress>
+
+        <span class="peer-requests" v-if="item.account_id === user.userID && item.peers.peers !== null">
+          <div class="peer-header text-primary">
+            <b>Peer request list</b>
+          </div>
+          <div class="peer-item" v-for="(peerItem, peerIndex) in item.peers.peers" :key="peerIndex">
+            <span class="incre-row">
+              <i class="fas fa-user-circle" style="color: #555; padding-right: 5px;" v-if="peerItem.account.profile === null"></i>
+              <img :src="config.BACKEND_URL + peerItem.account.profile.url" height="30px" width="30px;" style="border-radius: 50%;" v-else>
+              <label>{{peerItem.account.username}}</label>
+              <label class="pull-right">
+                <ratings :ratings="peerItem.rating" v-if="peerItem.rating !== null"></ratings>
+              </label>
+            </span>
+            <span class="incre-row">
+              <label>Processing fee: <b class="text-primary">{{auth.displayAmountWithCurrency(peerItem.charge, peerItem.currency)}}</b></label>
+              <button class="btn btn-primary pull-right" v-if="item.peers.status === false" @click="acceptPeer(peerItem, item)">Accept</button>
+              <button class="btn pull-right btn-primary" v-if="item.peers.status === true && item.account_id === user.userID" @click="redirect('/thread/' + item.code)">View thread</button>
+              <button class="btn pull-right" v-if="item.peers.status === true && item.account_id === user.userID" style="margin-right: 10px; height: 35px !important;">Approved</button>
+            </span>
+          </div>
+        </span>
       
       </div>
       <empty v-if="data === null" :title="'We just launched and we\'re still growing.'" :action="' Please check back soon, we will have tons of request for you.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></empty>
@@ -103,6 +126,7 @@
     <report :item="selecteditemReport"></report>
     <increment-modal :property="requestModal"></increment-modal>
     <show-image-modal ref="showImage"></show-image-modal>
+    <show-process-modal  ref="createChargesModal"></show-process-modal>
   </div>
 </template>
 <style scoped lang="scss">
@@ -224,6 +248,26 @@
   border: solid 1px $secondary;
 }
 
+.peer-requests{
+  width: 100%;
+  float: left;
+  min-height: 10px;
+  overflow-y: hidden;
+}
+
+.peer-header{
+  line-height: 50px;
+}
+
+.peer-item{
+  width: 100%;
+  float: left;
+  min-height: 10px;
+  overflow-y: hidden;
+  border-top: solid 1px $gray;
+  line-height: 50px;
+}
+
 @media (max-width: 992px){
   .request-list-wrapper{
     margin-bottom: 200px;
@@ -329,7 +373,8 @@ export default{
     'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
     'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
     'increment-modal': require('components/increment/generic/modal/Modal.vue'),
-    'show-image-modal': require('components/increment/generic/modal/Image.vue')
+    'show-image-modal': require('components/increment/generic/modal/Image.vue'),
+    'show-process-modal': require('modules/request/ProcessModal.vue')
   },
   methods: {
     redirect(parameter){
@@ -460,6 +505,9 @@ export default{
       this.selecteditemReport = item
       $('#createReportModal').modal('show')
     },
+    showMyRequest(){
+      this.retrieve({created_at: 'desc'}, {column: 'account_id', value: this.user.userID})
+    },
     retrieve(sort, filter){
       if(this.user.type === 'USER'){
         filter.column = 'account_id'
@@ -524,16 +572,28 @@ export default{
     showImage(src){
       this.$refs.showImage.setImage(src)
     },
-    processPeering(item){
+    showChargeModal(item){
+      this.$refs.createChargesModal.show(item)
+    },
+    acceptPeer(peerItem, item){
       let parameter = {
-        charge: 500,
-        account_id: this.user.userID,
-        request_id: item.id,
-        currency: 'PHP',
-        status: 'requesting',
-        to: item.account_id
+        id: peerItem.id,
+        status: 'approved'
       }
-      this.APIRequest('request_peers/create', parameter).then(response => {
+      this.APIRequest('request_peers/update', parameter).then(response => {
+        if(response.data){
+          let messengerParams = {
+            member: peerItem.account_id,
+            title: item.code,
+            payload: item.id,
+            creator: this.user.userID
+          }
+          this.APIRequest('custom_messenger_groups/create', messengerParams).then(response => {
+            if(response.data > 0){
+              this.redirect('/thread/' + item.code)
+            }
+          })
+        }
       })
     }
   }

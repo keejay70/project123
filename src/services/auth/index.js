@@ -318,6 +318,15 @@ export default {
     })
     return formatter.format(amount)
   },
+  displayAmountWithCurrency(amount, currency){
+    // amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '1,')
+    // console.log(amount)
+    var formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency
+    })
+    return formatter.format(amount)
+  },
   showRequestType(type){
     switch(parseInt(type)){
       case 1: return 'Send'

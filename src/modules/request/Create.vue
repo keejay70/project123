@@ -3,7 +3,7 @@
     <span class="content">
       <span class="inputs">
         <div class="alert alert-danger" role="alert" style="margin-top: 25px;">
-          Hi <b>{{user.username}}!</b> Investors are excited to fulfil your request! Just Gentle reminder, you can't change any information of the request once posted.
+          Hi <b>{{user.username}}!</b> Investors are excited to fulfil your request! Just a gentle reminder that you can't change any information of the request once posted.
         </div>
         <div class="form-group">
           <label for="address" style="width: 100%;">Select type of fulfilment <b class="text-danger">*</b></label>

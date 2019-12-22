@@ -112,5 +112,12 @@ export default {
     label: 'Installments',
     description: 'What something but can not afford to? Let other peer get that something.',
     money_type: 'Wallet'
-  }]
+  }],
+  currencies: [{
+    title: 'Philippine Peso',
+    value: 'PHP'
+  }],
+  payhiramCharges: {
+    percentage: 20
+  }
 }
