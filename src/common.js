@@ -119,5 +119,8 @@ export default {
   }],
   payhiramCharges: {
     percentage: 20
+  },
+  messagesHeader: {
+    path: 'thread'
   }
 }

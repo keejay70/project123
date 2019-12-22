@@ -28,7 +28,7 @@ export default {
     }
   },
   messenger: {
-    messages: null,
+    messages: [],
     badge: 0,
     messengerGroupId: null
   },
@@ -115,7 +115,7 @@ export default {
           }
         })
         this.retrieveNotifications(userInfo.id)
-        // this.retrieveMessages(userInfo.id, userInfo.account_type)
+        this.retrieveMessages(userInfo.id, userInfo.account_type)
         if(callback){
           callback(userInfo)
         }
@@ -155,7 +155,7 @@ export default {
           }
         })
         this.retrieveNotifications(userInfo.id)
-        // this.retrieveMessages(userInfo.id, userInfo.account_type)
+        this.retrieveMessages(userInfo.id, userInfo.account_type)
         this.getGoogleCode()
       }, (response) => {
         this.setToken(null)
@@ -218,10 +218,9 @@ export default {
   retrieveMessages(accountId, type){
     let vue = new Vue()
     let parameter = {
-      account_id: accountId,
-      account_type: type
+      account_id: accountId
     }
-    vue.APIRequest('messenger_groups/retrieve_summary', parameter).then(response => {
+    vue.APIRequest('messenger_groups/retrieve_summary_payhiram', parameter).then(response => {
       if(response.data !== null){
         this.user.messages.data = response.data
         this.user.messages.totalUnreadMessages = response.size
