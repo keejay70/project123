@@ -1,7 +1,7 @@
 <template>
   <div class="ledgers-container-item bg-primary" > 
     <label><b>Account Balance</b></label>
-    <label>{{auth.displayAmount(data)}}</label>
+    <label>{{auth.displayAmountWithCurrency(auth.user.ledger.amount, auth.user.ledger.currency)}}</label>
     <span style="margin-bottom: 5px;">
       <button class="btn btn-warning pull-left" style="margin-top: 4px;" @click="showWithdrawModal(data)">Withdraw</button>
       <button class="btn btn-warning pull-right" style="margin-top: 4px;" @click="showDepositModal(data)">Deposit</button>

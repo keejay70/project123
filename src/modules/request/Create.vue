@@ -19,10 +19,16 @@
           <button class="btn btn-primary" v-if="request.money_type === 'Cash'" style="width: 25% !important; height: 75px !important;">Cash</button>
           <button class="btn btn-primary" v-else style="width: 25% !important; height: 75px !important;" >E-Money</button>
         </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Select Currency</label>
+          <select class="form-control form-control-custom" v-model="request.currency">
+            <option v-for="(item, index) in common.currencies" :key="index" :value="item.value" class="form-control">{{item.title}} - {{item.value}}</option>
+          </select>
+        </div>
         <div v-if="request.type < 101">
           <div class="form-group" style="margin-top: 25px;">
             <label for="address">Amount <b class="text-danger">*</b></label>
-            <input type="number" class="form-control form-control-custom" placeholder="Type Amount" v-model="request.amount">
+            <input type="number" class="form-control form-control-custom" placeholder="Type Amount" v-model="request.amount" @keypress="checkBalance()">
           </div>
           <div class="form-group" style="margin-top: 25px;">
             <label for="address" style="width: 100%; float: left;">Location <b class="text-danger">*</b></label>
@@ -33,7 +39,6 @@
               placeholder="Please type meetup address"
               v-on:placechanged="getAddressData"
               style="height: 45px !important;"
-              :country="['ph']"
             >
             </vue-google-autocomplete>
             <!-- <button class="btn btn-primary btn-custom pull-right" style="width: 15%!important;" @click="showMap()"> 
@@ -110,8 +115,12 @@
           <label class="text-danger" style="width: 100%;"><b>Opps!</b> {{errorMessage}}</label>
         </span>
         <span  class="incre-row" style="line-height: 45px;">
+          <label class="pull-left">Your current balance</label>
+          <label class="pull-right text-primary"><b>{{auth.displayAmountWithCurrency(auth.user.ledger.amount, auth.user.ledger.currency)}}</b></label>
+        </span>
+        <span  class="incre-row" style="line-height: 45px;">
           <label class="pull-left">Amount</label>
-          <label class="pull-right"><b>{{auth.displayAmount(request.amount)}}</b></label>
+          <label class="pull-right"><b>{{auth.displayAmountWithCurrency(request.amount, request.currency)}}</b></label>
         </span>
         <div v-if="request.type > 100">
           <span style="line-height: 45px;" class="incre-row">
@@ -124,29 +133,28 @@
           </span>
           <span style="line-height: 45px;" class="incre-row" v-if="request.billing_per_month === 0">
             <label class="pull-left">Charge per billing</label>
-            <label class="pull-right">{{auth.displayAmount((request.interest / 100) * request.amount)}}</label>
+            <label class="pull-right">{{auth.displayAmountWithCurrency((request.interest / 100) * request.amount, request.currency)}}</label>
           </span>
           <span style="line-height: 45px;" class="incre-row" v-if="request.billing_per_month === 1">
             <label class="pull-left">Charge per billing</label>
-            <label class="pull-right">{{auth.displayAmount(((request.interest / 100) * request.amount) / 2)}}</label>
+            <label class="pull-right">{{auth.displayAmountWithCurrency(((request.interest / 100) * request.amount) / 2, request.currency)}}</label>
           </span>
           <span style="line-height: 45px;" class="incre-row" v-if="request.billing_per_month === 2">
             <label class="pull-left">Charge per billing</label>
-            <label class="pull-right">{{auth.displayAmount(((request.interest / 100) * request.amount) / 4)}}</label>
+            <label class="pull-right">{{auth.displayAmountWithCurrency(((request.interest / 100) * request.amount) / 4, request.currency)}}</label>
           </span>
           <span style="line-height: 45px; border-top: solid 1px #ddd;" class="incre-row">
             <label class="pull-left">Total</label>
-            <label class="pull-right"><b>{{auth.displayAmount(parseInt(request.amount))}}</b></label>
+            <label class="pull-right"><b>{{auth.displayAmountWithCurrency(parseInt(request.amount), request.currency)}}</b></label>
           </span>
         </div>
         <div v-else>
           <span style="line-height: 45px;" class="incre-row">
-            <label class="pull-left">Charges</label>
-            <label class="pull-right">{{auth.displayAmount(common.charges.minimum)}}</label>
+            <label class="pull-left incre-row">Charges will vary to the processor</label>
           </span>
           <span style="line-height: 45px; border-top: solid 1px #ddd;" class="incre-row">
             <label class="pull-left">Total</label>
-            <label class="pull-right"><b>{{auth.displayAmount(parseInt(request.amount) + parseInt(common.charges.minimum))}}</b></label>
+            <label class="pull-right"><b>{{auth.displayAmountWithCurrency(parseInt(request.amount) + parseInt(common.charges.minimum), request.currency)}}</b></label>
           </span>
         </div>
         <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 100px; width: 100%!important;" @click="post()">Post</button>
@@ -247,6 +255,7 @@
   margin-bottom: 10px;
 }
 
+
 @media screen and (max-width: 992px){
   .holder{
     width: 96%;
@@ -284,6 +293,7 @@ export default {
       request: {
         account_id: AUTH.user.userID,
         money_type: 'cash',
+        currency: 'PHP',
         type: 1,
         amount: 0,
         interest: COMMON.interest.min,
@@ -323,7 +333,10 @@ export default {
       //
     },
     post(){
-      this.errorMessage = null
+      this.checkBalance()
+      if(this.errorMessage !== null){
+        return
+      }
       if(this.request.amount < COMMON.MINIMUM_WITHDRAWAL){
         this.errorMessage = 'Minimum transaction is ' + AUTH.displayAmount(COMMON.MINIMUM_WITHDRAWAL)
         return
@@ -389,6 +402,27 @@ export default {
         url: url
       }
       this.request.images.push(object)
+    },
+    verifyBalance(){
+      if(this.request.amount > AUTH.user.ledger.amount){
+        this.errorMessage = 'Insufficient balance!'
+      }else{
+        this.errorMessage = null
+      }
+    },
+    checkBalance(){
+      if(this.request.type < 101){
+        switch(this.request.type){
+          case 1:
+            this.verifyBalance()
+            break
+          case 2:
+            this.verifyBalance()
+            break
+          case 3:
+            break
+        }
+      }
     }
   }
 }

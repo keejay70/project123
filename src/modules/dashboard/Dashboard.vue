@@ -13,9 +13,9 @@
         <label><b>Ledger Summary</b></label>
         <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="redirect('requests')">View requests</button>
 
-        <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="redirect('investments')" v-if="user.type !== 'USER'">View investments</button>
+        <!-- <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="redirect('investments')" v-if="user.type !== 'USER'">View investments</button> -->
 
-        <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" v-if="data.ledger.request_status === true" @click="redirect('payments')">Make payment</button>
+        <!-- <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" v-if="data.ledger.request_status === true" @click="redirect('payments')">Make payment</button> -->
       </div>
       <summary-ledger :data="data.data"></summary-ledger>
     </div>
@@ -161,8 +161,10 @@ export default{
           $('#loading').css({display: 'none'})
           if(response !== null){
             this.data = response
+            AUTH.user.ledger.amount = response.ledger.ledger
           }else{
             this.data = null
+            AUTH.user.ledger.amount = response.ledger.ledger
           }
         })
       }, 1000)

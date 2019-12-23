@@ -9,9 +9,13 @@
           </button>
         </div>
         <div class="modal-body">
-          <span v-if="errorMessage !== null" class="text-danger text-center">
+          <span v-if="errorMessage !== null" class="text-danger text-center incre-row">
             <label><b>Opps! </b>{{errorMessage}}</label>
           </span>
+          <div class="form-group text-center" v-if="request !== null && parseInt(request.type) === 3">
+            <label for="exampleInputEmail1 incre-row">Your current balance</label>
+            <label class="text-primary incre-row"><h3>{{auth.displayAmountWithCurrency(auth.user.ledger.amount, auth.user.ledger.currency)}}</h3></label>
+          </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Select Currency</label>
             <select class="form-control" v-model="requestPeer.currency">
@@ -20,7 +24,7 @@
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Charge</label>
-            <input type="number" class="form-control" v-model="requestPeer.charge" placeholder="Add your charges" />
+            <input type="number" class="form-control" v-model="requestPeer.charge" placeholder="Add your charges" @keyup="checkBalance()" />
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Your income</label>
@@ -144,7 +148,8 @@ export default {
         currency: 'PHP',
         status: 'requesting',
         to: null
-      }
+      },
+      request: null
     }
   },
   methods: {
@@ -152,6 +157,8 @@ export default {
       ROUTER.push(parameter)
     },
     hideModal(){
+      this.errorMessage = null
+      this.request = null
       $('#createChargesModal').modal('hide')
     },
     show(item){
@@ -159,14 +166,19 @@ export default {
       this.requestPeer.to = item.account_id
       this.requestPeer.account_id = this.user.userID
       this.requestPeer.charge = 0
+      this.request = item
       $('#createChargesModal').modal('show')
     },
     processPeering(){
-      this.errorMessage = null
+      this.checkBalance()
       if(this.requestPeer.charge === 0){
         this.errorMessage = 'Charge should not be 0.'
         return false
       }
+      if(this.errorMessage !== null){
+        return false
+      }
+      this.errorMessage = null
       $('#loading').css({display: 'block'})
       this.APIRequest('request_peers/create', this.requestPeer).then(response => {
         $('#loading').css({display: 'none'})
@@ -175,6 +187,26 @@ export default {
           this.$parent.retrieve(null, null)
         }
       })
+    },
+    verifyBalance(){
+      if(this.request !== null && this.request.amount > AUTH.user.ledger.amount){
+        this.errorMessage = 'Insufficient balance!'
+      }else{
+        this.errorMessage = null
+      }
+    },
+    checkBalance(){
+      if(this.request !== null && this.request.type < 101){
+        switch(this.request.type){
+          case 1:
+            break
+          case 2:
+            break
+          case 3:
+            this.verifyBalance()
+            break
+        }
+      }
     }
   }
 }

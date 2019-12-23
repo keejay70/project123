@@ -3,10 +3,10 @@ export default {
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Requests', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
     // {accountType: 'ALL', accountStatus: 'ALL', description: 'Transfer', icon: 'fa fa-arrow-right', path: 'transfer', flag: false, subMenu: null},
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
-    {accountType: 'INVESTOR', accountStatus: 'ALL', description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
+    // {accountType: 'INVESTOR', accountStatus: 'ALL', description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
     // {accountType: 'ALL', accountStatus: 'ALL', description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null},
-    {accountType: 'ALL', accountStatus: 'ALL', description: 'Deposits', icon: 'fas fa-piggy-bank', path: 'deposits', flag: false, subMenu: null},
-    {accountType: 'ALL', accountStatus: 'ALL', description: 'Withdrawals', icon: 'fas fa-money-check', path: 'withdrawals', flag: false, subMenu: null},
+    // {accountType: 'ALL', accountStatus: 'ALL', description: 'Deposits', icon: 'fas fa-piggy-bank', path: 'deposits', flag: false, subMenu: null},
+    // {accountType: 'ALL', accountStatus: 'ALL', description: 'Withdrawals', icon: 'fas fa-money-check', path: 'withdrawals', flag: false, subMenu: null},
     {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'Accounts', icon: 'fas fa-users', path: 'accounts', flag: false, subMenu: null},
     {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'Transfer Charges', icon: 'fas fa-stamp', path: 'transfer_charges', flag: false, subMenu: null}
   ],
@@ -102,17 +102,19 @@ export default {
     label: 'Deposit',
     description: 'Allow other peer to process your deposits.',
     money_type: 'Wallet'
-  }, {
-    value: 101,
-    label: 'Lending',
-    description: 'In case of emergency, let other peer fulfil your need.',
-    money_type: 'Wallet'
-  }, {
-    value: 102,
-    label: 'Installments',
-    description: 'What something but can not afford to? Let other peer get that something.',
-    money_type: 'Wallet'
-  }],
+  }
+  // {
+  //   value: 101,
+  //   label: 'Lending',
+  //   description: 'In case of emergency, let other peer fulfil your need.',
+  //   money_type: 'Wallet'
+  // }, {
+  //   value: 102,
+  //   label: 'Installments',
+  //   description: 'What something but can not afford to? Let other peer get that something.',
+  //   money_type: 'Wallet'
+  // }
+  ],
   currencies: [{
     title: 'Philippine Peso',
     value: 'PHP'

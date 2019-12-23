@@ -24,7 +24,7 @@
             <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
             <b>{{auth.displayAmount(item.amount)}}</b>
           </label>
-          <label class="pull-right">
+          <label class="pull-right" v-if="parseInt(item.account_id) !== user.userID">
             <div class="dropdown" id="dropdownMenuButtonDropdown">
               <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown" style="padding-top: 10px;">
               </i>
@@ -68,7 +68,7 @@
           </label>
         </span>
         <span class="body">
-          <label>
+          <label style="text-align: justify;">
            {{item.reason}}
           </label>
         </span>
@@ -77,16 +77,18 @@
         </span>
         <span class="footer">
           <label>
-            <ratings :ratings="item.rating" v-if="item.rating !== null"></ratings>
+            Ratings <ratings :ratings="item.rating" v-if="item.rating !== null"></ratings>
           </label>
           <label v-if="parseInt(item.type) > 100">
             Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
-          <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) > 100">Invest</button>
-          <button class="btn btn-primary" style="margin-right: 5px;" @click="showChargeModal(item)" v-if="parseInt(item.type) < 101">Process</button>
-          <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">
-            <i class="fas fa-star" v-if="item.bookmark === true"></i>
-            Bookmark</button>
+          <div v-if="parseInt(item.account_id) !== user.userID">
+            <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) > 100">Invest</button>
+            <button class="btn btn-primary" style="margin-right: 5px;" @click="showChargeModal(item)" v-if="parseInt(item.type) < 101">Connect</button>
+            <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">
+              <i class="fas fa-star" v-if="item.bookmark === true"></i>
+              Bookmark</button>
+          </div>
         </span>
         
         <label class="mt-3" v-if="parseInt(item.invested) > 0 && parseInt(item.amount) > 0">Percentage of amount invested</label>
@@ -291,7 +293,9 @@ export default{
   mounted(){
     $('#loading').css({display: 'block'})
     if(this.$route.params.code){
-      this.retrieve({created_at: 'desc'}, {column: 'code', value: this.$route.params.code})
+      setTimeout(() => {
+        this.retrieve({created_at: 'desc'}, {column: 'code', value: this.$route.params.code})
+      }, 500)
     }else{
       this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
     }
@@ -387,98 +391,6 @@ export default{
         this.showId = item.id
       }
     },
-    showRequestModal(action, item = null){
-      switch(action){
-        case 'create':
-          this.requestModal = {...REQUEST}
-          let inputs = this.requestModal.inputs
-          inputs.map(input => {
-            if(input.variable === 'amount'){
-              input.value = null
-            }
-            if(input.variable === 'interest'){
-              input.value = 2
-            }
-            if(input.variable === 'months_payable'){
-              input.value = 1
-            }
-            if(input.variable === 'needed_on'){
-              input.value = null
-            }
-            if(input.variable === 'billing_per_month'){
-              input.value = 1
-            }
-            if(input.variable === 'reason'){
-              input.value = null
-            }
-            if(input.variable === 'comaker'){
-              input.value = null
-            }
-          })
-          let params = this.requestModal.params
-          params.map(param => {
-            if(param.variable === 'account_id'){
-              param.value = this.user.userID
-            }
-          })
-          break
-        case 'update':
-          let modalData = {...this.requestModal}
-          let parameter = {
-            title: 'Update Requests',
-            route: 'requests/update',
-            button: {
-              left: 'Cancel',
-              right: 'Update'
-            },
-            sort: {
-              column: 'created_at',
-              value: 'desc'
-            },
-            params: [{
-              variable: 'id',
-              value: item.id
-            }]
-          }
-          modalData = {...modalData, ...parameter} // updated data without input values
-          let object = Object.keys(item)
-          modalData.inputs.map(data => {
-            if(parseInt(item.invested) > 0){
-              data.disabled = true
-            }
-            if(data.variable === 'amount'){
-              data.value = item.initial_amount
-            }
-            if(data.variable === 'billing_per_month'){
-              data.value = item.billing_per_month
-            }
-            if(data.variable === 'interest'){
-              data.value = item.interest
-            }
-            if(data.variable === 'needed_on'){
-              data.value = item.needed_on
-            }
-            if(data.variable === 'reason'){
-              data.value = item.reason
-            }
-            if(data.variable === 'months_payable'){
-              data.value = item.months_payable
-            }
-            if(data.variable === 'comaker'){
-              data.validation['flag'] = true
-              data.disabled = true
-              if(item.comakers !== null){
-                data.value = item.comakers[0].account.email
-              }else{
-                data.value = null
-              }
-            }
-          })
-          this.requestModal = {...modalData}
-          break
-      }
-      $('#createRequestModal').modal('show')
-    },
     getPercentage(item){
       this.percentage = item.pulling / item.initial_amount
       this.percentage = this.percentage * 100
@@ -509,10 +421,10 @@ export default{
       this.retrieve({created_at: 'desc'}, {column: 'account_id', value: this.user.userID})
     },
     retrieve(sort, filter){
-      if(this.user.type === 'USER'){
-        filter.column = 'account_id'
-        filter.value = this.user.userID
-      }
+      // if(this.user.type === 'USER'){
+      //   filter.column = 'account_id'
+      //   filter.value = this.user.userID
+      // }
       if(sort !== null){
         this.sort = sort
       }
@@ -544,9 +456,11 @@ export default{
           if(response.data !== null){
             this.data = response.data
             this.size = parseInt(response.size)
+            AUTH.user.ledger.amount = response.ledger
           }else{
             this.data = null
             this.size = null
+            AUTH.user.ledger.amount = 0
           }
         })
       }, 100)
@@ -580,6 +494,7 @@ export default{
         id: peerItem.id,
         status: 'approved'
       }
+      $('#loading').css({display: 'block'})
       this.APIRequest('request_peers/update', parameter).then(response => {
         if(response.data){
           let messengerParams = {
@@ -589,10 +504,13 @@ export default{
             creator: this.user.userID
           }
           this.APIRequest('custom_messenger_groups/create', messengerParams).then(response => {
+            $('#loading').css({display: 'none'})
             if(response.data > 0){
               this.redirect('/thread/' + item.code)
             }
           })
+        }else{
+          $('#loading').css({display: 'none'})
         }
       })
     }

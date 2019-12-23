@@ -25,6 +25,10 @@ export default {
     messages: {
       data: null,
       totalUnreadMessages: 0
+    },
+    ledger: {
+      amount: 0,
+      currency: 'PHP'
     }
   },
   messenger: {
@@ -318,8 +322,6 @@ export default {
     return formatter.format(amount)
   },
   displayAmountWithCurrency(amount, currency){
-    // amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '1,')
-    // console.log(amount)
     var formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: currency

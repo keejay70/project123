@@ -3,7 +3,7 @@
     <label class="header"><b>Requested Amount</b></label>
     <label class="content" v-if="data !== null">{{auth.displayAmount(data)}}</label>
     <span style="margin-bottom: 5px;" v-if="user.type !== 'USER'">
-      <button class="btn btn-primary" @click="redirect('/requests')">Visit</button>
+      <button class="btn btn-primary" @click="redirect('/requests')">View requests</button>
     </span>
   </div>
 </template>
