@@ -15,12 +15,12 @@
         </label>
         <label  v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"class="pull-right amount"><b>{{auth.displayAmountWithCurrency(item.amount, item.currency)}}</b></label>
       </span>
-      <span class="footer" v-if="item.payload === 'investments'">
+      <span class="footer" v-if="item.payload !== null">
         <label style="padding: 10px 0px 10px 0px;">
           Transaction ID:
         </label>
-        <label style="padding: 10px 10px 10px 0px;" class="text-primary action-link" @click="redirect('/requests/' + item.investments.request.code)">
-          {{item.investments.request.code}}
+        <label style="padding: 10px 10px 10px 0px;" class="text-primary action-link" @click="redirect((item.payload === 'request' ? '/requests/' : '/peer_charge/') + item.payload_value)">
+          {{item.payload_value}}
         </label>
       </span>
     </div>

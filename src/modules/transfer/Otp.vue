@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Authentication via OTP</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{blockedFlag ? 'Blocked Account' : 'Authentication via OTP'}}</h5>
           <button type="button" class="close" @click="hideModal()" aria-label="Close">
             <span aria-hidden="true" class="text-primary">&times;</span>
           </button>
@@ -11,33 +11,32 @@
         <div class="modal-body">
           <!-- Step 1 inputs -->
           <span v-if="errorMessage !== null" class="text-danger text-center">
-              <label><b>Opps! </b>{{errorMessage}}</label>
+              <label style="width: 100%;"><b>Opps! </b>{{errorMessage}}</label>
           </span>
-
-          <div class="form-group text-center">
-            <label for="exampleInputEmail1 text-gray incre-row" style="width: 100%;">
-              Please enter the OTP Code sent to your email address.
-            </label>
-            <span class="incre-row text-center">
-              <label>
-                <input type="text" class="form-control otp-form-control" v-model="otp1">
-                <input type="text" class="form-control otp-form-control" v-model="otp2">
-                <input type="text" class="form-control otp-form-control" v-model="otp3">
-                <input type="text" class="form-control otp-form-control" v-model="otp4">
-                <input type="text" class="form-control otp-form-control" v-model="otp5">
-                <input type="text" class="form-control otp-form-control" v-model="otp6">
+          <span v-if="successMessage !== null" class="text-primary text-center incre-row" >
+            <i class="fa fa-check text-primary" style="font-size: 75px"></i>
+            <label class="text-primary incre-row">{{successMessage}}</label>
+          </span>
+          <div v-if="blockedFlag === false && successMessage === null">
+            <div class="form-group text-center">
+              <label for="exampleInputEmail1 text-gray incre-row" style="width: 100%;">
+                Please enter the OTP Code sent to your email address.
               </label>
-            </span>
+              <span class="incre-row text-center">
+                <label>
+                  <input type="text" :id="'otp-' + index" v-for="(item, index) in otp" :key="index" class="form-control otp-form-control" v-model="item.code" @keypress="otpHandler(index)" :disabled="characterCounterFlag">
+                </label>
+              </span>
+            </div>
+            <div class="form-group text-gray text-center" style="width: 100%; float: left;">
+              <label style="width: 100%; float: left;">Didn't received an email? Click the link below.</label>
+              <label class="action-link text-primary" @click="generateOTP()">Resend</label>
+            </div>
           </div>
-          <div class="form-group text-gray text-center" style="width: 100%; float: left;">
-            <label style="width: 100%; float: left;">Didn't received an email? Click the link below.</label>
-            <label class="action-link text-primary">Resend</label>
-          </div>
-
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" @click="hide()">Cancel</button>
-            <button type="button" class="btn btn-primary" @click="submit()">Transfer
+            <button type="button" class="btn btn-danger" @click="hideModal()">{{blockedFlag ? 'Close' : 'Cancel'}}</button>
+            <button type="button" class="btn btn-primary" @click="successOTP()" v-if="successFlag === true">Continue
             </button>
         </div>
       </div>
@@ -156,27 +155,125 @@ export default {
       auth: AUTH,
       config: CONFIG,
       otpUseCounter: 0,
-      otp1: '',
-      otp2: '',
-      otp3: '',
-      otp4: '',
-      otp5: '',
-      otp6: '',
+      characterCounterFlag: false,
+      otp: [{
+        code: null
+      }, {
+        code: null
+      }, {
+        code: null
+      }, {
+        code: null
+      }, {
+        code: null
+      }, {
+        code: null
+      }],
       common: COMMON,
-      errorMessage: null
+      errorMessage: null,
+      otpData: null,
+      otpInput: null,
+      successFlag: false,
+      blockedFlag: false,
+      successMessage: null
     }
   },
   methods: {
     show(){
-      $('#authenticateOTP').modal('show')
+      this.generateOTP()
     },
-    hide(){
+    hideModal(){
+      this.initOtp()
       $('#authenticateOTP').modal('hide')
     },
     redirect(parameter){
       ROUTER.push(parameter)
     },
+    initOtp(){
+      this.characterCounterFlag = false
+      this.otpInput = null
+      this.successFlag = false
+      this.errorMessage = null
+      this.successMessage = null
+      for (var i = 0; i < this.otp.length; i++) {
+        this.otp[i].code = null
+      }
+    },
     verifyOtp(){
+      if(this.otpInput !== null && this.otpInput.length < 6){
+        return false
+      }
+      $('#loading').css({display: 'block'})
+      let parameter = {
+        condition: [{
+          value: this.user.userID,
+          column: 'account_id',
+          clause: '='
+        }, {
+          value: this.otpInput,
+          column: 'code',
+          clause: '='
+        }]
+      }
+      this.APIRequest('notification_settings/retrieve', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        if(response.data.length > 0){
+          this.errorMessage = null
+          this.successFlag = true
+          this.successMessage = 'Successfully verified!'
+          // true
+          // call proceed
+        }else{
+          this.successFlag = false
+          this.errorMessage = 'Sorry, you are not authorize to proceed the transaction. Please get back after 30 minutes. Or you can email at ' + COMMON.APP_EMAIL + ' as well if you want to resolve the account ASAP.'
+          this.blockedAccount()
+        }
+      })
+    },
+    blockedAccount(){
+      let parameter = {
+        account_id: this.user.userID
+      }
+      this.APIRequest('notification_settings/block_account', parameter).then(response => {
+        this.blockedFlag = true
+      })
+    },
+    generateOTP(){
+      $('#loading').css({display: 'block'})
+      let parameter = {
+        account_id: this.user.userID
+      }
+      this.APIRequest('notification_settings/update_otp', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        this.otpData = response
+        this.initOtp()
+        if(response.error === null){
+          this.blockedFlag = false
+        }else{
+          this.blockedFlag = true
+          this.errorMessage = response.error + ' ' + 'Or you can email at ' + COMMON.APP_EMAIL + ' as well if you want to resolve the account ASAP.'
+        }
+        $('#authenticateOTP').modal('show')
+      })
+    },
+    otpHandler(index){
+      if(index < 5){
+        $('#otp-' + (index + 1)).show().focus()
+        this.characterCounterFlag = false
+      }else{
+        this.characterCounterFlag = true
+        setTimeout(() => {
+          this.otpInput = ''
+          this.otp.map((item, index) => {
+            this.otpInput += item.code
+          })
+          this.verifyOtp()
+        }, 100)
+      }
+    },
+    successOTP(){
+      this.hideModal()
+      this.$parent.successOTP()
     }
   }
 }
