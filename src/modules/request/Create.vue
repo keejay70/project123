@@ -154,7 +154,7 @@
           </span>
           <span style="line-height: 45px; border-top: solid 1px #ddd;" class="incre-row">
             <label class="pull-left">Total</label>
-            <label class="pull-right"><b>{{auth.displayAmountWithCurrency(parseInt(request.amount) + parseInt(common.charges.minimum), request.currency)}}</b></label>
+            <label class="pull-right"><b>{{auth.displayAmountWithCurrency(parseInt(request.amount), request.currency)}}</b></label>
           </span>
         </div>
         <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 100px; width: 100%!important;" @click="post()">Post</button>
@@ -190,15 +190,16 @@
 .inputs{
   width: 65%;
   float: left;
-  margin-right: 5%;
   min-height: 50px;
   overflow-y: hidden;
 }
 .sidebar{
-  width: 30%;
+  width: 25%;
+  margin-left: 2%;
   float: left;
   min-height: 50px;
   overflow-y: hidden;
+  position: fixed;
 }
 .sidebar-header{
   height: 40px;
@@ -266,6 +267,9 @@
     width: 100%;
     margin-right: 0%;
     margin-left: 0%;
+  }
+  .sidebar{
+    position: relative;
   }
   .card{
     width: 49%;
