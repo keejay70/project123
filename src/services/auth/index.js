@@ -234,6 +234,12 @@ export default {
       }
     })
   },
+  addMessage(message){
+    if(parseInt(message.messenger_group_id) === this.messenger.messengerGroupId && parseInt(message.account_id) !== this.user.userID){
+      this.playNotificationSound()
+      this.messenger.messages.push(message)
+    }
+  },
   startNotifTimer(accountId){
     if(this.notifTimer.timer === null){
       this.notifTimer.timer = window.setInterval(() => {

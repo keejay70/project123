@@ -452,15 +452,14 @@ export default{
       }
       setTimeout(() => {
         this.APIRequest('requests/retrieve', parameter).then(response => {
+          AUTH.user.ledger.amount = response.ledger
           $('#loading').css({display: 'none'})
           if(response.data !== null){
             this.data = response.data
             this.size = parseInt(response.size)
-            AUTH.user.ledger.amount = response.ledger
           }else{
             this.data = null
             this.size = null
-            AUTH.user.ledger.amount = 0
           }
         })
       }, 100)

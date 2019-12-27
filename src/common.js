@@ -77,7 +77,9 @@ export default {
   MINIMUM_WITHDRAWAL: 1000,
   pusher: {
     channel: 'payhiram',
-    event: 'Notifications'
+    notifications: 'Notifications',
+    messages: 'Message',
+    validation: 'Validation'
   },
   interest: {
     max: 30,
