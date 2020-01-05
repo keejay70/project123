@@ -34,7 +34,8 @@ export default {
   messenger: {
     messages: [],
     badge: 0,
-    messengerGroupId: null
+    messengerGroupId: null,
+    group: null
   },
   support: {
     messages: null,
