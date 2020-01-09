@@ -3,7 +3,7 @@
       <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
           <div class="modal-header bg-primary">
-            <h5 class="modal-title" id="exampleModalLabel">Guides</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Payhiram User Guide</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true" class="text-white">&times;</span>
             </button>
@@ -11,43 +11,30 @@
           <div class="modal-body">
             <div class="guide-holder">
                 <div class="jumbotron">
-                  <h2>Hi {{user.username}}! Welcome to {{common.COMPANY}}!</h2>
+                  <h2>Hi {{user.username}}! Welcome to Payhiram by {{common.COMPANY}}!</h2>
                 </div>
-
                 <div class="jumbotron">
-                  <h5>What is {{common.COMPANY}}?</h5>
+                  Welcome to the Payhiram User Guide. Here we will take you step by step from account creation to posting your first payment request on the Payhiram platform. <a href="http://payhiram.increment.ltd/#/signup"><button class="btn btn-primary">Register here</button></a>  if you have not yet created an account. 
+                </div>
+                <div class="jumbotron">
+                  <h5>What is Payhiram by {{common.COMPANY}}?</h5>
                   <div class="alert alert-info">
-                    {{common.COMPANY}} is an online classroom management website application which aims to create an e-learning community that is interactive and engaging. 
-                    <br>
-                    <br>
-                    A community that helps students at the same time sharing what they learn through online discussions.
+                    Payhiram by {{common.COMPANY}} is an online marketplace for users to provide and avail of money-related services. Your web portal to make sound and monitored investments, quick and easy emergency transactions, and convenient fund transfers. <br>
                   </div>
                 </div>
 
                 <div class="jumbotron">
-                  <h5>Features</h5>
-                  <ul>
-                    <li>Public and Course Discussions</li>
-                    <li>Create online examinations easily</li>
-                    <li>Attendance</li>
-                    <li>Announcements</li>
-                    <li>Share and access class resources conveniently</li>
-                    <li>cloud-based application</li>
-                  </ul>
-                </div>
-
-                <div class="jumbotron">
-                  <h6>What are the types of accounts in {{common.COMPANY}}?</h6>
+                  <h6>What are the types of accounts in Payhiram by {{common.COMPANY}}?</h6>
                   <div class="alert alert-info">
-                    <strong>Teacher Account</strong>
+                    <strong>Regular Account</strong>
                     <br>
-                    A teacher account lets you create and administer a course. This account also has the following features: discussions, announcements, attendance, resources and online examination. A "join code" is generated once a course is created. The code will give enrolled students(Student Account) access to the created course.   
-                  </div>
+                   A regular account allows you to borrow money. It provides the users an account profile to upload their necessary information and documents for monetary transactions performed on the platform. 
+                   </div>
 
                   <div class="alert alert-info">
-                    <strong>Student Account</strong>
+                    <strong>Investor Account</strong>
                     <br>
-                     This account has the following features: view announcements, view attendances, view resources, and take online examination. A student only becomes a member of the course if he/she has a join code from the teacher for a respective course. A student can still register and access other parts of the site even without a join code yet. 
+                     An investor account is our partner type of account where it has lending feature and view the list of requests from the borrowers.
                   </div>
                 </div>
 
@@ -56,9 +43,8 @@
                   <h6><strong>Get Started</strong></h6>
                  
                   <div class="alert alert-info">
-                     <h6>Personal Information</h6>
-                    Fill up the information needed on {{common.COMPANY}} such as Personal Information, Educational Background and Work Experience (Optional). These are important so your teacher can easily verify and identify you as her/his student. Go to or click <strong>Account Settings</strong> on the left sidebar menu. 
-                  </div>
+                    Fill up the information needed on your Payhiram by {{common.COMPANY}} Profile such as Personal Information, Educational Background and Work Experience. These are important so the service can verify and identify you as a legitimate verified account. Go to or click Account Settings on the left sidebar menu.
+                    </div>
 
                   <div class="alert alert-info">
                     <strong>Profile Picture</strong>
@@ -74,80 +60,111 @@
                   <div class="alert alert-info">
                     <strong>Educational Background</strong>
                     <br>
-                    Under the <strong>Settings</strong> menu, click <strong>Educational Background</strong>  and click the Add Icon(<i class="fa fa-plus"></i>) located right most of the screen. Enter your Course, Select School, School ID, year and months started and ended. Your current educational background will be viewed by your teacher for identification or verification purposes.
-                  </div>
+                    Under the <strong>Settings</strong> menu, click <strong>Educational Background</strong>  and click the Add Icon(<i class="fa fa-plus"></i>) located right most of the screen. Enter your Course, Select School, School ID, year and months started and ended.
+                    </div>
 
                   <div class="alert alert-info">
                     <strong>Work Experiences</strong>
                     <br>
-                    This is optional, under the <strong>Settings</strong> menu, click the <strong>Work Experiences</strong> and click the Add Icon(<i class="fa fa-plus"></i>) located right most of the screen. Enter your job position, company, company address and year and month started and ended.
+                    Under the <strong>Settings</strong> menu, click the <strong>Work Experiences</strong> and click the Add Icon(<i class="fa fa-plus"></i>) located right most of the screen. Enter your job position, company, company address and year and month started and ended.
                   </div>
 
                   <div class="alert alert-info">
                     <strong>Account Information</strong>
                     <br>
-                    Under the <strong>Settings</strong> menu, you can view your account information. Click the <strong>Account Information.</strong> Your username, email and date started here in {{common.COMPANY}} is shown here. That's It!
+                    Under the <strong>Settings</strong> menu, you can view your account information. Click the <strong>Account Information.</strong> Your username, email and date started here in Payhiram by {{common.COMPANY}} is shown here. That's It!
                   </div>
-
-
                 </div>
+                
                 <div class="jumbotron">
-                  <h6>Join Courses</h6>
-                  <div class="alert bg-danger">
-                    Ask first the <strong>Join Code</strong> of the Course to your teacher
-                  </div>
-
+                  <h6><strong>User Navigation</strong></h6>
+                  On the left side are the following navigation features: 
                   <div class="alert alert-info">
-                    On the left side menu click <strong>My Courses</strong>, Click the <button class="btn btn-primary">Join Course</button> located below the Bell Icon or notification. Paste or enter the <strong>Join Code</strong> given by your teacher then click <button class="btn btn-primary">Send Request</button>. The teacher who owns this code will receive notification for your request and after reviewing your account he/she can <strong>Approve</strong> or <strong>Decline</strong> your request. Your account will be notified once the teacher responded to your request.
+                   <strong><i class=" visible fa fa-arrow-right"></i> Requests</strong>
+                   <br>
+                       Click this navigation icon to check your current available requests. In this section, you will find all available requests which can be sorted in ascending or descending order based on Date posted, Amount, Interest Rates, Months Payable, And Date Needed on.
+                   </div>
+                   <div class="alert alert-info">
+                   <strong><i class=" visible fa fa-tachometer"></i> Dashboard</strong>
+                   <br>
+                     Click this navigation icon to switch to your Dashboard. In this section, you will find your current account balance, requested amount, approved requests, available funds. It also allows you to see your ledger which allows you to <button class="btn btn-primary"> View Investments </button> and <button class="btn btn-primary"> View Requests </button>
+                   </div>
+                   <div class="alert alert-info">
+                   <strong>  <i class=" visible fa fa-arrow-left"></i> Investments</strong>
+                   <br>
+                    Click this navigation icon to check all your current investments. In this section, you will see requests that you have invested in.
+                   </div>
+                   <div class="alert alert-info">
+                   <strong><i class=" visible fas fa-piggy-bank"></i> Deposits</strong>
+                   <br>
+                    Click this navigation icon to check all your current deposits. It keeps a log of your deposit amount, description, current status and attached files for validation.
+                   </div>
+                   <div class="alert alert-info">
+                   <strong><i class=" visible fas fa-money-check"></i> Withdrawals</strong>
+                    <br>
+                    Click this navigation icon to check all your Withdrawal transactions. It keeps a log of your withdrawn amounts and requested money.
+                    </div>
                   </div>
-
-                  <div class="alert alert-info">
-                    Once Approved, you can now enjoy and navigate the features.
-                  </div>
-                  <div class="alert alert-info">
-                     <strong>Discussions</strong>. You can create a new topic for discussion and let your students or yourself answer by clicking the <button class="btn btn-primary"><i class="fa fa-plus"></i>New Topic</button>. Write something related to the course then click the <button class="btn btn-primary"><i class="fa fa-plus"></i> Post</button>button. You can write replies, or comment to other posts also. If you like the post you can mark it as <strong>Excellent.</strong> Please refrain from spamming to avoid getting banned.
-                  </div>
-
-                  <div class="alert alert-info">
-                    <strong>Announcements.</strong> Be updated from any announcement posted by your teacher. 
-                  </div>
-
-                  <div class="alert-info alert">
-                    <strong>Tests.</strong> You can take tests once it is available as made available by your teacher. 
-                  </div>
-
-                  <div class="alert alert-info">
-                    <strong>Resources.</strong> View resources or notes shared by your teacher.
-                  </div>
-
-                  <div class="alert alert-info">
-                    <strong>Attendance.</strong> View your attendance record
-                  </div>
-
-                  <div class="alert bg-danger">
-                    <strong>Once Declined</strong>, you may approach your teacher and discuss your concern why your request to join his/her course was declined.
-                  </div>
-                </div>
 
                 <div class="jumbotron">
-                  <h6>Others</h6>
+                  <h6><strong>Posting Your First Request</strong></h6>
                   <div class="alert alert-info">
-                    For security, you can set-up notifications to your account every time you log in. Available notification as of the moment is via email. You can turn on this function once your email is verified otherwise you need to to verify your email by clicking the <button class="btn btn-primary">Send Email Verification</button>. Please bare with us as our email notification will take a few minutes to reflect on your inbox.
-                  </div>
+                   <strong>Add Request</strong>
+                   <br>
+                   To post a request, click the <button class="btn btn-primary">Post a request</button> button at the upper right and fillup the following details: Borrow Amount, Interest Rate of Payment, Payment Period, Date Payment Needed, Payment Plan, Reason for borrowing and adding of comaker(optional) 
+                   </div>
+                </div>
+                
+                <div class="jumbotron">
+                  <h6><strong>Making Your First Investment</strong></h6>
+                  <div class="alert alert-info">
+                   <strong>Add Request</strong>
+                   <br>
+                   To make an investment, click the <button class="btn btn-primary">Invest</button> button at the selected request you want to invest in, fill up the amount to invest and the message to the borrower.
+                   </div>
                 </div>
 
+                <div class="jumbotron">
+                  <h6><strong>Bookmarking requests</strong></h6>
+                  <div class="alert alert-info">
+                   <strong>Bookmark</strong>
+                   <br>
+                   To bookmark specific requests, click the <button class="btn btn-warning">Bookmark</button> button at the selected request you want to bookmark.
+                   </div>
+                </div>
 
+                 <div class="jumbotron">
+                  <h6><strong>How to Report</strong></h6>
+                  <div class="alert alert-info">
+                   <strong>Report</strong>
+                   <br>
+                   To make a report, please press the ellipsis (...) on specific requests , click the <strong>Report</strong> Button and write a message.
+                      </div>
+                </div>
 
-
-              </div>
-          </div>
+                <div class="jumbotron">
+                  <h6><strong>Others</strong></h6>
+                  <div class="alert alert-info">
+                   <strong>Login Notifications</strong>
+                   <br>
+                   For added security measures, you can set <strong>Login Notifications</strong> to be sent to your email. This function can only be enabled once your email is verified. Please wait a few minutes for the automatically generated to be sent to your inbox.
+                   <br>
+                   <br>
+                   <strong>OTP (One Time Password)</strong>
+                   <br>
+                   Additionally, <strong>OTP (One Time Password)</strong> can be configured on your account for added security. The OTP Code will be sent to your email upon every login once the feature has been enabled on your account.
+                   </div>
+                  </div>
+               </div>
+             </div>
+             </div>
+          
           <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#guideModal">Close</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 <style scoped lang="scss">
 @import "~assets/style/colors.scss";
@@ -201,4 +218,3 @@
     }
   }
 </script>
-
