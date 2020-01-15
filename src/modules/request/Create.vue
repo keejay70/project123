@@ -39,6 +39,7 @@
               placeholder="Please type meetup address"
               v-on:placechanged="getAddressData"
               style="height: 45px !important;"
+              v-on:inputChange="onClearVueGoogle()"
             >
             </vue-google-autocomplete>
             <!-- <button class="btn btn-primary btn-custom pull-right" style="width: 15%!important;" @click="showMap()"> 
@@ -47,7 +48,7 @@
           </div>
           <div class="form-group" style="margin-top: 25px; width: 100%; float: left;">
             <label for="address">Needed on <b class="text-danger">*</b></label>
-            <input type="date" class="form-control form-control-custom" placeholder="Type Amount" v-model="request.needed_on">
+            <input type="date" class="form-control form-control-custom" placeholder="Type Amount" id="datePicker" v-model="request.needed_on">
           </div>
 
           <div class="form-group" style="margin-bottom: 100px;">
@@ -85,7 +86,7 @@
 
           <div class="form-group" style="margin-top: 25px;">
             <label for="address">I need this on <b class="text-danger">*</b></label>
-            <input type="date" class="form-control form-control-custom" v-model="request.needed_on">
+            <input type="date" class="form-control form-control-custom" id="datePicker" v-model="request.needed_on">
           </div>
 
           <div class="form-group">
@@ -285,6 +286,18 @@ import COMMON from 'src/common.js'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
 export default {
   mounted(){
+    this.today = new Date()
+    let day = this.today.getDate()
+    let month = this.today.getMonth() + 1
+    let year = this.today.getFullYear()
+    if(day < 10){
+      day = '0' + day
+    }
+    if(month < 10){
+      month = '0' + month
+    }
+    this.today = year + '-' + month + '-' + day
+    document.getElementById('datePicker').setAttribute('min', this.today)
   },
   data(){
     return {
@@ -294,9 +307,11 @@ export default {
       config: CONFIG,
       errorMessage: null,
       common: COMMON,
+      searchLocation: '',
+      today: null,
       request: {
         account_id: AUTH.user.userID,
-        money_type: 'cash',
+        money_type: 'Cash',
         currency: 'PHP',
         type: 1,
         amount: 0,
@@ -354,7 +369,7 @@ export default {
         return
       }
       if(this.request.type < 101){
-        if(this.request.location.route === null){
+        if(this.request.location.route === null || this.searchLocation === ''){
           this.errorMessage = 'Location is required.'
           return
         }
@@ -392,6 +407,18 @@ export default {
       $('#selectLocationModal').modal('show')
     },
     getAddressData(addressData, placeResultData, id) {
+      if(addressData.route === null || addressData.route === ''){
+        this.searchLocation = null
+        return
+      }
+      if(addressData.locality === null || addressData.locality === ''){
+        this.searchLocation = null
+        return
+      }
+      if(addressData.country === null || addressData.country === ''){
+        this.searchLocation = null
+        return
+      }
       this.request.location = {
         route: addressData.route,
         locality: addressData.locality,
@@ -400,6 +427,11 @@ export default {
         latitude: addressData.latitude,
         longitude: addressData.longitude
       }
+      let location = this.request.location
+      this.searchLocation = location.route
+    },
+    onClearVueGoogle(){
+      this.searchLocation = this.$refs.address.autocompleteText
     },
     manageImageUrl(url){
       let object = {

@@ -85,9 +85,9 @@
           <div v-if="parseInt(item.account_id) !== user.userID">
             <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) > 100">Invest</button>
             <button class="btn btn-primary" style="margin-right: 5px;" @click="showChargeModal(item)" v-if="parseInt(item.type) < 101">Connect</button>
-            <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">
+            <!-- <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">
               <i class="fas fa-star" v-if="item.bookmark === true"></i>
-              Bookmark</button>
+              Bookmark</button> -->
           </div>
         </span>
         

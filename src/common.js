@@ -10,19 +10,21 @@ export default {
     {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'Accounts', icon: 'fas fa-users', path: 'accounts', flag: false, subMenu: null},
     {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'Transfer Charges', icon: 'fas fa-stamp', path: 'transfer_charges', flag: false, subMenu: null}
   ],
-  profileMenu: [{
-    title: 'My Bookmarks',
-    icon: 'fa fa-star',
-    route: '/bookmarks'
-  }, {
-    title: 'My Profile',
-    icon: 'fa fa-cog',
-    route: '/profile'
-  }, {
-    title: 'Invite Friends',
-    icon: 'fa fa-users',
-    route: '/referrals'
-  }],
+  profileMenu: [
+  // {
+  //   title: 'My Bookmarks',
+  //   icon: 'fa fa-star',
+  //   route: '/bookmarks'
+  // },
+    {
+      title: 'My Profile',
+      icon: 'fa fa-cog',
+      route: '/profile'
+    }, {
+      title: 'Invite Friends',
+      icon: 'fa fa-users',
+      route: '/referrals'
+    }],
   APP_NAME: 'PAYHIRAM',
   APP_NAME_HTML: 'PAYHIRAM',
   APP_EMAIL: 'support@payhiram.ph',

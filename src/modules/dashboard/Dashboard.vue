@@ -5,8 +5,8 @@
     <div class="dashboard-left-container">
       <ledgers :data="data.ledger.ledger"></ledgers>
       <requests :data="data.ledger.total_requests"></requests>
-      <approved :data="data.ledger.approved"></approved>
-      <available :data="data.ledger.available"></available>
+      <!-- <approved :data="data.ledger.approved"></approved> -->
+      <!-- <available :data="data.ledger.available"></available> -->
     </div>
     <div class="dashboard-right-container">
       <div class="dr-container-header">
