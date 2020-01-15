@@ -287,7 +287,7 @@ export default {
     if(setting !== null){
       if(parseInt(setting.email_otp) === 1 || parseInt(setting.sms_otp) === 1){
         // ask otp code here
-        $('#otpModal').modal({
+        $('#authenticateOTP').modal({
           backdrop: 'static',
           keyboard: true,
           show: true
