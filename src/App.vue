@@ -6,7 +6,8 @@
        <system-sidebar></system-sidebar>
        <!-- <support-messenger></support-messenger> -->
        <system-footer></system-footer>
-       <!-- <tutorial></tutorial> -->
+       <tutorial></tutorial>
+
       </div>
       <div v-else>
         <login-header></login-header>
@@ -18,7 +19,6 @@
     <system-loading></system-loading>
     <privacy-policy></privacy-policy>
     <terms-and-conditions></terms-and-conditions>
-    <guide></guide>
   </div>
 </template>
 <style lang="scss">
@@ -207,7 +207,6 @@ export default {
     'landing-footer': () => import('modules/home/Landing/Footer.vue'),
     'privacy-policy': () => import('modules/docs/PrivacyPolicy.vue'),
     'terms-and-conditions': () => import('modules/docs/TermsAndConditions.vue'),
-    'guide': () => import('components/increment/generic/tutorial/Tutorial.vue'),
     'support-messenger': () => import('components/increment/support/Support.vue'),
     'tutorial': () => import('components/increment/generic/tutorial/Tutorial.vue')
   }
