@@ -207,7 +207,7 @@ export default {
     'landing-footer': () => import('modules/home/Landing/Footer.vue'),
     'privacy-policy': () => import('modules/docs/PrivacyPolicy.vue'),
     'terms-and-conditions': () => import('modules/docs/TermsAndConditions.vue'),
-    'guide': () => import('modules/guide/Guide.vue'),
+    'guide': () => import('components/increment/generic/tutorial/Tutorial.vue'),
     'support-messenger': () => import('components/increment/support/Support.vue'),
     'tutorial': () => import('components/increment/generic/tutorial/Tutorial.vue')
   }

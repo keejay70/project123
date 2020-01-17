@@ -275,7 +275,9 @@ export default {
           this.blockedFlag = true
           this.errorMessage = response.error + ' ' + 'Or you can email at ' + COMMON.APP_EMAIL + ' as well if you want to resolve the account ASAP.'
         }
-        // $('#authenticateOTP').modal('show')
+        if(this.user.userID > 0){
+          $('#authenticateOTP').modal('show')
+        }
       })
     },
     otpHandler(index){
