@@ -1,3 +1,4 @@
+import config from 'src/config.js'
 export default {
   sidebarMenu: [
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Requests', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
@@ -132,12 +133,12 @@ export default {
   GUIDE: [{
     title: 'Welcome to PayHiram!',
     subtitle: 'Your tool to create an idenfication card easily and buy products need to your business from our printing partners.',
-    image: BACKEND_URL + '/storage/logo/logo.png',
+    image: config.BACKEND_URL + '/storage/logo/logo.png',
     icon: null
   }, {
     title: 'Create template of your ID',
     subtitle: 'Go to <b>Tempalte</b> found on the left sidebar.',
-    image: BACKEND_URL + '/storage/logo/logo.png',
+    image: config.BACKEND_URL + '/storage/logo/logo.png',
     icon: null
   }, {
     title: 'Congratulations!',
