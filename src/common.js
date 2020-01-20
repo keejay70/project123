@@ -82,7 +82,8 @@ export default {
     channel: 'payhiram',
     notifications: 'Notifications',
     messages: 'Message',
-    validation: 'Validation'
+    messageGroup: 'MessageGroup',
+    typing: 'typing'
   },
   interest: {
     max: 30,

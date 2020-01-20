@@ -7,7 +7,6 @@
        <!-- <support-messenger></support-messenger> -->
        <system-footer></system-footer>
        <tutorial></tutorial>
-
       </div>
       <div v-else>
         <login-header></login-header>

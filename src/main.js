@@ -5,15 +5,6 @@ import App from './App'
 import router from './router'
 import config from './config.js'
 /* eslint-disable no-new */
-if(config.PUSHER.flag === 'pusher'){
-  Vue.use(require('vue-pusher'), {
-    api_key: config.PUSHER.key,
-    options: {
-      cluster: 'ap1',
-      encrypted: true
-    }
-  })
-}
 new Vue({
   el: '#app',
   router,
