@@ -7,6 +7,7 @@
        <!-- <support-messenger></support-messenger> -->
        <system-footer></system-footer>
        <tutorial></tutorial>
+       <guide></guide>
       </div>
       <div v-else>
         <login-header></login-header>
@@ -204,6 +205,7 @@ export default {
     'system-footer': () => import('modules/frame/Footer.vue'),
     'system-loading': () => import('components/loader/Loading.vue'),
     'landing-footer': () => import('modules/home/Landing/Footer.vue'),
+    'guide': () => import('modules/guide/Guide.vue'),
     'privacy-policy': () => import('modules/docs/PrivacyPolicy.vue'),
     'terms-and-conditions': () => import('modules/docs/TermsAndConditions.vue'),
     'support-messenger': () => import('components/increment/support/Support.vue'),
