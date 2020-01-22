@@ -356,7 +356,7 @@ export default {
       if(this.errorMessage !== null){
         return
       }
-      if(this.request.amount < COMMON.MINIMUM_WITHDRAWAL){
+      if(parseInt(this.request.amount) < COMMON.MINIMUM_WITHDRAWAL){
         this.errorMessage = 'Minimum transaction is ' + AUTH.displayAmount(COMMON.MINIMUM_WITHDRAWAL)
         return
       }
@@ -440,7 +440,7 @@ export default {
       this.request.images.push(object)
     },
     verifyBalance(){
-      if(this.request.amount > AUTH.user.ledger.amount){
+      if(parseInt(this.request.amount) > AUTH.user.ledger.amount){
         this.errorMessage = 'Insufficient balance!'
       }else{
         this.errorMessage = null
@@ -456,6 +456,7 @@ export default {
             this.verifyBalance()
             break
           case 3:
+            this.errorMessage = null
             break
         }
       }

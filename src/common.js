@@ -146,5 +146,16 @@ export default {
     subtitle: 'You\'re good to go! Enjoy your stay!',
     image: null,
     icon: 'fa-check'
-  }]
+  }],
+  identifications: [
+    {text: 'Driver\'s License', value: 'driver_license'},
+    {text: 'Valid Passport', value: 'passport'},
+    {text: 'Unified Multi-Purpose ID Card', value: 'umpid'},
+    {text: 'PhilHealth ID', value: 'philhealth'},
+    {text: 'Postal ID', value: 'postal'},
+    {text: 'Voter\'s ID', value: 'voter'},
+    {text: 'PRC License', value: 'prc'},
+    {text: 'Senior Citizen ID', value: 'scid'},
+    {text: 'OFW ID', value: 'ofwid'}
+  ]
 }

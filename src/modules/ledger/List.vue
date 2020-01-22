@@ -6,7 +6,8 @@
       :activeSortingIndex="0"
       @changeSortEvent="retrieve($event.sort, $event.filter)"
       @changeStyle="manageGrid($event)"
-      :grid="['list', 'th-large']"></basic-filter>
+      :grid="['list', 'th-large']"
+      style="margin-top: 25px;"></basic-filter>
     <div class="summary-container-item" v-for="item, index in data" v-if="data !== null">
       <span class="header">{{item.created_at_human}}</span>
       <span class="body">

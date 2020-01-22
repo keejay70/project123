@@ -6,7 +6,7 @@
         <div class="form-group" style="margin-top: 25px;">
           <label for="address">Select ID Type</label>
           <select class="form-control" v-model="selected">
-            <option v-for="option in config.identifications" v-bind:value="option.value">{{ option.text }}</option>
+            <option v-for="option in common.identifications" v-bind:value="option.value">{{ option.text }}</option>
           </select>
           <button class="btn btn-primary" style="margin-top: 10px;" @click="showImages()">Add Image</button>
         </div>
@@ -92,10 +92,11 @@
 }
 </style>
 <script>
-import ROUTER from '../../router'
-import AUTH from '../../services/auth'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
 import axios from 'axios'
-import CONFIG from '../../config.js'
+import CONFIG from 'src/config.js'
+import COMMON from 'src/common.js'
 export default {
   mounted(){
     $('#loading').css({display: 'block'})
@@ -105,8 +106,9 @@ export default {
     return {
       user: AUTH.user,
       config: CONFIG,
+      common: COMMON,
       data: null,
-      selected: CONFIG.identifications[0].value
+      selected: COMMON.identifications[0].value
     }
   },
   components: {
