@@ -10,9 +10,10 @@
       v-bind:category="category" 
       :activeCategoryIndex="0"
       :activeSortingIndex="0"
-      @changeSortEvent="retrieve($event.sort, $event.filter)"
+      @changeSortEvent="retrieve($event.sort, $event.filter), resetActivePage()"
       @changeStyle="manageGrid($event)"
       :grid="['list', 'th-large']"></basic-filter>
+      <basic-pager :pages="parseInt(size / limit)" :offset="limit" :active="activePage" :limit="limit"></basic-pager>
       <div class="rl-container-item" v-for="(item, index) in data" :key="index">
         <span class="header">
           <label class="action-link text-primary" @click="showProfileModal(item)">
@@ -156,7 +157,7 @@
   min-height: 50px;
   overflow-y: hidden;
   border: solid 1px #ddd;
-  margin-top: 10px;
+  margin-bottom: 10px;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -291,7 +292,6 @@ import CONFIG from 'src/config.js'
 import REQUEST from '../modal/CreateRequest.js'
 export default{
   mounted(){
-    $('#loading').css({display: 'block'})
     if(this.$route.params.code){
       setTimeout(() => {
         this.retrieve({created_at: 'desc'}, {column: 'code', value: this.$route.params.code})
@@ -308,7 +308,8 @@ export default{
       showId: null,
       percentage: null,
       showInvest: 0,
-      size: null,
+      size: 0,
+      limit: 10,
       pulling: null,
       size2: null,
       newPulling: {
@@ -318,18 +319,18 @@ export default{
       selecteditemProfile: null,
       selecteditemReport: null,
       config: CONFIG,
-      activePage: 0,
+      activePage: 1,
       requestModal: REQUEST,
       category: [{
         title: 'Sort by',
         sorting: [{
-          title: 'Date posted ascending',
-          payload: 'created_at',
-          payload_value: 'asc'
-        }, {
           title: 'Date posted descending',
           payload: 'created_at',
           payload_value: 'desc'
+        }, {
+          title: 'Date posted ascending',
+          payload: 'created_at',
+          payload_value: 'asc'
         }, {
           title: 'Amount ascending',
           payload: 'amount',
@@ -374,6 +375,7 @@ export default{
     'profile': require('modules/request/Profile.vue'),
     'report': require('modules/request/Report.vue'),
     'basic-filter': require('components/increment/generic/filter/Basic.vue'),
+    'basic-pager': require('components/increment/generic/pager/Pager.vue'),
     'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
     'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
     'increment-modal': require('components/increment/generic/modal/Modal.vue'),
@@ -383,6 +385,9 @@ export default{
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
+    },
+    resetActivePage(){
+      this.activePage = 1
     },
     show(item){
       if(this.showId === item.id){
@@ -439,8 +444,8 @@ export default{
       }
       let key = Object.keys(sort)
       let parameter = {
-        limit: 10,
-        offset: this.activePage,
+        limit: this.limit,
+        offset: (this.activePage - 1) * this.limit,
         sort: {
           value: sort[key[0]],
           column: key[0]
@@ -451,6 +456,7 @@ export default{
         account_id: this.user.userID
       }
       setTimeout(() => {
+        $('#loading').css({display: 'block'})
         this.APIRequest('requests/retrieve', parameter).then(response => {
           AUTH.user.ledger.amount = response.ledger
           $('#loading').css({display: 'none'})
@@ -459,7 +465,7 @@ export default{
             this.size = parseInt(response.size)
           }else{
             this.data = null
-            this.size = null
+            this.size = 0
           }
         })
       }, 100)
