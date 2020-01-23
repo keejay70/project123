@@ -134,13 +134,23 @@ export default {
   GUIDE: [{
     title: 'Welcome to PayHiram!',
     subtitle: 'Your tool to create an idenfication card easily and buy products need to your business from our printing partners.',
-    image: config.BACKEND_URL + '/storage/logo/logo.png',
+    image: require('src/assets/img/logo.png'),
     icon: null
   }, {
-    title: 'Create template of your ID',
-    subtitle: 'Go to <b>Tempalte</b> found on the left sidebar.',
-    image: config.BACKEND_URL + '/storage/logo/logo.png',
-    icon: null
+    title: 'First: Create a request',
+    subtitle: 'To post a request, click the "Post a Request" button at the upper right and fill-up the required details',
+    image: null,
+    icon: 'fal fa-edit'
+  }, {
+    title: 'Second: Use the Messenger Thread',
+    subtitle: 'Once a different user will connect to your request, a messenger thread notification will pop-up. Click the thread notification to contact with your peer using the messenger. You can ask for the ID, Photo, and Signature (only on mobile app) for confirmation of completion to your request',
+    image: null,
+    icon: 'fal fa-comments'
+  }, {
+    title: 'Lastly: Transfer of Funds and Review',
+    subtitle: 'If your request has been completed, payhiram will automatically transfer the funds from your account to your peer. You can rate your peer and review transaction.',
+    image: null,
+    icon: 'fal fa-exchange'
   }, {
     title: 'Congratulations!',
     subtitle: 'You\'re good to go! Enjoy your stay!',
