@@ -133,22 +133,22 @@ export default {
   },
   GUIDE: [{
     title: 'Welcome to PayHiram!',
-    subtitle: 'Your tool to create an idenfication card easily and buy products need to your business from our printing partners.',
+    subtitle: 'Sending cash in a new and convenient way! In Payhiram, we have partners to fulfill your cash needed in any locations you want. Start sending today!',
     image: require('src/assets/img/logo.png'),
     icon: null
   }, {
-    title: 'First: Create a request',
+    title: 'First, create or post a request',
     subtitle: 'To post a request, click the "Post a Request" button at the upper right and fill-up the required details',
     image: null,
     icon: 'fal fa-edit'
   }, {
-    title: 'Second: Use the Messenger Thread',
+    title: 'Second, use the messenger thread',
     subtitle: 'Once a different user will connect to your request, a messenger thread notification will pop-up. Click the thread notification to contact with your peer using the messenger. You can ask for the ID, Photo, and Signature (only on mobile app) for confirmation of completion to your request',
     image: null,
     icon: 'fal fa-comments'
   }, {
-    title: 'Lastly: Transfer of Funds and Review',
-    subtitle: 'If your request has been completed, payhiram will automatically transfer the funds from your account to your peer. You can rate your peer and review transaction.',
+    title: 'Lastly, transfer of funds and review',
+    subtitle: 'If your request has been completed, other peer will transfer the funds. You can rate your peer and review transaction.',
     image: null,
     icon: 'fal fa-exchange'
   }, {
