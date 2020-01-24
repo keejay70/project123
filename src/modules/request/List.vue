@@ -326,43 +326,33 @@ export default{
         sorting: [{
           title: 'Date posted descending',
           payload: 'created_at',
-          payload_value: 'desc'
+          payload_value: 'desc',
+          input_type: 'date'
         }, {
           title: 'Date posted ascending',
           payload: 'created_at',
-          payload_value: 'asc'
+          payload_value: 'asc',
+          input_type: 'date'
         }, {
           title: 'Amount ascending',
           payload: 'amount',
-          payload_value: 'asc'
+          payload_value: 'asc',
+          input_type: 'number'
         }, {
           title: 'Amount descending',
           payload: 'amount',
-          payload_value: 'desc'
-        }, {
-          title: 'Interest ascending',
-          payload: 'interest',
-          payload_value: 'asc'
-        }, {
-          title: 'Interest descending',
-          payload: 'interest',
-          payload_value: 'desc'
-        }, {
-          title: 'Months payable ascending',
-          payload: 'months_payable',
-          payload_value: 'asc'
-        }, {
-          title: 'Months payable descending',
-          payload: 'status',
-          payload_value: 'desc'
+          payload_value: 'desc',
+          input_type: 'number'
         }, {
           title: 'Needed on ascending',
           payload: 'needed_on',
-          payload_value: 'asc'
+          payload_value: 'asc',
+          input_type: 'date'
         }, {
           title: 'Needed on descending',
           payload: 'needed_on',
-          payload_value: 'desc'
+          payload_value: 'desc',
+          input_type: 'date'
         }]
       }],
       listStyle: null,
