@@ -16,6 +16,8 @@
           <td>Username</td>
           <td>Email</td>
           <td>Type</td>
+          <td>Country & Region</td>
+          <td>Localities</td>
           <td>Status</td>
           <td>Actions</td>
         </tr>
@@ -27,6 +29,23 @@
           </td>
           <td>{{item.email}}</td>
           <td>{{item.account_type}}</td>
+          <td>
+            <label v-if="item.partner_locations !== null">
+              {{item.partner_locations.country}} / {{item.partner_locations.region}}
+            </label>
+          </td>
+          <td>
+            <label v-if="item.partner_locations !== null">
+              <button class="btn btn-secondary" style="margin-right: 5px;" v-for="(itemLocation, indexLocation) in item.partner_locations.result">
+                {{itemLocation.locality}}
+                <i class="fa fa-pencil text-primary" style="padding-left: 5px; padding-right: 5px;"  @click="showIncrementModal('update', itemLocation)"></i>
+                <i class="fa fa-trash text-danger" style="padding-left: 5px; padding-right: 5px;" @click="deleteLocation(itemLocation.id)"></i>
+              </button>
+            </label>
+            <button class="btn btn-primary" @click="showIncrementModal('create', item)">
+              <i class="fas fa-plus"></i>
+            </button>
+          </td>
           <td>{{item.status}}</td>
           <td>
             <button class="btn btn-primary" @click="update(item)">Grant</button>
@@ -36,6 +55,7 @@
     </table>
     <empty v-if="data === null" :title="'No charges specified!'" :action="'Click add to create.'"></empty>
     <profile :item="selecteditem"></profile>
+    <increment-modal :property="partnerLocation"></increment-modal>
   </div>
 </template>
 <style scoped>
@@ -78,6 +98,11 @@
   padding-right: 10px;
 }
 
+td i {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+
 @media (max-width: 992px){
   .ledger-summary-container{
     width: 100%;
@@ -88,6 +113,7 @@
 import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
+import PartnerLocation from './CreatePartnerLocations.js'
 export default{
   mounted(){
     $('#loading').css({display: 'block'})
@@ -137,13 +163,15 @@ export default{
         }]
       }],
       filter: null,
-      sort: null
+      sort: null,
+      partnerLocation: PartnerLocation
     }
   },
   components: {
     'empty': require('components/increment/generic/empty/Empty.vue'),
     'basic-filter': require('components/increment/generic/filter/Basic.vue'),
-    'profile': require('modules/request/Profile.vue')
+    'profile': require('modules/request/Profile.vue'),
+    'increment-modal': require('components/increment/generic/modal/Modal.vue')
   },
   methods: {
     showProfileModal(item){
@@ -198,6 +226,53 @@ export default{
       }else{
         alert('Not Allowed!')
       }
+    },
+    showIncrementModal(action, item){
+      switch(action){
+        case 'create':
+          this.partnerLocation = {...PartnerLocation}
+          let inputs = this.partnerLocation.inputs
+          inputs.map(input => {
+            input.value = null
+          })
+          let params = this.partnerLocation.params
+          params.map(param => {
+            if(param.variable === 'account_id'){
+              param.value = item.id
+            }
+          })
+          break
+        case 'update':
+          let modalData = {...this.partnerLocation}
+          let parameter = {
+            title: 'Update Location',
+            route: 'investor_locations/update',
+            button: {
+              left: 'Cancel',
+              right: 'Update'
+            },
+            sort: null,
+            params: [{
+              variable: 'id',
+              value: item.id
+            }]
+          }
+          modalData = {...modalData, ...parameter}
+          modalData.inputs.map(data => {
+            if(data.variable === 'country'){
+              data.value = item.country
+            }
+            if(data.variable === 'region'){
+              data.value = item.region
+            }
+            if(data.variable === 'locality'){
+              data.value = item.locality
+            }
+          })
+          this.partnerLocation = {...modalData}
+          break
+      }
+      $('#createPartnerLocationModal').modal('show')
     }
   }
 }

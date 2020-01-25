@@ -167,5 +167,8 @@ export default {
     {text: 'PRC License', value: 'prc'},
     {text: 'Senior Citizen ID', value: 'scid'},
     {text: 'OFW ID', value: 'ofwid'}
+  ],
+  countries: [
+    'Philippines'
   ]
 }
