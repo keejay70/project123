@@ -53,7 +53,7 @@
         </tr>
       </tbody>
     </table>
-    <empty v-if="data === null" :title="'No charges specified!'" :action="'Click add to create.'"></empty>
+    <empty v-if="data === null" :title="'No accounts available!'" :action="'Keep growing.'"></empty>
     <profile :item="selecteditem"></profile>
     <increment-modal :property="partnerLocation"></increment-modal>
   </div>

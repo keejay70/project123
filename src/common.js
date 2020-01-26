@@ -34,8 +34,6 @@ export default {
   COPYRIGHT: 'PAYHIRAM 2019',
   USER_TYPE: [{
     title: 'USER'
-  }, {
-    title: 'INVESTOR'
   }],
   plan: false,
   header: ['status', 'notification'], // 'messenger', '',
@@ -67,15 +65,6 @@ export default {
   }, {
     title: 'Chinabank Corporation',
     logo: require('src/assets/img/unionbank.png')
-  }, {
-    title: 'Cebuana Lhuillier',
-    logo: require('src/assets/img/cebuanalhuillier.png')
-  }, {
-    title: 'MLhuillier',
-    logo: require('src/assets/img/mlhuillier.png')
-  }, {
-    title: 'GCash',
-    logo: require('src/assets/img/gcash.png')
   }],
   MINIMUM_WITHDRAWAL: 1000,
   pusher: {

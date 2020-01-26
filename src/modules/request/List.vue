@@ -2,6 +2,12 @@
   <div class="request-list-wrapper">
     <div class="request-list-left-container">
       <div class="incre-row">
+        <label v-if="locations !== null" class="pull-left">
+          <button class="btn btn-warning">Tag Locations</button>
+          <button class="btn btn-primary" v-for="(location, index) in locations.locality" :key="index" style="margin-right: 5px;">
+            {{location}}
+          </button>
+        </label>
         <button class="btn btn-primary pull-right" @click="redirect('/createRequest')">Post a request</button>
         <button class="btn btn-primary pull-right" @click="showMyRequest()" style="margin-right: 10px;">View my request</button>
         <!-- <button class="btn btn-primary pull-right" @click="showRequestModal('create')">Post a request</button> -->
@@ -13,7 +19,10 @@
       @changeSortEvent="retrieve($event.sort, $event.filter), resetActivePage()"
       @changeStyle="manageGrid($event)"
       :grid="['list', 'th-large']"></basic-filter>
-      <basic-pager :pages="parseInt(size / limit)" :offset="limit" :active="activePage" :limit="limit"></basic-pager>
+      <span class="incre-row">
+          <basic-pager :pages="parseInt(size / limit)" :offset="limit" :active="activePage" :limit="limit"></basic-pager>
+      </span>
+      
       <div class="rl-container-item" v-for="(item, index) in data" :key="index">
         <span class="header">
           <label class="action-link text-primary" @click="showProfileModal(item)">
@@ -84,8 +93,8 @@
             Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
           <div v-if="parseInt(item.account_id) !== user.userID">
-            <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) > 100">Invest</button>
-            <button class="btn btn-primary" style="margin-right: 5px;" @click="showChargeModal(item)" v-if="parseInt(item.type) < 101">Connect</button>
+            <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) > 100 && user.type !== 'USER'">Invest</button>
+            <button class="btn btn-primary" style="margin-right: 5px;" @click="showChargeModal(item)" v-if="parseInt(item.type) < 101 && user.type !== 'USER'">Connect</button>
             <!-- <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">
               <i class="fas fa-star" v-if="item.bookmark === true"></i>
               Bookmark</button> -->
@@ -311,6 +320,7 @@ export default{
       size: 0,
       limit: 10,
       pulling: null,
+      locations: null,
       size2: null,
       newPulling: {
         requestId: null
@@ -453,9 +463,11 @@ export default{
           if(response.data !== null){
             this.data = response.data
             this.size = parseInt(response.size)
+            this.locations = response.locations
           }else{
             this.data = null
             this.size = 0
+            this.locations = null
           }
         })
       }, 100)
@@ -482,6 +494,9 @@ export default{
       this.$refs.showImage.setImage(src)
     },
     showChargeModal(item){
+      if(this.user.type === 'USER'){
+        return
+      }
       this.$refs.createChargesModal.show(item)
     },
     acceptPeer(peerItem, item){
