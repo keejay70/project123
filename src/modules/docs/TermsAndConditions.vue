@@ -92,6 +92,7 @@
               <li>
                 We reserve the right to modify, temporarily suspend or permanently delete your Account and terminate your access to the Services if we have reason to believe that you have breached or acted inconsistently with the Terms.
                 Following termination, your access will be automatically revoked and we reserve the right to delete your Account, erase all or any information on your Profile and discard any of your User Content. You agree that we shall not be liable to you for any modification or discontinuance of the Service.
+<<<<<<< HEAD
 =======
                We take your privacy very seriously. Any personal information you submit to us when setting up an account shall be subject to our Privacy and Cookie Policies which are incorporated into these Terms. You understand that through your use of the Services, you consent to the collection and use (to the extent stated in the Privacy and Cookie Policies) of this information. You further understand, acknowledge and agree that any personal information you provide on your Profile is in the public domain and is provided at your sole liability. We accept no responsibility whatsoever for the use of any personal information you share on your Profile by you or any other individual.
               </li>
@@ -203,6 +204,8 @@
                     </li>
                   </ul>
 >>>>>>> 3ba8cbe4d6af732ac59ce89846bd2b1482fffe82
+=======
+>>>>>>> 30661eb26e4ad6eb95c50cd46c8fc98bd2255626
               </li>
             </ul>
           </div>
