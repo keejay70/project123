@@ -11,11 +11,7 @@
         <li class="title"><b>Privacy and Terms</b></li>
         <li class="link"><a @click="openModal('#termsAndConditionsModal')">Terms & Conditions</a></li>
         <li class="link"><a @click="openModal('#privacyModal')">Privacy Policy</a></li>
-        <li class="link"><a @click="openModal('#termsAndConditionsModal')">Billing Terms</a></li>
-      </ul>
-       <ul class="footer-widget">
-        <li class="title"><b>Resources</b></li>
-        <li class="link"><a @click="openModal('#guideModal')">Guide</a></li>
+
       </ul>
       <span class="footer-widget community">
         <span class="title"><b>Community</b></span>

@@ -1,2 +1,5 @@
 {
+    "require": {
+        "torann/geoip": "^1.1"
+    }
 }
