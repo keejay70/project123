@@ -27,7 +27,7 @@
                 These Terms of Use apply to this website and any other website, application, or other online service that links to these Terms of Use, including author websites and online services, however accessed and/or used, that are operated or otherwise made available by {{common.COMPANY}}.
               </li>
               <li>
-                {{common.COMPANY}} (“we”, “us”, or “our”) reserves the right, at our discretion, to change, modify, add, or remove portions of these terms of use at any time. Please check these terms of use periodically for changes. Your continued use of the site following the posting of changes to these terms of use will mean you accept those changes. Additional terms and conditions may apply to the purchase of products, such as refund policies.
+                {{common.COMPANY}} (“we”, “us”, or “our”) reserves the right, at our discretion, to change, modify, add, or remove portions of these terms of use at any time. Please check these terms of use periodically for changes. Your continued use of the site following the posting of changes to these terms of use will mean you accept those changes.
               </li>
               <li>
                 This is a legal agreement between you (“you” or “user”) and us and states the material terms and conditions that govern your use of the program. This agreement, together with all updates, supplements, additional terms, and all of the rules and policies collectively constitute and shall be referred to as the “Agreement” between you and {{common.COMPANY}}.
@@ -93,6 +93,7 @@
                 We reserve the right to modify, temporarily suspend or permanently delete your Account and terminate your access to the Services if we have reason to believe that you have breached or acted inconsistently with the Terms.
                 Following termination, your access will be automatically revoked and we reserve the right to delete your Account, erase all or any information on your Profile and discard any of your User Content. You agree that we shall not be liable to you for any modification or discontinuance of the Service.
               </li>
+             
             </ul>
           </div>
         </div>
