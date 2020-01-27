@@ -30,7 +30,7 @@
               </li>
               <li><strong>Non-Personal Information Collected Using Technology:</strong></li>
               <li>
-                n addition to any information you provide directly to us, we and our third party service providers may use a variety of technologies that automatically collect certain tracking information when you interact with the Program or emails sent to you. By using our Program, you consent to our use of tracking technologies as described below:
+                In addition to any information you provide directly to us, we and our third party service providers may use a variety of technologies that automatically collect certain tracking information when you interact with the Program or emails sent to you. By using our Program, you consent to our use of tracking technologies as described below:
                 <ul class="second-ul">
                   <li><strong>Device Information</strong></li>
                   <li>
@@ -70,7 +70,7 @@
                   <ul>
                     <li><strong>DATA SUBJECT RIGHTS AND DATA RETENTION</strong></li>
                     <li>
-                      You can manage your account settings at by clicking here (insert hyperlink) to update, amend, and correct your information.
+                      You can manage your account settings at by clicking here <b>My Profile</b>, under the settings icon on the right side of the header, to update, amend, and correct your information.
                     </li>
                     <li>
                       You also have the following rights in relation to the personal data we hold about you, unless provided otherwise by local law:
