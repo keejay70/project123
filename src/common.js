@@ -6,9 +6,9 @@ export default {
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
     // {accountType: 'INVESTOR', accountStatus: 'ALL', description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
     // {accountType: 'ALL', accountStatus: 'ALL', description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null},
-    // {accountType: 'ALL', accountStatus: 'ALL', description: 'Deposits', icon: 'fas fa-piggy-bank', path: 'deposits', flag: false, subMenu: null},
-    // {accountType: 'ALL', accountStatus: 'ALL', description: 'Withdrawals', icon: 'fas fa-money-check', path: 'withdrawals', flag: false, subMenu: null},
     {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'Accounts', icon: 'fas fa-users', path: 'accounts', flag: false, subMenu: null},
+    {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'Deposits', icon: 'fas fa-piggy-bank', path: 'deposits', flag: false, subMenu: null},
+    {accountType: 'ALL', accountStatus: 'ALL', description: 'Withdrawals', icon: 'fas fa-money-check', path: 'withdrawals', flag: false, subMenu: null},
     {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'Transfer Charges', icon: 'fas fa-stamp', path: 'transfer_charges', flag: false, subMenu: null}
   ],
   profileMenu: [

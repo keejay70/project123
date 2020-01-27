@@ -7,31 +7,28 @@
       @changeSortEvent="retrieve($event.sort, $event.filter)"
       @changeStyle="manageGrid($event)"
       :grid="['list', 'th-large']"></basic-filter>
-    <div class="summary-container-item" v-for="item, index in data" v-if="data !== null">
-      <span class="header">
-        {{item.created_at_human}}
-        <i class="fa fa-circle" style="font-size: 11px"></i>
-        <label style="text-transform: UPPERCASE">{{item.status}}</label>
-      </span>
-      <span class="body">
-        <label>
-          {{item.description}}
-        </label>
-        <label v-if="item.payload === 'investments'">
-          <b class="text-primary action-link">request</b>
-        </label>
-        <label  v-bind:class="{'text-danger': parseFloat(item.amount) <= 0, 'text-primary': parseFloat(item.amount) > 0}"class="pull-right amount"><b>{{auth.displayAmount(item.amount)}}</b></label>
-      </span>
-      <span class="footer">
-      <div class="attachment-header">
-        <button class="btn btn-primary" @click="showImages(item.id)" style="margin-bottom: 10px;">Attach File</button>
-      </div>
-      <div v-if="item.attachments.length > 0">
-          <br>
-         <img v-for="(image, imageIndex) in item.attachments" :key="imageIndex" :src="config.BACKEND_URL + image.file" class="attachment-image" @click="viewImage(config.BACKEND_URL + image.file)"/>
-      </div>
-      </span>
-    </div>
+    <table class="table table-bordered"  v-if="data !== null">
+      <thead>
+        <td>Username</td>
+        <td>Deposit #</td>
+        <td>Via</td>
+        <td>Amount</td>
+        <td>Status</td>
+        <td v-if="user.type === 'ADMIN'">Actions</td>
+      </thead>
+      <tbody>
+        <tr v-for="item, index in data">
+          <td>{{item.account.username}}</td>
+          <td>{{item.deposit_slip}}</td>
+          <td>{{item.bank}}</td>
+          <td>{{auth.displayAmountWithCurrency(item.amount, item.currency)}}</td>
+          <td>{{item.status}}</td>
+          <td v-if="user.type === 'ADMIN'">
+            <button class="btn btn-danger" style="margin-bottom: 10px;">Approve</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <empty v-if="data === null" :title="'Looks like you do not have deposit yet!'" :action="'Deposit now or start requesting money.'"></empty>
     <browse-images-modal></browse-images-modal>
     <image-viewer :src="selectedImage"></image-viewer>
@@ -111,7 +108,7 @@ import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
 export default{
   mounted(){
-    this.retrieve({column: 'created_at', value: 'desc'}, {column: 'created_at', value: ''})
+    this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
   },
   data(){
     return {
@@ -200,21 +197,25 @@ export default{
       })
     },
     retrieve(sort, filter){
-      this.filter = filter
-      this.sort = sort
+      if(sort !== null){
+        this.sort = sort
+      }
+      if(filter !== null){
+        this.filter = filter
+      }
+      if(sort === null && this.sort !== null){
+        sort = this.sort
+      }
+      if(filter === null && this.filter !== null){
+        filter = this.filter
+      }
       let parameter = {
         condition: [{
-          column: 'account_id',
-          value: this.user.userID,
-          clause: '='
-        }, {
           column: filter.column,
-          clause: 'like',
-          value: filter.value + '%'
+          value: filter.value + '%',
+          clause: 'like'
         }],
-        sort: {
-          created_at: 'desc'
-        }
+        sort: sort
       }
       $('#loading').css({display: 'block'})
       this.APIRequest('deposits/retrieve', parameter).then(response => {
