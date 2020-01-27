@@ -29,6 +29,7 @@ export default {
   APP_NAME: 'PAYHIRAM',
   APP_NAME_HTML: 'PAYHIRAM',
   APP_EMAIL: 'support@payhiram.ph',
+  APP_SITE: 'https://payhiram.ph',
   COMPANY: 'Increment Technologies',
   COMPANY_URL: 'www.increment.ltd',
   COPYRIGHT: 'PAYHIRAM 2019',
