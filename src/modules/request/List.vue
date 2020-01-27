@@ -2,6 +2,12 @@
   <div class="request-list-wrapper">
     <div class="request-list-left-container">
       <div class="incre-row">
+        <label v-if="locations !== null" class="pull-left">
+          <button class="btn btn-warning">Tag Locations</button>
+          <button class="btn btn-primary" v-for="(location, index) in locations.locality" :key="index" style="margin-right: 5px;">
+            {{location}}
+          </button>
+        </label>
         <button class="btn btn-primary pull-right" @click="redirect('/createRequest')">Post a request</button>
         <button class="btn btn-primary pull-right" @click="showMyRequest()" style="margin-right: 10px;">View my request</button>
         <!-- <button class="btn btn-primary pull-right" @click="showRequestModal('create')">Post a request</button> -->
@@ -10,9 +16,13 @@
       v-bind:category="category" 
       :activeCategoryIndex="0"
       :activeSortingIndex="0"
-      @changeSortEvent="retrieve($event.sort, $event.filter)"
+      @changeSortEvent="retrieve($event.sort, $event.filter), resetActivePage()"
       @changeStyle="manageGrid($event)"
       :grid="['list', 'th-large']"></basic-filter>
+      <span class="incre-row">
+          <basic-pager :pages="parseInt(size / limit)" :offset="limit" :active="activePage" :limit="limit"></basic-pager>
+      </span>
+      
       <div class="rl-container-item" v-for="(item, index) in data" :key="index">
         <span class="header">
           <label class="action-link text-primary" @click="showProfileModal(item)">
@@ -83,8 +93,8 @@
             Total Borrowed: {{auth.displayAmount(item.total)}}
           </label>
           <div v-if="parseInt(item.account_id) !== user.userID">
-            <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) > 100">Invest</button>
-            <button class="btn btn-primary" style="margin-right: 5px;" @click="showChargeModal(item)" v-if="parseInt(item.type) < 101">Connect</button>
+            <button class="btn btn-primary" style="margin-right: 5px;" @click="showInvestmentModal(item)" v-if="parseInt(item.type) > 100 && user.type !== 'USER'">Invest</button>
+            <button class="btn btn-primary" style="margin-right: 5px;" @click="showChargeModal(item)" v-if="parseInt(item.type) < 101 && user.type !== 'USER'">Connect</button>
             <!-- <button class="btn btn-warning" style="margin-right: 5px;" @click="bookmark(item.id)">
               <i class="fas fa-star" v-if="item.bookmark === true"></i>
               Bookmark</button> -->
@@ -156,7 +166,7 @@
   min-height: 50px;
   overflow-y: hidden;
   border: solid 1px #ddd;
-  margin-top: 10px;
+  margin-bottom: 10px;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -291,7 +301,6 @@ import CONFIG from 'src/config.js'
 import REQUEST from '../modal/CreateRequest.js'
 export default{
   mounted(){
-    $('#loading').css({display: 'block'})
     if(this.$route.params.code){
       setTimeout(() => {
         this.retrieve({created_at: 'desc'}, {column: 'code', value: this.$route.params.code})
@@ -308,8 +317,10 @@ export default{
       showId: null,
       percentage: null,
       showInvest: 0,
-      size: null,
+      size: 0,
+      limit: 10,
       pulling: null,
+      locations: null,
       size2: null,
       newPulling: {
         requestId: null
@@ -318,50 +329,40 @@ export default{
       selecteditemProfile: null,
       selecteditemReport: null,
       config: CONFIG,
-      activePage: 0,
+      activePage: 1,
       requestModal: REQUEST,
       category: [{
         title: 'Sort by',
         sorting: [{
-          title: 'Date posted ascending',
-          payload: 'created_at',
-          payload_value: 'asc'
-        }, {
           title: 'Date posted descending',
           payload: 'created_at',
-          payload_value: 'desc'
+          payload_value: 'desc',
+          input_type: 'date'
+        }, {
+          title: 'Date posted ascending',
+          payload: 'created_at',
+          payload_value: 'asc',
+          input_type: 'date'
         }, {
           title: 'Amount ascending',
           payload: 'amount',
-          payload_value: 'asc'
+          payload_value: 'asc',
+          input_type: 'number'
         }, {
           title: 'Amount descending',
           payload: 'amount',
-          payload_value: 'desc'
-        }, {
-          title: 'Interest ascending',
-          payload: 'interest',
-          payload_value: 'asc'
-        }, {
-          title: 'Interest descending',
-          payload: 'interest',
-          payload_value: 'desc'
-        }, {
-          title: 'Months payable ascending',
-          payload: 'months_payable',
-          payload_value: 'asc'
-        }, {
-          title: 'Months payable descending',
-          payload: 'status',
-          payload_value: 'desc'
+          payload_value: 'desc',
+          input_type: 'number'
         }, {
           title: 'Needed on ascending',
           payload: 'needed_on',
-          payload_value: 'asc'
+          payload_value: 'asc',
+          input_type: 'date'
         }, {
           title: 'Needed on descending',
           payload: 'needed_on',
-          payload_value: 'desc'
+          payload_value: 'desc',
+          input_type: 'date'
         }]
       }],
       listStyle: null,
@@ -374,6 +375,7 @@ export default{
     'profile': require('modules/request/Profile.vue'),
     'report': require('modules/request/Report.vue'),
     'basic-filter': require('components/increment/generic/filter/Basic.vue'),
+    'basic-pager': require('components/increment/generic/pager/Pager.vue'),
     'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
     'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue'),
     'increment-modal': require('components/increment/generic/modal/Modal.vue'),
@@ -383,6 +385,9 @@ export default{
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
+    },
+    resetActivePage(){
+      this.activePage = 1
     },
     show(item){
       if(this.showId === item.id){
@@ -439,8 +444,8 @@ export default{
       }
       let key = Object.keys(sort)
       let parameter = {
-        limit: 10,
-        offset: this.activePage,
+        limit: this.limit,
+        offset: (this.activePage - 1) * this.limit,
         sort: {
           value: sort[key[0]],
           column: key[0]
@@ -451,15 +456,18 @@ export default{
         account_id: this.user.userID
       }
       setTimeout(() => {
+        $('#loading').css({display: 'block'})
         this.APIRequest('requests/retrieve', parameter).then(response => {
           AUTH.user.ledger.amount = response.ledger
           $('#loading').css({display: 'none'})
           if(response.data !== null){
             this.data = response.data
             this.size = parseInt(response.size)
+            this.locations = response.locations
           }else{
             this.data = null
-            this.size = null
+            this.size = 0
+            this.locations = null
           }
         })
       }, 100)
@@ -486,6 +494,9 @@ export default{
       this.$refs.showImage.setImage(src)
     },
     showChargeModal(item){
+      if(this.user.type === 'USER'){
+        return
+      }
       this.$refs.createChargesModal.show(item)
     },
     acceptPeer(peerItem, item){

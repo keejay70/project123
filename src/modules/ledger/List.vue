@@ -98,27 +98,33 @@ export default{
         sorting: [{
           title: 'Date posted ascending',
           payload: 'created_at',
-          payload_value: 'asc'
+          payload_value: 'asc',
+          input_type: 'date'
         }, {
           title: 'Date posted descending',
           payload: 'created_at',
-          payload_value: 'desc'
+          payload_value: 'desc',
+          input_type: 'date'
         }, {
           title: 'Amount ascending',
           payload: 'amount',
-          payload_value: 'asc'
+          payload_value: 'asc',
+          input_type: 'number'
         }, {
           title: 'Amount descending',
           payload: 'amount',
-          payload_value: 'desc'
+          payload_value: 'desc',
+          input_type: 'number'
         }, {
           title: 'Description ascending',
           payload: 'description',
-          payload_value: 'asc'
+          payload_value: 'asc',
+          input_type: 'text'
         }, {
           title: 'Description descending',
           payload: 'description',
-          payload_value: 'desc'
+          payload_value: 'desc',
+          input_type: 'text'
         }]
       }],
       listStyle: null
