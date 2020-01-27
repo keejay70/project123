@@ -370,6 +370,17 @@ export default{
       filter: null
     }
   },
+  watch: {
+    '$route' (to, from) {
+      if(this.$route.params.code){
+        setTimeout(() => {
+          this.retrieve({created_at: 'desc'}, {column: 'code', value: this.$route.params.code})
+        }, 500)
+      }else{
+        this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
+      }
+    }
+  },
   components: {
     'invest': require('modules/transfer/Invest.vue'),
     'profile': require('modules/request/Profile.vue'),
