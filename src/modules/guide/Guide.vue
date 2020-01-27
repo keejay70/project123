@@ -21,7 +21,7 @@
                   <li><strong>What is {{common.APP_NAME}} by {{common.COMPANY}}?</strong></li>
                   <li>{{common.APP_NAME}} by {{common.COMPANY}} is an online marketplace for users who want to send cash online and will be fulfilled with our partners. 
                   </li><br>
-                  <li><strong>Types of accounts?</strong></li>
+                  <li><strong>Types of accounts</strong></li>
                   <li><strong>Regular Account</strong></li>
                   <li>A regular account allows you to send money. It provides the users an account profile to upload their necessary information and documents for monetary transactions performed on the platform.
                   </li>

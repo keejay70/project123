@@ -66,62 +66,59 @@
                 If the ownership of all or substantially all of the {{common.COMPANY}} business, or individual business units or assets owned by {{common.COMPANY}} that are related to the Service, were to change, your personal data will be transferred to the new owner. In any such transfer of information, your personal data would remain subject to this section.
               </li>
               <li>
-                {{common.COMPANY}} will share aggregate or anonymous data collected through the Service, including Activity Data, for purposes such as understanding or improving the service.
-                  <ul>
-                    <li><strong>DATA SUBJECT RIGHTS AND DATA RETENTION</strong></li>
-                    <li>
-                      You can manage your account settings at by clicking here (insert hyperlink) to update, amend, and correct your information.
-                    </li>
-                    <li>
-                      You also have the following rights in relation to the personal data we hold about you, unless provided otherwise by local law:
-                      <ul>
-                        <li>
-                          To request access to, or erasure of, the personal data we hold about you.
-                        </li>
-                        <li>
-                          To request us to restrict the processing of the personal data we hold about you.
-                        </li>
-                        <li>
-                          To object to us processing personal data relating to you.
-                        </li>
-                        <li>
-                          Where you have given us consent to process your personal data, you have the right to withdraw that consent at any time.
-                        </li>
-                        <li>
-                          To export the personal data you have provided to {{common.COMPANY}} in a format that can be transferred electronically to a third party.
-                        </li>
-                        <li>
-                          To delete your account with {{common.COMPANY}} by following the instructions available through the Service.
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                    {{common.COMPANY}} will retain your data until your account is deleted, after which point we will retain anonymous data collected through the Service, including Activity Data, which may be used by {{common.COMPANY}} and shared with third parties in any manner.
-                    </li>
-                    <li>
-                      Please note that some of these rights are not absolute. In some cases, we may refuse a request to exercise particular rights if complying with it meant that we are no longer able to meet our contractual obligation to provide you with particular products and services. We will keep you informed as to the actions that we can take when you make your request.
-                    </li>
-                    <li><strong>THIRD PARTY WEBSITES AND LINKS</strong></li>
-                    <li>
-                      Please note that you may have cookies placed on your computer by third party websites that refer you to our Service. Although we do not share your personal data with these third party websites unless it is reasonably necessary to offer the Service, they may be able to link certain non-personally identifiable information we transfer to them with personal data they previously collected from you. Please review the privacy policies of each website you visit to better understand their privacy practices. In addition, {{common.COMPANY}} would like to inform you that anytime you click on links (including advertising banners), which take you to third party websites, you will be subject to the third parties’ privacy policies. Any information submitted by you directly to these third parties is subject to that third party’s privacy policy.
-                    </li>
-                    <li><strong>LINKS</strong></li>
-                    <li>
-                      The Service may contain links to other websites. We are not responsible for the privacy practices of other websites. We encourage users to be aware when they leave the Service to read the privacy statements of other websites that collect personally identifiable information. This Privacy Policy applies only to information collected by {{common.COMPANY}} via the Service.
-                    </li>
-                    <li><strong>INFORMATION SECURITY</strong></li>
-                    <li>
-                      {{common.COMPANY}} has implemented administrative and technical safeguards it believes are appropriate to protect the confidentiality, integrity and availability of your personal data, User Photo, and access credentials. However, given sufficient resources, a determined attacker could defeat those safeguards and may, as a result, gain access to the data we seek to protect.
-                    </li>
-                    <li><strong>DO NOT TRACK</strong></li>
-                    <li>
-                      The Service is not designed to respond to “do not track” signals sent by some browsers.
-                    </li>
-                    <li><strong>CONTACT US</strong></li>
-                    <li>
-                      For all data privacy and support inquiries and any questions or concerns you have about this Privacy Policy, please contact {{common.COMPANY}} here {{(common.APP_EMAIL)}}
-                    </li>
-                  </ul>
+                {{common.COMPANY}} will share aggregate or anonymous data collected through the Service, including Activity Data, for purposes such as understanding or improving the service.</li>
+              <li><strong>DATA SUBJECT RIGHTS AND DATA RETENTION</strong></li>
+              <li>
+                You can manage your account settings at by clicking here (insert hyperlink) to update, amend, and correct your information.
+              </li>
+              <li>
+                You also have the following rights in relation to the personal data we hold about you, unless provided otherwise by local law:
+                <ul>
+                  <li>
+                    To request access to, or erasure of, the personal data we hold about you.
+                  </li>
+                  <li>
+                    To request us to restrict the processing of the personal data we hold about you.
+                  </li>
+                  <li>
+                    To object to us processing personal data relating to you.
+                  </li>
+                  <li>
+                    Where you have given us consent to process your personal data, you have the right to withdraw that consent at any time.
+                  </li>
+                  <li>
+                    To export the personal data you have provided to {{common.COMPANY}} in a format that can be transferred electronically to a third party.
+                  </li>
+                  <li>
+                    To delete your account with {{common.COMPANY}} by following the instructions available through the Service.
+                  </li>
+                </ul>
+              </li>
+              <li>
+              {{common.COMPANY}} will retain your data until your account is deleted, after which point we will retain anonymous data collected through the Service, including Activity Data, which may be used by {{common.COMPANY}} and shared with third parties in any manner.
+              </li>
+              <li>
+                Please note that some of these rights are not absolute. In some cases, we may refuse a request to exercise particular rights if complying with it meant that we are no longer able to meet our contractual obligation to provide you with particular products and services. We will keep you informed as to the actions that we can take when you make your request.
+              </li>
+              <li><strong>THIRD PARTY WEBSITES AND LINKS</strong></li>
+              <li>
+                Please note that you may have cookies placed on your computer by third party websites that refer you to our Service. Although we do not share your personal data with these third party websites unless it is reasonably necessary to offer the Service, they may be able to link certain non-personally identifiable information we transfer to them with personal data they previously collected from you. Please review the privacy policies of each website you visit to better understand their privacy practices. In addition, {{common.COMPANY}} would like to inform you that anytime you click on links (including advertising banners), which take you to third party websites, you will be subject to the third parties’ privacy policies. Any information submitted by you directly to these third parties is subject to that third party’s privacy policy.
+              </li>
+              <li><strong>LINKS</strong></li>
+              <li>
+                The Service may contain links to other websites. We are not responsible for the privacy practices of other websites. We encourage users to be aware when they leave the Service to read the privacy statements of other websites that collect personally identifiable information. This Privacy Policy applies only to information collected by {{common.COMPANY}} via the Service.
+              </li>
+              <li><strong>INFORMATION SECURITY</strong></li>
+              <li>
+                {{common.COMPANY}} has implemented administrative and technical safeguards it believes are appropriate to protect the confidentiality, integrity and availability of your personal data, User Photo, and access credentials. However, given sufficient resources, a determined attacker could defeat those safeguards and may, as a result, gain access to the data we seek to protect.
+              </li>
+              <li><strong>DO NOT TRACK</strong></li>
+              <li>
+                The Service is not designed to respond to “do not track” signals sent by some browsers.
+              </li>
+              <li><strong>CONTACT US</strong></li>
+              <li>
+                For all data privacy and support inquiries and any questions or concerns you have about this Privacy Policy, please contact {{common.COMPANY}} here {{(common.APP_EMAIL)}}
               </li>
             </ul>
           </div>
@@ -156,8 +153,8 @@ ul li{
   padding-top: 10px;
 }
 .second-ul{
-  padding-left: 10px;
-  list-style: inside;
+  padding-left: 25px;
+  list-style: none;
 }
 </style>
 <script>
