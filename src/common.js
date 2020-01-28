@@ -58,7 +58,7 @@ export default {
     facebook: 'payhiram'
   },
   payments: [{
-    title: 'BDO',
+    title: 'Banco de Oro',
     logo: require('src/assets/img/bdo.png')
   }, {
     title: 'UnionBank of the Philippines',
@@ -68,6 +68,7 @@ export default {
     logo: require('src/assets/img/unionbank.png')
   }],
   MINIMUM_WITHDRAWAL: 1000,
+  MINIMUM_DEPOSIT: 1000,
   pusher: {
     channel: 'payhiram',
     notifications: 'Notifications',

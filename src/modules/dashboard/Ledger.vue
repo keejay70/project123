@@ -63,7 +63,7 @@ export default{
   },
   props: ['data'],
   components: {
-    'deposit': require('modules/request/Deposit.vue'),
+    'deposit': require('modules/dashboard/Deposit.vue'),
     'withdraw': require('modules/transfer/Withdraw.vue'),
     'profile': require('modules/request/Profile.vue'),
     'report': require('modules/request/Report.vue'),

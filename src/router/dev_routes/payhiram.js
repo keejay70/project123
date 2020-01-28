@@ -182,6 +182,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/paymentConfirmation/:email/:userCode/:depositCode',
+    name: 'paymentConfirmation',
+    component: resolve => require(['modules/deposit/PaymentConfirmation.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
   }
   ]
 }
