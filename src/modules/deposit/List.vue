@@ -24,14 +24,15 @@
           <td>{{auth.displayAmountWithCurrency(item.amount, item.currency)}}</td>
           <td>{{item.status}}</td>
           <td v-if="user.type === 'ADMIN'">
-            <button class="btn btn-danger" style="margin-bottom: 10px;">Approve</button>
+            <button class="btn btn-danger" style="margin-bottom: 10px;" @click="approve(item)" v-if="item.status === 'pending'">Approve</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <empty v-if="data === null" :title="'Looks like you do not have deposit yet!'" :action="'Deposit now or start requesting money.'"></empty>
+    <empty v-if="data === null" :title="'No deposit yet!'" :action="'Keep growing.'"></empty>
     <browse-images-modal></browse-images-modal>
     <image-viewer :src="selectedImage"></image-viewer>
+    <authenticate-otp ref="authenticateOTP"></authenticate-otp>
   </div>
 </template>
 <style scoped lang="scss">
@@ -158,14 +159,16 @@ export default{
       }],
       selectedImage: null,
       filter: null,
-      sort: null
+      sort: null,
+      selectedItem: null
     }
   },
   components: {
     'empty': require('components/increment/generic/empty/Empty.vue'),
     'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
     'basic-filter': require('components/increment/generic/filter/Basic.vue'),
-    'image-viewer': require('components/increment/generic/modal/Image.vue')
+    'image-viewer': require('components/increment/generic/modal/Image.vue'),
+    'authenticate-otp': require('modules/transfer/Otp.vue')
   },
   methods: {
     redirect(params){
@@ -234,6 +237,20 @@ export default{
         case 'list': this.listStyle = 'list'
           break
       }
+    },
+    approve(item){
+      this.selectedItem = item
+      if(item.status === 'pending'){
+        this.$refs.authenticateOTP.show()
+      }
+    },
+    successOTP(){
+      this.selectedItem['from'] = this.user.userID
+      $('#loading').css({display: 'block'})
+      this.APIRequest('ledgers/create_on_deposit', this.selectedItem).then(response => {
+        $('#loading').css({display: 'none'})
+        this.retrieve(null, null)
+      })
     }
   }
 }

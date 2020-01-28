@@ -48,19 +48,19 @@
           <label><b>Bank details for deposit</b></label>
         </div>
         <div class="input-group login-spacer"  v-if="data.status !== 'completed'">
-          <table class="table table-bordered table-responsive">
+          <table class="table table-bordered table-responsive" v-if="selectedBank !== null">
             <tbody>
               <tr>
                 <td>Bank name</td>
-                <td><b>{{data.bank}}</b></td>
+                <td><b>{{selectedBank.title}}</b></td>
               </tr>
               <tr>
                 <td>Account name</td>
-                <td><b>{{data.bank}}</b></td>
+                <td>{{selectedBank.name}}</td>
               </tr>
               <tr>
                 <td>Account number</td>
-                <td><b>{{data.bank}}</b></td>
+                <td>{{selectedBank.number}}</td>
               </tr>
             </tbody>
           </table>
@@ -140,6 +140,7 @@
 import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import COMMON from 'src/common.js'
+import CONFIG from 'src/config.js'
 export default {
   mounted(){
     this.retrieve()
@@ -151,6 +152,7 @@ export default {
       tokenData: AUTH.tokenData,
       common: COMMON,
       data: null,
+      selectedBank: null,
       auth: AUTH,
       depositSlip: null
     }
@@ -173,9 +175,17 @@ export default {
         if(response.data !== null){
           this.data = response.data
           this.errorMessage = null
+          for (var i = 0; i < CONFIG.bankAccounts.length; i++) {
+            let item = CONFIG.bankAccounts[i]
+            if(item.title === this.data.bank){
+              this.selectedBank = item
+              break
+            }
+          }
         }else{
           this.data = null
           this.errorMessage = null
+          this.selectedBank = null
         }
       })
     },
