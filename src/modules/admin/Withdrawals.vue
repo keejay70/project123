@@ -10,18 +10,22 @@
     <table class="table table-bordered"  v-if="data !== null">
       <thead>
         <td>Username</td>
-        <td>Deposit #</td>
         <td>Via</td>
+        <td>Account name</td>
+        <td>Account number</td>
         <td>Amount</td>
+        <td>Charge</td>
         <td>Status</td>
         <td v-if="user.type === 'ADMIN'">Actions</td>
       </thead>
       <tbody>
         <tr v-for="item, index in data">
           <td>{{item.account.username}}</td>
-          <td>{{item.deposit_slip}}</td>
           <td>{{item.bank}}</td>
-          <td>{{auth.displayAmountWithCurrency(item.amount, item.currency)}}</td>
+          <td>{{item.account_name}}</td>
+          <td>{{item.account_number}}</td>
+          <td class="text-primary"><b>{{auth.displayAmountWithCurrency(item.amount, item.currency)}}</b></td>
+          <td class="text-primary"><b>{{auth.displayAmountWithCurrency(item.charge, item.currency)}}</b></td>
           <td>{{item.status}}</td>
           <td v-if="user.type === 'ADMIN'">
             <button class="btn btn-danger" style="margin-bottom: 10px;" @click="approve(item)" v-if="item.status === 'pending'">Approve</button>
@@ -218,10 +222,11 @@ export default{
           value: filter.value + '%',
           clause: 'like'
         }],
-        sort: sort
+        sort: sort,
+        account_id: this.user.userID
       }
       $('#loading').css({display: 'block'})
-      this.APIRequest('deposits/retrieve', parameter).then(response => {
+      this.APIRequest('withdrawals/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data
@@ -247,7 +252,7 @@ export default{
     successOTP(){
       this.selectedItem['from'] = this.user.userID
       $('#loading').css({display: 'block'})
-      this.APIRequest('ledgers/create_on_deposit', this.selectedItem).then(response => {
+      this.APIRequest('ledgers/create_on_withdrawal', this.selectedItem).then(response => {
         $('#loading').css({display: 'none'})
         this.retrieve(null, null)
       })

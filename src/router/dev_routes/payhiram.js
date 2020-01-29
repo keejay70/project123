@@ -120,9 +120,16 @@ export default{
       tokenRequired: true
     }
   }, {
-    path: '/deposits/',
-    name: 'deposits',
-    component: resolve => require(['modules/deposit/List.vue'], resolve),
+    path: '/adminDeposits/',
+    name: 'adminDeposits',
+    component: resolve => require(['modules/admin/Deposits.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
+  }, {
+    path: '/adminWithdrawals/',
+    name: 'adminWithdrawals',
+    component: resolve => require(['modules/admin/Withdrawals.vue'], resolve),
     meta: {
       tokenRequired: true
     }
