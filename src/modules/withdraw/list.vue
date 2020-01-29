@@ -1,12 +1,63 @@
 <template>
   <div class="ledger-summary-container">
-    <basic-filter 
+<!--     <basic-filter 
       v-bind:category="category" 
       :activeCategoryIndex="0"
       :activeSortingIndex="0"
       @changeSortEvent="retrieve($event.sort, $event.filter)"
       @changeStyle="manageGrid($event)"
-      :grid="['list', 'th-large']"></basic-filter>
+      :grid="['list', 'th-large']"></basic-filter> -->
+    <div>
+      <span class="inputs">
+        <div class="alert alert-success" role="alert">
+          Hi <b>{{user.username}}!</b>We are happy to serve you! Just a friendly reminder that the processing of the withdrawal will take up to 7 working days!
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Select Bank <b class="text-danger">*</b></label>
+          <select class="form-control form-control-custom" v-model="newWithdrawal.bank">
+            <option v-for="(item, index) in common.payments" :key="index" :value="item.title" class="form-control">{{item.title}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Select Currency <b class="text-danger">*</b></label>
+          <select class="form-control form-control-custom" v-model="newWithdrawal.currency">
+            <option v-for="(item, index) in common.currencies" :key="index" :value="item.value" class="form-control">{{item.title}} - {{item.value}}</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-top: 25px;">
+          <label for="address">Amount <b class="text-danger">*</b></label>
+          <input type="number" class="form-control form-control-custom" placeholder="Type Amount" v-model="newWithdrawal.amount">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Account Number <b class="text-danger">*</b></label>
+          <input type="text" class="form-control form-control-custom" v-model="newWithdrawal.accountNumber" placeholder="Enter account number">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Account Name <b class="text-danger">*</b></label>
+          <input type="text" class="form-control form-control-custom" v-model="newWithdrawal.accountName" placeholder="Enter account name">
+        </div>
+      </span>
+      <span class="sidebar">
+        <span class="sidebar-header" style="margin-top: 25px;"><b>Summary</b></span>
+        <span class="incre-row" v-if="errorMessage !== null">
+          <label class="text-danger" style="width: 100%;"><b>Opps!</b> {{errorMessage}}</label>
+        </span>
+        <span  class="incre-row" style="line-height: 45px;">
+          <label class="pull-left">Your current balance</label>
+          <label class="pull-right text-primary"><b>{{auth.displayAmountWithCurrency(auth.user.ledger.amount, auth.user.ledger.currency)}}</b></label>
+        </span>
+        <span  class="incre-row" style="line-height: 45px;">
+          <label class="pull-left">Amount</label>
+          <label class="pull-right"><b>{{auth.displayAmountWithCurrency(newWithdrawal.amount, newWithdrawal.currency)}}</b></label>
+        </span>
+        <span  class="incre-row" style="line-height: 45px;">
+          <label class="pull-left">Charge</label>
+          <label class="pull-right"><b>{{auth.displayAmountWithCurrency(newWithdrawal.charges.amount, newWithdrawal.charges.currency)}}</b></label>
+        </span>
+        <button class="btn btn-warning pull-right btn-custom" style="margin-bottom: 100px; width: 100%!important;" @click="checkCharges()" v-if="newWithdrawal.charges.amount === 0">Verify Charges</button>
+        <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 100px; width: 100%!important;" @click="withdrawals()" v-if="newWithdrawal.charges.amount > 0">Withdraw</button>
+      </span>
+    </div>
     <table class="table table-bordered table-responsive" v-if="data !== null">
       <thead>
         <td>Transfer via</td>
@@ -27,8 +78,7 @@
         </tr>
       </tbody>
     </table>
-    <empty v-if="data === null" :title="'Looks like you do not have withdrawals yet!'" :action="'Deposit now or start requesting money.'"></empty>
-    <browse-images-modal></browse-images-modal>
+    <authenticate-otp ref="authenticateOTP"></authenticate-otp>
   </div>
 </template>
 <style scoped>
@@ -70,10 +120,38 @@
   overflow-y: hidden;
   padding-right: 10px;
 }
+.inputs{
+  width: 60%;
+  float: left;
+  min-height: 50px;
+  overflow-y: hidden;
+  margin-right: 5%;
+}
+
+.sidebar{
+  width: 35%;
+  float: left;
+  min-height: 50px;
+
+  overflow-y: hidden;
+}
+
+.form-control-custom{
+  height: 45px !important;
+}
+
+.btn-custom{
+  height: 45px !important;
+}
 
 @media (max-width: 992px){
   .ledger-summary-container{
     width: 100%;
+  }
+  .sidebar, .inputs{
+    width: 100%;
+    margin-right: 0%;
+    margin-left: 0%;
   }
 }
 </style>
@@ -81,6 +159,7 @@
 import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
+import COMMON from 'src/common.js'
 export default{
   mounted(){
     this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
@@ -90,61 +169,25 @@ export default{
       auth: AUTH,
       user: AUTH.user,
       data: null,
-      newAttachment: {
-        activeId: null,
-        file: null
+      newWithdrawal: {
+        currency: 'PHP',
+        amount: 0,
+        bank: null,
+        accountName: null,
+        accountNumber: null,
+        charges: {
+          currency: 'PHP',
+          amount: 0
+        }
       },
       config: CONFIG,
-      category: [{
-        title: 'Sort by',
-        sorting: [{
-          title: 'Date posted ascending',
-          payload: 'created_at',
-          payload_value: 'asc'
-        }, {
-          title: 'Date posted descending',
-          payload: 'created_at',
-          payload_value: 'desc'
-        }, {
-          title: 'Transfer via ascending',
-          payload: 'payload',
-          payload_value: 'asc'
-        }, {
-          title: 'Transfer via descending',
-          payload: 'payload',
-          payload_value: 'desc'
-        }, {
-          title: 'Amount ascending',
-          payload: 'amount',
-          payload_value: 'asc'
-        }, {
-          title: 'Amount descending',
-          payload: 'amount',
-          payload_value: 'desc'
-        }, {
-          title: 'Charge ascending',
-          payload: 'charge',
-          payload_value: 'asc'
-        }, {
-          title: 'Charge descending',
-          payload: 'charge',
-          payload_value: 'desc'
-        }, {
-          title: 'Status ascending',
-          payload: 'status',
-          payload_value: 'asc'
-        }, {
-          title: 'Status descending',
-          payload: 'status',
-          payload_value: 'desc'
-        }]
-      }]
+      errorMessage: null,
+      common: COMMON
     }
   },
   components: {
-    'empty': require('components/increment/generic/empty/Empty.vue'),
-    'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
-    'basic-filter': require('components/increment/generic/filter/Basic.vue')
+    'basic-filter': require('components/increment/generic/filter/Basic.vue'),
+    'authenticate-otp': require('modules/transfer/Otp.vue')
   },
   methods: {
     redirect(params){
@@ -161,25 +204,78 @@ export default{
           clause: 'like',
           value: filter.value + '%'
         }],
-        sort: sort
+        sort: sort,
+        account_id: this.user.userID
       }
       $('#loading').css({display: 'block'})
       this.APIRequest('withdrawals/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data
+          AUTH.user.ledger.amount = response.ledger
         }else{
           this.data = null
+          AUTH.user.ledger.amount = response.ledger
         }
       })
     },
-    manageGrid(event){
-      switch(event){
-        case 'th-large': this.listStyle = 'columns'
-          break
-        case 'list': this.listStyle = 'list'
-          break
+    validate(){
+      this.errorMessage = null
+      if(this.newWithdrawal.bank === null || this.newWithdrawal.bank === ''){
+        this.errorMessage = 'Bank is required.'
+        return
       }
+      if(this.newWithdrawal.amount < COMMON.MINIMUM_WITHDRAWAL){
+        this.errorMessage = 'Minimum transaction is ' + AUTH.displayAmountWithCurrency(COMMON.MINIMUM_WITHDRAWAL, 'PHP')
+        return
+      }
+      if(this.newWithdrawal.accountName === null || this.newWithdrawal.accountName === ''){
+        this.errorMessage = 'Account name is required.'
+        return
+      }
+      if(this.newWithdrawal.accountNumber === null || this.newWithdrawal.accountNumber === ''){
+        this.errorMessage = 'Account number is required.'
+        return
+      }
+    },
+    withdrawals(){
+      this.$refs.authenticateOTP.show()
+    },
+    successOTP(){
+      console.log('')
+    },
+    checkCharges(){
+      this.validate()
+      if(this.errorMessage !== null){
+        return
+      }
+      let paremeter = {
+        condition: [{
+          column: 'min_amount',
+          clause: '<=',
+          value: this.newWithdrawal.amount
+        }, {
+          column: 'max_amount',
+          clause: '>=',
+          value: this.newWithdrawal.amount
+        }, {
+          column: 'type',
+          clause: '=',
+          value: this.newWithdrawal.bank
+        }]
+      }
+      $('#loading').css({display: 'block'})
+      this.newWithdrawal.charges.currency = this.newWithdrawal.currency
+      this.APIRequest('transfer_charges/retrieve', paremeter).then(response => {
+        $('#loading').css({display: 'none'})
+        this.errorMessage = null
+        if(response.data.length > 0){
+          this.newWithdrawal.charges.amount = response.data[0].charge
+        }else{
+          this.newWithdrawal.charges.amount = 0
+          this.errorMessage = 'Charge not found!'
+        }
+      })
     }
   }
 }

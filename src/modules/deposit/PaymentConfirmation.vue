@@ -65,6 +65,9 @@
             </tbody>
           </table>
         </div>
+        <div class="login-message-holder login-spacer" v-if="successMessage != null">
+          <span class="text-primary"><b>Yehey!</b> {{successMessage}}</span>
+        </div>
         <div class="input-group login-spacer" v-if="data.status !== 'completed'">
           <label>To confirm your deposit, please enter the deposit slip number or receipt number issued by the bank then click confirm button.</label>
         </div>
@@ -143,11 +146,13 @@ import COMMON from 'src/common.js'
 import CONFIG from 'src/config.js'
 export default {
   mounted(){
+    $('#loading').css({display: 'block'})
     this.retrieve()
   },
   data(){
     return {
       errorMessage: null,
+      successMessage: null,
       user: AUTH.user,
       tokenData: AUTH.tokenData,
       common: COMMON,
@@ -172,6 +177,7 @@ export default {
         deposit_code: this.$route.params.depositCode ? this.$route.params.depositCode : null
       }
       this.APIRequest('deposits/retrieve_by_confirmation', parameter).then(response => {
+        $('#loading').css({display: 'none'})
         if(response.data !== null){
           this.data = response.data
           this.errorMessage = null
@@ -190,6 +196,7 @@ export default {
       })
     },
     confirm(){
+      this.successMessage = null
       if(this.depositSlip === null || this.depositSlip === ''){
         this.errorMessage = 'Invalid deposit slip number'
         return
@@ -198,7 +205,10 @@ export default {
         id: this.data.id,
         deposit_slip: this.depositSlip
       }
+      $('#loading').css({display: 'block'})
       this.APIRequest('deposits/update', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        this.successMessage = 'Successfully Sent! An email will be sent to you once the transaction is verified and it will take up to 24 hours to process.'
         this.retrieve()
       })
     }

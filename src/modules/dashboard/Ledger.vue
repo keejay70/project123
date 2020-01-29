@@ -3,7 +3,7 @@
     <label><b>Account Balance</b></label>
     <label>{{auth.displayAmountWithCurrency(auth.user.ledger.amount, auth.user.ledger.currency)}}</label>
     <span style="margin-bottom: 5px;">
-      <button class="btn btn-warning pull-left" style="margin-top: 4px;" @click="showWithdrawModal(data)">Withdraw</button>
+      <button class="btn btn-warning pull-left" style="margin-top: 4px;" @click="redirect('/withdrawals')">Withdraw</button>
       <button class="btn btn-warning pull-right" style="margin-top: 4px;" @click="showDepositModal(data)">Deposit</button>
     </span>
     <deposit :item="selecteditem"></deposit>
@@ -81,10 +81,6 @@ export default{
     showDepositModal(item){
       this.selecteditem = item
       $('#createDepositModal').modal('show')
-    },
-    showWithdrawModal(item){
-      this.selecteditem = item
-      $('#createWithdrawModal').modal('show')
     }
   }
 }
