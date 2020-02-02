@@ -14,6 +14,7 @@
     <table class="table table-bordered table-responsive" v-if="data !== null">
       <thead>
         <tr>
+          <td>Currency</td>
           <td>Type</td>
           <td>Minimum Amount</td>
           <td>Max Amount</td>
@@ -24,10 +25,11 @@
       </thead>
       <tbody>
         <tr v-for="(item, index) in data" :ke="index">
+          <td>{{item.currency}}</td>
           <td>{{item.type}}</td>
-          <td>{{item.min_amount}}</td>
-          <td>{{item.max_amount}}</td>
-          <td>{{item.charge}}</td>
+          <td class="text-primary">{{auth.displayAmountWithCurrency(item.min_amount, item.currency)}}</td>
+          <td class="text-primary">{{auth.displayAmountWithCurrency(item.max_amount, item.currency)}}</td>
+          <td class="text-danger">{{auth.displayAmountWithCurrency(item.charge, item.currency)}}</td>
           <td>{{item.created_at_human}}</td>
           <td>
             <button class="btn btn-primary" @click="showTransferModal('update', item)">Edit</button>
@@ -238,6 +240,9 @@ export default{
             }
             if(data.variable === 'charge'){
               data.value = item.charge
+            }
+            if(data.variable === 'currency'){
+              data.value = item.currency
             }
           })
           this.transferModal = {...modalData}

@@ -115,7 +115,7 @@ export default {
       this.errorMessage = null
       this.successMessage = null
       if(parseInt(this.newDeposit.amount) < COMMON.MINIMUM_DEPOSIT){
-        this.errorMessage = 'Amount should not be less than to ' + AUTH.displayAmountWithCurrency(this.newDeposit.amount, this.newDeposit.currency)
+        this.errorMessage = 'Amount should not be less than to ' + AUTH.displayAmountWithCurrency(COMMON.MINIMUM_DEPOSIT, this.newDeposit.currency)
         return
       }
       this.newDeposit.account_id = this.user.userID

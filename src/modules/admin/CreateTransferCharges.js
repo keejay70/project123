@@ -1,6 +1,7 @@
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
 import COMMON from 'src/common.js'
+var currencies = []
 var options = []
 COMMON.payments.map(item => {
   var object = {
@@ -9,12 +10,28 @@ COMMON.payments.map(item => {
   }
   options.push(object)
 })
+COMMON.currencies.map(item => {
+  var object = {
+    label: item.title,
+    value: item.value
+  }
+  currencies.push(object)
+})
 export default {
   id: 'createTransferChargesModal',
   size: 'modal-md',
   title: 'Add Transfer Charges',
   background: null,
   inputs: [{
+    row: 'full',
+    label: 'Currency',
+    variable: 'currency',
+    value: null,
+    required: true,
+    id: 'type',
+    type: 'select_specified',
+    options: currencies
+  }, {
     row: 'full',
     label: 'Payment type',
     variable: 'type',

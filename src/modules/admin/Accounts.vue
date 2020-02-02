@@ -28,7 +28,17 @@
             <label class="action-link text-primary" @click="showProfileModal(item)">{{item.username}}</label>
           </td>
           <td>{{item.email}}</td>
-          <td>{{item.account_type}}</td>
+          <td>
+            <label v-if="editTypeIndex !== index">{{item.account_type}}</label>
+            <i class="fa fa-pencil text-primary" style="margin-left: 10px;" @click="setEditTypeIndex(index, item)" v-if="editTypeIndex !== index"></i>
+            <span v-if="editTypeIndex === index">
+              <select class="form-control" v-model="newAccountType" style="float: left; width: 70%;">
+                <option v-for="(typeItem, typeIndex) in ['USER', 'INVESTOR', 'ADMIN']" :key="typeIndex">{{typeItem}}</option>
+              </select>
+              <i class="fa fa-check text-primary" style="margin-left: 5px; float: left;" @click="updateType(item, index)"></i>
+              <i class="fa fa-times text-danger" style="margin-left: 5px; float: left;" @click="setEditTypeIndex(index, item)"></i>
+            </span>
+          </td>
           <td>
             <label v-if="item.partner_locations !== null">
               {{item.partner_locations.country}} / {{item.partner_locations.region}}
@@ -164,7 +174,10 @@ export default{
       }],
       filter: null,
       sort: null,
-      partnerLocation: PartnerLocation
+      partnerLocation: PartnerLocation,
+      editTypeIndex: null,
+      newAccountType: null,
+      selectedAccount: null
     }
   },
   components: {
@@ -174,6 +187,32 @@ export default{
     'increment-modal': require('components/increment/generic/modal/Modal.vue')
   },
   methods: {
+    setEditTypeIndex(index, item){
+      if(index === this.editTypeIndex){
+        this.editTypeIndex = null
+        this.newAccountType = null
+      }else{
+        this.selectedAccount = item
+        this.editTypeIndex = index
+        this.newAccountType = item.account_type
+      }
+    },
+    updateType(item, index){
+      if(this.newAccountType === null || this.newAccountType === item.account_type){
+        this.setEditTypeIndex(index, item)
+        return
+      }
+      let parameter = {
+        id: item.id,
+        account_type: this.newAccountType
+      }
+      $('#loading').css({display: 'block'})
+      this.APIRequest('accounts/update_verification', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        this.setEditTypeIndex(index, item)
+        this.retrieve(null, null)
+      })
+    },
     showProfileModal(item){
       this.selecteditem = item
       this.selecteditem['payload'] = 'account'
