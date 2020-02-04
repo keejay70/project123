@@ -4,10 +4,10 @@
     <div class="incre-row">
       <table class="table borderless">
         <tbody>
-          <tr v-if="item.payload === 'request'">
+<!--           <tr v-if="item.payload === 'request'">
             <td>Total Borrowed</td>
             <td>PHP {{item.total.toFixed(2)}}</td>
-          </tr>
+          </tr> -->
           <tr>
             <td>Ratings</td>
             <td>
@@ -31,9 +31,9 @@
             <td>Gender</td>
             <td style="text-transform:UPPERCASE">{{item.account.information.sex}}</td>
           </tr>
-          <tr v-if="user.type === 'ADMIN'">
+          <tr v-if="user.type === 'ADMIN' && item.account.information.birth_date_human !== null">
             <td>Birth Date</td>
-            <td>{{item.account.information.birth_date}}</td>
+            <td>{{item.account.information.birth_date_human}}</td>
           </tr>
         </tbody>
       </table>

@@ -425,6 +425,9 @@ export default{
       $('#createTransferModal').modal('show')
     },
     showProfileModal(item){
+      if(this.user.type === 'USER'){
+        return
+      }
       this.selecteditemProfile = item
       this.selecteditemProfile['payload'] = 'request'
       $('#profileModal').modal('show')
