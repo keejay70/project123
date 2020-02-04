@@ -36,6 +36,7 @@ export default {
   USER_TYPE: [{
     title: 'USER'
   }],
+  USER_TYPE_SETTING: false,
   plan: false,
   header: ['status', 'notification'], // 'messenger', '',
   settingsMenu: [
@@ -69,6 +70,8 @@ export default {
   }],
   MINIMUM_WITHDRAWAL: 1000,
   MINIMUM_DEPOSIT: 1000,
+  MAXIMUM_DEPOSIT: 500000,
+  MAXIMUM_WITHDRAWAL: 500000,
   pusher: {
     channel: 'payhiram',
     notifications: 'Notifications',

@@ -118,6 +118,10 @@ export default {
         this.errorMessage = 'Amount should not be less than to ' + AUTH.displayAmountWithCurrency(COMMON.MINIMUM_DEPOSIT, this.newDeposit.currency)
         return
       }
+      if(parseInt(this.newDeposit.amount) > COMMON.MAXIMUM_DEPOSIT){
+        this.errorMessage = 'Amount should not be greater than to ' + AUTH.displayAmountWithCurrency(COMMON.MAXIMUM_DEPOSIT, this.newDeposit.currency)
+        return
+      }
       this.newDeposit.account_id = this.user.userID
       $('#loading').css({display: 'block'})
       this.APIRequest('deposits/create', this.newDeposit).then(response => {

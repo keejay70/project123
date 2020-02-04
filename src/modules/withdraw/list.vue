@@ -261,9 +261,11 @@ export default{
         if(response.data.length > 0){
           this.data = response.data
           AUTH.user.ledger.amount = response.ledger
+          this.newWithdrawalFlag = false
         }else{
           this.data = null
           AUTH.user.ledger.amount = response.ledger
+          this.newWithdrawalFlag = true
         }
       })
     },
@@ -275,6 +277,10 @@ export default{
       }
       if(this.newWithdrawal.amount < COMMON.MINIMUM_WITHDRAWAL){
         this.errorMessage = 'Minimum transaction is ' + AUTH.displayAmountWithCurrency(COMMON.MINIMUM_WITHDRAWAL, 'PHP')
+        return
+      }
+      if(this.newWithdrawal.amount > COMMON.MAXIMUM_WITHDRAWAL){
+        this.errorMessage = 'Maximum transaction is ' + AUTH.displayAmountWithCurrency(COMMON.MAXIMUM_WITHDRAWAL, 'PHP')
         return
       }
       if(this.newWithdrawal.account_name === null || this.newWithdrawal.account_name === ''){

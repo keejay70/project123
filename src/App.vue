@@ -161,6 +161,10 @@ td i:hover{
   color: $primary !important; 
 }
 
+.modal { 
+  overflow-y: auto !important;
+}
+
 </style>
 <script>
 import ROUTER from './router'
