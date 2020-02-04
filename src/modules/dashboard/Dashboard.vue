@@ -9,14 +9,8 @@
       <!-- <available :data="data.ledger.available"></available> -->
     </div>
     <div class="dashboard-right-container">
-      <div class="dr-container-header">
-        <label><b>Ledger Summary</b></label>
-        <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="redirect('requests')">View requests</button>
-
-        <!-- <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" @click="redirect('investments')" v-if="user.type !== 'USER'">View investments</button> -->
-
-        <!-- <button class="btn btn-primary pull-right" style="margin-right:10px; margin-top: 5px;" v-if="data.ledger.request_status === true" @click="redirect('payments')">Make payment</button> -->
-      </div>
+      <pending-transaction :data="data.ledger.withdrawal" v-if="data.ledger.withdrawal !== null"></pending-transaction>
+      <label style="margin-top: 15px;"><b>Ledger Summary</b></label>
       <summary-ledger :data="data.data"></summary-ledger>
     </div>
   </div>
@@ -72,8 +66,6 @@
   width: 100%;
   float: left;
   height: 50px;
-  border-radius: 5px;
-  border: solid 1px #ddd;
 }
 .dr-container-header label{
   line-height: 50px;
@@ -140,7 +132,8 @@ export default{
     'requests': require('modules/dashboard/Requests.vue'),
     'available': require('modules/dashboard/Available.vue'),
     'approved': require('modules/dashboard/Approved.vue'),
-    'summary-ledger': require('modules/dashboard/Summary.vue')
+    'summary-ledger': require('modules/dashboard/Summary.vue'),
+    'pending-transaction': require('modules/dashboard/PendingTransaction.vue')
   },
   methods: {
     redirect(parameter){

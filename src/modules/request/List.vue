@@ -20,7 +20,7 @@
       @changeStyle="manageGrid($event)"
       :grid="['list', 'th-large']"></basic-filter>
       <span class="incre-row">
-          <basic-pager :pages="parseInt(size / limit)" :offset="limit" :active="activePage" :limit="limit"></basic-pager>
+          <basic-pager :pages="parseInt(size / limit) + (size % limit !== 0 ? 1 : 0)" :offset="limit" :active="activePage" :limit="limit"></basic-pager>
       </span>
       
       <div class="rl-container-item" v-for="(item, index) in data" :key="index">

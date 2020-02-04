@@ -46,7 +46,7 @@ export default {
     // {title: 'Idenfication Cards', type: 'identifications', allowed: []},
     // {title: 'Guarantor', type: 'guarantor', allowed: []},
     {title: 'Account', type: 'account', allowed: []},
-    {title: 'Payment Accounts', type: 'payment_method', allowed: []},
+    // {title: 'Payment Accounts', type: 'payment_method', allowed: []},
     // {title: 'Billing Information', type: 'billing_information', allowed: []},
     // {title: 'Merchant Setting', type: 'merchant', allowed: []},
     {title: 'Notifications', type: 'notification', allowed: []}
