@@ -351,6 +351,30 @@ export default {
     addComaker(){
       //
     },
+    checkDate(){
+      let today = new Date()
+      let day = today.getDate()
+      let month = today.getMonth() + 1
+      let year = today.getFullYear()
+      let neededOn = new Date(this.request.needed_on)
+      let nDay = neededOn.getDate()
+      let nMonth = neededOn.getMonth() + 1
+      let nYear = neededOn.getFullYear()
+      let flag = true
+      if(nYear < year){
+        this.errorMessage = 'Date must not be in the past!'
+        return false
+      }
+      if(nMonth < month && nYear >= year){
+        this.errorMessage = 'Date must not be in the past!'
+        return false
+      }
+      if(nDay < day && nMonth === month){
+        this.errorMessage = 'Date must not be in the past!'
+        return false
+      }
+      return true
+    },
     post(){
       this.checkBalance()
       if(this.errorMessage !== null){
@@ -366,6 +390,9 @@ export default {
       }
       if(this.request.needed_on === null || this.request.needed_on === ''){
         this.errorMessage = 'Needed on is required.'
+        return
+      }
+      if(this.checkDate() === false){
         return
       }
       if(this.request.type < 101){
