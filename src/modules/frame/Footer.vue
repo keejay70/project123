@@ -13,4 +13,10 @@
   left: 10px;
   font-size: 12px;
 }
+
+@media (max-width: 991px){
+  .apps-footer{
+    display: none;
+  }
+}
 </style>

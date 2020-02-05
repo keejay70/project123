@@ -24,7 +24,7 @@
               </label>
               <span class="incre-row text-center">
                 <label>
-                  <input type="text" :id="'otp-' + index" v-for="(item, index) in otp" :key="index" class="form-control otp-form-control" v-model="item.code" @keypress="otpHandler(index)">
+                  <input type="text" :id="'otp-' + index" v-for="(item, index) in otp" :key="index" class="form-control otp-form-control" v-model="item.code" @keypress="otpHandler(index)" :style="{'margin-left': index === 0 ? '2%' : 0}">
                 </label>
               </span>
             </div>
@@ -36,9 +36,9 @@
           </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" @click="hideModal()">{{blockedFlag ? 'Close' : 'Cancel'}}</button>
-            <button type="button" class="btn btn-primary" @click="verifyOtp()" v-if="successFlag === false">Authenticate</button>
-            <button type="button" class="btn btn-primary" @click="successOTP()" v-if="successFlag === true">Continue</button>
+          <button type="button" class="btn btn-danger" @click="hideModal()">{{blockedFlag ? 'Close' : 'Cancel'}}</button>
+          <button type="button" class="btn btn-primary" @click="verifyOtp()" v-if="successFlag === false">Authenticate</button>
+          <button type="button" class="btn btn-primary" @click="successOTP()" v-if="successFlag === true">Continue</button>
         </div>
       </div>
     </div>
@@ -138,10 +138,13 @@ padding-top: 15px;
 }
 
 .otp-form-control{
-  width: 60px;
+  margin-right: 1%;
+  width: 15%;
   float: left;
-  margin-right: 10px;
   text-align: center;
+}
+
+@media (max-width: 991px){
 }
 </style>
 <script>
