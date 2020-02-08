@@ -372,6 +372,7 @@ export default{
   },
   watch: {
     '$route' (to, from) {
+      console.log(to)
       if(this.$route.params.code){
         setTimeout(() => {
           this.retrieve({created_at: 'desc'}, {column: 'code', value: this.$route.params.code})
@@ -379,6 +380,7 @@ export default{
       }else{
         this.retrieve({created_at: 'desc'}, {column: 'created_at', value: ''})
       }
+      return to
     }
   },
   components: {
