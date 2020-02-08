@@ -106,7 +106,7 @@
           <b-progress-bar :value="parseFloat(item.initial_amount) - item.amount" :variant="'bg-primary'" :label="parseInt((1 - (item.amount / parseFloat(item.initial_amount))) * 100) + '%'"></b-progress-bar>
         </b-progress>
 
-        <span class="peer-requests" v-if="item.account_id === user.userID && item.peers.peers !== null">
+        <span class="peer-requests" v-if="parseInt(item.account_id) === user.userID && item.peers.peers !== null">
           <div class="peer-header text-primary">
             <b>Peer request list</b>
           </div>
