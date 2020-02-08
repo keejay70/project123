@@ -87,21 +87,27 @@ export default {
     minimum: 20,
     maximum: 100
   },
+  fulfillmentTypesWithValidation: [1, 4],
   fulfillmentTypes: [{
     value: 1,
     label: 'Send',
-    description: 'Allow other peer to process your transaction when you want to send money to your family, friends or to businesses.',
+    description: 'Allow other peer to fulfill your transaction when you want to send money to your family, friends or to businesses.',
     money_type: 'Cash'
   }, {
     value: 2,
     label: 'Withdrawal',
-    description: 'Allow other peer to process your withdrawals.',
+    description: 'Allow other peer to fulfill your withdrawals from Payhiram.',
     money_type: 'Cash'
   }, {
     value: 3,
     label: 'Deposit',
-    description: 'Allow other peer to process your deposits.',
+    description: 'Allow other peer to fulfill your deposits to Payhiram.',
     money_type: 'Wallet'
+  }, {
+    value: 4,
+    label: 'Bills and Payments',
+    description: 'Don\'t have time and want to pay your bills? Allow other peer to fulfil your bills.',
+    money_type: 'Cash'
   }
   // {
   //   value: 101,
