@@ -163,6 +163,7 @@ td i:hover{
 
 .modal { 
   overflow-y: auto !important;
+  z-index: 6000 !important;
 }
 
 </style>
