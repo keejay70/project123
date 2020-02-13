@@ -49,7 +49,7 @@ export default {
       type: 'text'
     }
   }, {
-    row: 'half',
+    row: 'col-lg-6',
     label: 'Year Started',
     variable: 'year_started',
     value: null,
@@ -62,7 +62,7 @@ export default {
       label: ''
     }
   }, {
-    row: 'half',
+    row: 'col-lg-6',
     label: 'Month Started',
     variable: 'month_started',
     value: null,
@@ -84,7 +84,7 @@ export default {
       {value: 'December', label: 'December'}
     ]
   }, {
-    row: 'half',
+    row: 'col-lg-6',
     label: 'Year Ended',
     variable: 'year_ended',
     value: null,
@@ -97,7 +97,7 @@ export default {
       label: ''
     }
   }, {
-    row: 'half',
+    row: 'col-lg-6',
     label: 'Month Ended',
     variable: 'month_ended',
     value: null,

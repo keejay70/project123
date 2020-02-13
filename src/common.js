@@ -53,7 +53,7 @@ export default {
   ],
   referral: {
     message: 'to help them in case of emergency.',
-    emailMessage: '.They help me to manage my investments and allow me to borrow money and approved instantly by other investors. It\'s awesome.'
+    emailMessage: '. You can send cash online and do more on financial fulfillment. It\'s awesome.'
   },
   socialMedia: {
     facebook: 'payhiram'
