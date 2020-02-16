@@ -170,5 +170,13 @@ export default {
   ],
   countries: [
     'Philippines'
-  ]
+  ],
+  notificationSeting: [{
+    flag: true
+  }, {
+    flag: false
+  }, {
+    flag: true
+  }],
+  authorize: 'PIN'
 }
