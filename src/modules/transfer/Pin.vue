@@ -3,15 +3,18 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{blockedFlag ? 'Blocked Account' : 'Authentication via PIN'}}</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Authentication via PIN</h5>
           <button type="button" class="close" @click="hideModal()" aria-label="Close">
             <span aria-hidden="true" class="text-primary">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <!-- Step 1 inputs -->
-          <span v-if="errorMessage !== null" class="text-danger text-center">
-              <label style="width: 100%;"><b>Opps! </b>{{errorMessage}}</label>
+          <span v-if="errorMessage !== null && blockedFlag === false" class="text-danger text-center">
+            <label style="width: 100%;"><b>Opps! </b>{{errorMessage}}</label>
+          </span>
+          <span v-if="blockedFlag === true" class="text-danger text-center">
+            <label style="width: 100%;"><b>Opps! </b> Sorry, you are not authorize to proceed the transaction. You need logout/login and do the transaction again.</label>
           </span>
           <span v-if="successMessage !== null" class="text-primary text-center incre-row" >
             <i class="fa fa-check text-primary" style="font-size: 75px"></i>
@@ -32,8 +35,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" @click="hideModal()">{{blockedFlag ? 'Close' : 'Cancel'}}</button>
-          <button type="button" class="btn btn-primary" @click="verifyOtp()" v-if="successFlag === false">Authenticate</button>
-          <button type="button" class="btn btn-primary" @click="successOTP()" v-if="successFlag === true">Continue</button>
+          <button type="button" class="btn btn-primary" @click="verifyOtp()" v-if="successFlag === false && blockedFlag === false">Authenticate</button>
+          <button type="button" class="btn btn-primary" @click="successOTP()" v-if="successFlag === true && blockedFlag === false">Continue</button>
         </div>
       </div>
     </div>
@@ -148,6 +151,14 @@ import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
 import COMMON from 'src/common.js'
 export default {
+  mounted(){
+    let pinFlag = localStorage.getItem('xyzABCdefPayhiram')
+    if(parseInt(pinFlag) === 1){
+      this.blockedFlag = true
+    }else{
+      this.blockedFlag = false
+    }
+  },
   data(){
     return {
       user: AUTH.user,
@@ -232,23 +243,10 @@ export default {
           // call proceed
         }else{
           this.successFlag = false
+          this.blockedFlag = true
+          localStorage.setItem('xyzABCdefPayhiram', 1)
           this.errorMessage = 'Sorry, you are not authorize to proceed the transaction. Please get back after 30 minutes. Or you can email at ' + COMMON.APP_EMAIL + ' as well if you want to resolve the account ASAP.'
-          this.blockedAccount()
         }
-      })
-    },
-    blockedAccount(){
-      let id = null
-      if(this.user.userID === 0){
-        id = AUTH.otpDataHolder.userInfo.id
-      }else{
-        id = AUTH.user.userID
-      }
-      let parameter = {
-        account_id: id
-      }
-      this.APIRequest('notification_settings/block_account', parameter).then(response => {
-        this.blockedFlag = true
       })
     },
     otpHandler(index){

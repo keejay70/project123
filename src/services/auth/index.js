@@ -182,6 +182,7 @@ export default {
     localStorage.removeItem('account_id')
     localStorage.removeItem('google_code')
     localStorage.removeItem('google_scope')
+    localStorage.removeItem('xyzABCdefPayhiram')
     this.setUser(null)
     let vue = new Vue()
     vue.APIRequest('authenticate/invalidate')
