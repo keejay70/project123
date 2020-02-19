@@ -3,8 +3,9 @@
 <!--     <button class="btn btn-primary" @click="redirect('/signup/janpalugod1234@gmail.com/LB1Q48DE0MZJ73X529W6IRAPHNGVCSYO')">Test</button>
     <button class="btn btn-primary" @click="redirect('/profile/guarantor')">Test</button> -->
     <div class="dashboard-left-container">
-      <ledgers :data="data.ledger.ledger"></ledgers>
-      <requests :data="data.ledger.total_requests"></requests>
+      <ledgers :data="data.ledger.ledger" :currency="data.ledger.currency"></ledgers>
+      <my-requests :data="data.ledger.personal_total_requests"></my-requests>
+      <requests :data="data.ledger.total_requests" :currency="data.ledger.currency"></requests>
       <!-- <approved :data="data.ledger.approved"></approved> -->
       <!-- <available :data="data.ledger.available"></available> -->
     </div>
@@ -57,10 +58,11 @@
 }
 .dashboard-right-container{
   float: left;
-  width: 73%;
+  width: 72%;
   min-height: 50px;
   overflow-y: hidden;
   margin-left: 2%;
+  margin-right: 1%;
 }
 .dr-container-header{
   width: 100%;
@@ -130,6 +132,7 @@ export default{
   components: {
     'ledgers': require('modules/dashboard/Ledger.vue'),
     'requests': require('modules/dashboard/Requests.vue'),
+    'my-requests': require('modules/dashboard/MyRequests.vue'),
     'available': require('modules/dashboard/Available.vue'),
     'approved': require('modules/dashboard/Approved.vue'),
     'summary-ledger': require('modules/dashboard/Summary.vue'),
