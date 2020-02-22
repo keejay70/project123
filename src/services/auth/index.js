@@ -278,6 +278,10 @@ export default {
   },
   validateEmail(email){
     let reg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+.[a-zA-Z0-9]*$/
+    let reqWhiteSpace = /\s/
+    if(reqWhiteSpace.test(email)){
+      return false
+    }
     if(reg.test(email) === false){
       return false
     }else{
