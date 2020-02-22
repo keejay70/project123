@@ -55,7 +55,7 @@ Vue.mixin({
     APIFailRequestHandler(link, jqXHR, errorCallback){
       switch(jqXHR.status){
         case 400:
-          alert('Error Connection')
+          $('#connectionError').modal('show')
           break
         case 401: // Unauthorized
           if(link === 'authenticate' || 'authenticate/user'){ // if error occured during authentication request
@@ -70,6 +70,7 @@ Vue.mixin({
           if(errorCallback){
             errorCallback(jqXHR.responseJSON, jqXHR.status * 1)
           }
+          $('#connectionError').modal('show')
       }
     }
   }

@@ -19,6 +19,7 @@
     <system-loading></system-loading>
     <privacy-policy></privacy-policy>
     <terms-and-conditions></terms-and-conditions>
+    <error-modal></error-modal>
   </div>
 </template>
 <style lang="scss">
@@ -214,7 +215,8 @@ export default {
     'privacy-policy': () => import('modules/docs/PrivacyPolicy.vue'),
     'terms-and-conditions': () => import('modules/docs/TermsAndConditions.vue'),
     'support-messenger': () => import('components/increment/support/Support.vue'),
-    'tutorial': () => import('components/increment/generic/tutorial/Tutorial.vue')
+    'tutorial': () => import('components/increment/generic/tutorial/Tutorial.vue'),
+    'error-modal': () => import('components/increment/generic/modal/Error.vue')
   }
 }
 </script>
