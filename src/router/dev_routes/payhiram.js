@@ -194,14 +194,14 @@ export default{
     name: 'paymentConfirmation',
     component: resolve => require(['modules/deposit/PaymentConfirmation.vue'], resolve),
     meta: {
-      tokenRequired: false
+      tokenRequired: true
     }
   }, {
     path: '/systemNotification/',
     name: 'systemNotification',
     component: resolve => require(['components/increment/generic/system/NotificationList.vue'], resolve),
     meta: {
-      tokenRequired: false
+      tokenRequired: true
     }
   }
   ]
