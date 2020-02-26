@@ -203,6 +203,20 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/test',
+    name: 'test',
+    component: resolve => require(['modules/test/Test.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
+  }, {
+    path: '/faq',
+    name: 'faq',
+    component: resolve => require(['modules/docs/FAQ.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
   }
   ]
 }

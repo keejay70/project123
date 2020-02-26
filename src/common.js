@@ -1,4 +1,5 @@
 import config from 'src/config.js'
+let APP_EMAIL = 'support@payhiram.ph'
 export default {
   sidebarMenu: [
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Requests', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
@@ -29,7 +30,7 @@ export default {
     }],
   APP_NAME: 'PAYHIRAM',
   APP_NAME_HTML: 'PAYHIRAM',
-  APP_EMAIL: 'support@payhiram.ph',
+  APP_EMAIL: APP_EMAIL,
   APP_SITE: 'https://payhiram.ph',
   COMPANY: 'Increment Technologies',
   COMPANY_URL: 'www.increment.ltd',
@@ -179,5 +180,30 @@ export default {
   }, {
     flag: true
   }],
-  authorize: 'PIN'
+  authorize: 'PIN',
+  faq: [{
+    title: 'What are the services we are offering?',
+    description: '<p>We are currently offering four services which are sending, withdrawal, deposit and bills and payments.</p>' +
+    '<p><b>Sending</b>, if you want to send cash to your family, friends, relatives or business related transactions.</p>' +
+    '<p><b>Withdrawal</b>,  if you want to withdraw cash from your wallet which we have two options; One by creating a <b>Request</b> by making sure that the type is Withdrawal and will be fulfilled by our partners and the other one is by creating a withdrawal request in <b>Dashboard</b>.</p>' +
+    '<p><b>Deposit</b>, you may check the FAQ on deposit.</p>' +
+    '<p><b>Bills and Payments</b>, if you want to pay your bills and payments and don\'t have time to process it. You can let our partners do that job for you by just going to <b>Requests</b> and create a request with a type of Bills and Payments.</p>'
+  }, {
+    title: 'How to become one of our Partners?',
+    description: 'We carefully check and verify information from our partners and need to follow our policies. If you want to be part you may send an inquiry to <b>' + APP_EMAIL + '</b>.'
+  }, {
+    title: 'What is the minimum and maximum amount per transaction?',
+    description: 'We are currency implementing at least <b>PHP 1,000.00</b> as minimum per transaction and a maximum of <b>PHP 500, 000.00</b> per transaction per day.'
+  }, {
+    title: 'Do you need bank account from your user?',
+    description: 'We are not requiring our users to submit this information, especially credit card and debit card details.'
+  }, {
+    title: 'How to deposit money to my wallet?',
+    description: '<p>We have two types of deposit.</p>' +
+    '<p>First is the Normal Deposit which will be processed by our partners. You need to go to <b>Request</b> then create one and make sure that the type is <b>Deposit</b>.</p>' +
+    '<p>Second is Direct Deposit which will be processed by PayHiram. Go to <b>Dashboard</b> then create a deposit request and after an email will be sent to your email address containing instructions for deposit.</p>'
+  }, {
+    title: 'Can I cancel my request?',
+    description: '<p>Sadly, you are not allowed to cancel your requests once posted. This is to protect our partners but for other reasons you want to cancel you may send an email to <b>' + APP_EMAIL + '</b>.</p>'
+  }]
 }
