@@ -33,8 +33,8 @@ export default {
   APP_EMAIL: APP_EMAIL,
   APP_SITE: 'https://payhiram.ph',
   COMPANY: 'Increment Technologies',
-  COMPANY_URL: 'www.increment.ltd',
-  COPYRIGHT: 'PAYHIRAM 2019',
+  COMPANY_URL: 'http://increment.ltd',
+  COPYRIGHT: 'PAYHIRAM ' + new Date().getFullYear(),
   USER_TYPE: [{
     title: 'USER'
   }],
