@@ -1,41 +1,31 @@
 <template>
-	<div class="incre-row">
-    <div v-for="(item, index) in settings.page" :key="index" class="cw-banner" :style="{'background': item.background}">
-      <div class="image" v-if="item.template === 'left'">
-        <img :src="item.image" style="margin-bottom: 5px;" width="100%">
-      </div>
-      <div class="text" :class="item.textColor">
+  <div class="incre-row">
+    <div class="cw-banner bg-primary">
+      <div class="text text-white">
         <span class="title">
-          <h1>{{item.title}}</h1>
+          <h1>Sending cash in a new and convenient way!</h1>
         </span>
         <span class="description">
           <h4>
-            {{item.description}}
+            In Payhiram, we have partners to fulfill your cash needed in any locations you want. Start sending today!
           </h4>
         </span>
-        <span v-if="item.buttonsFlag === true">
+        <span>
           <button class="btn btn-warning custom-btn" @click="redirect('/login')">Login</button>
           <button class="btn custom-btn" style="color: #000;" @click="redirect('/signup')">Register</button>
-
-          <span v-if="item.appUrl !== null" style="width: 100%; float: left;" >
-            <button class="btn custom-btn bg-black" @click="redirect('/' + item.appUrl.iOS)">
-              <i class="fab fa-app-store"></i>
-              Get on Apps Store Now!
-            </button>
-          </span>
-          <span v-if="item.appUrl !== null" style="width: 100%; float: left;" >
-            <button class="btn custom-btn bg-black" @click="redirect('/' + item.appUrl.android)">
+          <span style="width: 100%; float: left;" >
+            <button class="btn custom-btn bg-black" @click="externalLink('https://play.google.com/store/apps/details?id=com.payhiram')">
               <i class="fab fa-google-play"></i>
               Get on Play Store Now!
             </button>
           </span>
         </span>
       </div>
-      <div class="image" v-if="item.template === 'right'">
-        <img :src="item.image" style="margin-bottom: 5px;" width="100%">
+      <div class="image">
+        <img :src="require('assets/img/Dashboard.png')" style="margin-bottom: 5px;" width="100%">
       </div>
     </div>
-	</div>
+  </div>
 </template>
 <style scoped lang="scss">
 @import "~assets/style/colors.scss";
@@ -46,6 +36,10 @@
   margin-top: 25px;
 }
 
+.bg-primary{
+  background: $primary !important;
+}
+
 .bg-black{
   background-color: #000;
   margin-top: 10px !important;
@@ -54,13 +48,13 @@
 .cw-banner{
   width: 100%;
   float: left;
-  height: 600px;
+  height: 100vh;
 }
 .text{
   width: 45%;
   float: left;
   margin-left: 5%;
-  margin-top: 150px;
+  margin-top: 100px;
 }
 .text .title{
   width: 100%;
@@ -131,6 +125,9 @@ export default {
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
+    },
+    externalLink(url){
+      window.open(url, '_blank')
     }
   }
 }

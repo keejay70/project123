@@ -205,5 +205,15 @@ export default {
   }, {
     title: 'Can I cancel my request?',
     description: '<p>Sadly, you are not allowed to cancel your requests once posted. This is to protect our partners but for other reasons you want to cancel you may send an email to <b>' + APP_EMAIL + '</b>.</p>'
-  }]
+  }],
+  colors: {
+    primary: '#005b96',
+    secondary: '#ffaa81',
+    gray: '#ccc',
+    white: '#ffffff',
+    warning: '#e0a800',
+    danger: '#f7786b',
+    textBlue: '#007bff',
+    black: '#000'
+  }
 }
