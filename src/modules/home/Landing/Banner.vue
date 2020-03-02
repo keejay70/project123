@@ -21,9 +21,7 @@
           </span>
         </span>
       </div>
-      <div class="image">
-        <img :src="require('assets/img/Dashboard.png')" style="margin-bottom: 5px;" width="100%">
-      </div>
+      <img :src="require('assets/img/Banner.png')" class="image">
     </div>
   </div>
 </template>
@@ -55,6 +53,8 @@
   float: left;
   margin-left: 5%;
   margin-top: 100px;
+  position: relative;
+  z-index: 1000;
 }
 .text .title{
   width: 100%;
@@ -70,12 +70,11 @@
   text-align: justify;
 }
 .image{
-  width: 40%;
-  margin-right: 5%;
-  float: left;
-  margin-left: 5%;
-  margin-top: 100px;
-  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  right: 0;
+  z-index: 0;
 }
 
 @media screen and (max-width: 992px){
@@ -101,7 +100,10 @@
   }
 
   .image{
-    display: none;
+    position: relative;
+    max-height: 100%;
+    width: inherit;
+    margin-top: 50px;
   }
 
   .custom-btn{

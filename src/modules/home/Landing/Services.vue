@@ -4,22 +4,16 @@
       <span class="title text-green">
         <h1 class="text-center text-primary">Our Services</h1>
       </span>
-      <span class="description">
-        <img :src="require('assets/img/Dashboard.png')" class="img-header">
-      </span>
     </div>
     <div class="holder">
-
       <span class="item" v-for="item, index in data" v-if="data !== null">
-        <span class="icon text-primary text-center">
-          <i :class="item.icon"></i>
-        </span>
+        <img :src="item.img" style="width: 100%; float: left; height: auto">
         <span class="title text-center text-green">
           <h5 class="text-primary">{{item.title}}</h5>
         </span>
-        <span class="description">
+        <h6 class="description text-primary">
           {{item.description}}
-        </span>
+        </h6>
       </span>
     </div>
 	</div>
@@ -46,7 +40,7 @@
 .holder{
   width: 90%;
   float: left;
-  margin: 50px 5% 0 5%;
+  margin: 50px 5% 50px 5%;
 }
 .item{
   width: 21%;
@@ -68,7 +62,9 @@
 
 .item .description{
   text-align: justify;
-  margin-top: 25px;
+  padding-top: 25px;
+  width: 100%;
+  float: left;
 }
 
 .img-header{
@@ -81,24 +77,39 @@
 @media screen and (max-width: 992px){
   .holder, .item{
     width: 90%;
-    margin: 25px 5% 0 5%;
+    margin: 25px 5% 50px 5%;
   }
 }
 </style>
 <script>
-import ROUTER from '../../../router'
-import AUTH from '../../../services/auth'
+import ROUTER from 'src/router'
+import AUTH from 'src/services/auth'
 export default {
   mounted(){
   },
   data(){
     return {
-      data: [
-        {title: 'Deposits', description: 'Allow our partners to fulfill your deposits to Payhiram.', icon: 'fas fa-envelope'},
-        {title: 'Withdrawals', description: 'Allow our partners to fulfill your withdrawals from Payhiram.', icon: 'fas fa-store'},
-        {title: 'Bills Payment', description: 'When you don\'t have time and want to pay your bills, let our partners to fulfil your bills.', icon: 'fas fa-id-badge'},
-        {title: 'Pera Padala', description: 'Allow other partners to fulfill your transaction when you want to send money to your family, friends or to businesses.', icon: 'fa fa-exchange'}
-      ]
+      data: [{
+        title: 'Deposits',
+        description: 'Allow our partners to fulfill your deposits to Payhiram.',
+        icon: 'fas fa-envelope',
+        img: require('assets/img/Deposit.png')
+      }, {
+        title: 'Withdrawals',
+        description: 'Allow our partners to fulfill your withdrawals from Payhiram.',
+        icon: 'fas fa-store',
+        img: require('assets/img/Withdrawal.png')
+      }, {
+        title: 'Bills Payment',
+        description: 'When you don\'t have time and want to pay your bills, let our partners to fulfil.',
+        icon: 'fas fa-id-badge',
+        img: require('assets/img/Payments.png')
+      }, {
+        title: 'Pera Padala',
+        description: 'Allow our partners to fulfill your transaction when you want to send money to your family, friends or to businesses.',
+        icon: 'fa fa-exchange',
+        img: require('assets/img/Sending.png')
+      }]
     }
   },
   methods: {

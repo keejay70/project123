@@ -22,7 +22,7 @@
       </span>
       
       <span class="copyright">
-        <label>Copyright @{{common.COPYRIGHT}}. All rights reserved.</label>
+        <label>Copyright @{{common.COPYRIGHT}}. A proud product of <b class="action-link" @click="external(common.COMPANY_URL)">{{common.COMPANY}}</b>.</label>
       </span>
     </div>
   </footer>
@@ -162,6 +162,9 @@ export default {
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
+    },
+    external(url){
+      window.open(url, '_BLANK')
     },
     openModal(id){
       $(id).modal('show')

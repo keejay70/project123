@@ -43,8 +43,8 @@ export default {
   header: ['status', 'notification'], // 'messenger', '',
   settingsMenu: [
     {title: 'Profile', type: 'profile', allowed: ['cellular_number', 'address', 'sex', 'birth_date']},
-    {title: 'Educations', type: 'educations', allowed: []},
-    {title: 'Work Experience', type: 'work-experience', allowed: []},
+    // {title: 'Educations', type: 'educations', allowed: []},
+    // {title: 'Work Experience', type: 'work-experience', allowed: []},
     // {title: 'Idenfication Cards', type: 'identifications', allowed: []},
     // {title: 'Guarantor', type: 'guarantor', allowed: []},
     {title: 'Account', type: 'account', allowed: []},
