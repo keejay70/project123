@@ -61,9 +61,6 @@ export default {
     facebook: 'payhiram'
   },
   payments: [{
-    title: 'Banco de Oro',
-    logo: require('src/assets/img/bdo.png')
-  }, {
     title: 'UnionBank of the Philippines',
     logo: require('src/assets/img/unionbank.png')
   }, {
