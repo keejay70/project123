@@ -9,7 +9,9 @@
       :grid="['list', 'th-large']"></basic-filter>
     <table class="table table-bordered"  v-if="data !== null">
       <thead>
+        <td>Date</td>
         <td>Username</td>
+        <td>Full Name</td>
         <td>Via</td>
         <td>Account name</td>
         <td>Account number</td>
@@ -20,7 +22,9 @@
       </thead>
       <tbody>
         <tr v-for="item, index in data">
+          <td>{{item.created_at_human}}</td>
           <td>{{item.account.username}}</td>
+          <td>{{item.account.information.first_name + ' ' + item.account.information.last_name}}</td>
           <td>{{item.bank}}</td>
           <td>{{item.account_name}}</td>
           <td>{{item.account_number}}</td>

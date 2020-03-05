@@ -1,10 +1,10 @@
  <template>
   <div class="request-list-wrapper">
     <div class="request-list-left-container">
-      <div class="incre-row">
+      <div class="incre-row" style="margin-bottom: 10px;">
         <label v-if="locations !== null" class="pull-left">
-          <button class="btn btn-warning">Tag Locations</button>
-          <button class="btn btn-primary" v-for="(location, index) in locations.locality" :key="index" style="margin-right: 5px;">
+          <button class="btn btn-warning" style="margin-bottom: 5px;">Tag Locations</button>
+          <button class="btn btn-primary" v-for="(location, index) in locations.locality" :key="index" style="margin-right: 5px; margin-bottom: 5px;">
             {{location}}
           </button>
         </label>

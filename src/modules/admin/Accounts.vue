@@ -13,6 +13,7 @@
     <table class="table table-bordered table-responsive" v-if="data !== null">
       <thead>
         <tr>
+          <td>Date</td>
           <td>Username</td>
           <td>Email</td>
           <td>Type</td>
@@ -24,6 +25,7 @@
       </thead>
       <tbody>
         <tr v-for="(item, index) in data" :ke="index">
+          <td>{{item.created_at}}</td>
           <td>
             <label class="action-link text-primary" @click="showProfileModal(item)">{{item.username}}</label>
           </td>
@@ -312,6 +314,16 @@ export default{
           break
       }
       $('#createPartnerLocationModal').modal('show')
+    },
+    deleteLocation(id){
+      let parameter = {
+        id: id
+      }
+      $('#loading').css({display: 'block'})
+      this.APIRequest('investor_locations/delete', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        this.retrieve(null, null)
+      })
     }
   }
 }

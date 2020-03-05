@@ -54,7 +54,7 @@ export default {
     {title: 'Notifications', type: 'notification', allowed: []}
   ],
   referral: {
-    message: 'to help them in case of emergency.',
+    message: 'to help them in case of they want to send cash online.',
     emailMessage: '. You can send cash online and do more on financial fulfillment. It\'s awesome.'
   },
   socialMedia: {
