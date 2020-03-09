@@ -19,6 +19,7 @@
     <system-loading></system-loading>
     <privacy-policy></privacy-policy>
     <terms-and-conditions></terms-and-conditions>
+    <error-modal></error-modal>
   </div>
 </template>
 <style lang="scss">
@@ -163,6 +164,7 @@ td i:hover{
 
 .modal { 
   overflow-y: auto !important;
+  z-index: 10000 !important;
 }
 
 </style>
@@ -206,14 +208,15 @@ export default {
     'system-header': () => import('components/increment/generic/frame/Header.vue'),
     'system-sidebar': () => import('components/increment/generic/frame/Sidebar.vue'),
     'system-content': () => import('modules/frame/Content.vue'),
-    'system-footer': () => import('modules/frame/Footer.vue'),
+    'system-footer': () => import('components/increment/generic/frame/Footer.vue'),
     'system-loading': () => import('components/loader/Loading.vue'),
     'landing-footer': () => import('modules/home/Landing/Footer.vue'),
     'guide': () => import('modules/guide/Guide.vue'),
     'privacy-policy': () => import('modules/docs/PrivacyPolicy.vue'),
     'terms-and-conditions': () => import('modules/docs/TermsAndConditions.vue'),
     'support-messenger': () => import('components/increment/support/Support.vue'),
-    'tutorial': () => import('components/increment/generic/tutorial/Tutorial.vue')
+    'tutorial': () => import('components/increment/generic/tutorial/Tutorial.vue'),
+    'error-modal': () => import('components/increment/generic/modal/Error.vue')
   }
 }
 </script>

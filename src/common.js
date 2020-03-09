@@ -1,4 +1,5 @@
 import config from 'src/config.js'
+let APP_EMAIL = 'support@payhiram.ph'
 export default {
   sidebarMenu: [
     {accountType: 'ALL', accountStatus: 'ALL', description: 'Requests', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
@@ -9,6 +10,7 @@ export default {
     {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'Accounts', icon: 'fas fa-users', path: 'accounts', flag: false, subMenu: null},
     {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'Deposits', icon: 'fas fa-piggy-bank', path: 'adminDeposits', flag: false, subMenu: null},
     {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'Withdrawals', icon: 'fas fa-money-check', path: 'adminWithdrawals', flag: false, subMenu: null},
+    {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'System Notifications', icon: 'fas fa-bell', path: 'systemNotification', flag: false, subMenu: null},
     {accountType: 'ADMIN', accountStatus: 'ADMIN', description: 'Transfer Charges', icon: 'fas fa-stamp', path: 'transfer_charges', flag: false, subMenu: null}
   ],
   profileMenu: [
@@ -28,11 +30,11 @@ export default {
     }],
   APP_NAME: 'PAYHIRAM',
   APP_NAME_HTML: 'PAYHIRAM',
-  APP_EMAIL: 'support@payhiram.ph',
+  APP_EMAIL: APP_EMAIL,
   APP_SITE: 'https://payhiram.ph',
   COMPANY: 'Increment Technologies',
-  COMPANY_URL: 'www.increment.ltd',
-  COPYRIGHT: 'PAYHIRAM 2019',
+  COMPANY_URL: 'http://increment.ltd',
+  COPYRIGHT: 'PAYHIRAM ' + new Date().getFullYear(),
   USER_TYPE: [{
     title: 'USER'
   }],
@@ -41,8 +43,8 @@ export default {
   header: ['status', 'notification'], // 'messenger', '',
   settingsMenu: [
     {title: 'Profile', type: 'profile', allowed: ['cellular_number', 'address', 'sex', 'birth_date']},
-    {title: 'Educations', type: 'educations', allowed: []},
-    {title: 'Work Experience', type: 'work-experience', allowed: []},
+    // {title: 'Educations', type: 'educations', allowed: []},
+    // {title: 'Work Experience', type: 'work-experience', allowed: []},
     // {title: 'Idenfication Cards', type: 'identifications', allowed: []},
     // {title: 'Guarantor', type: 'guarantor', allowed: []},
     {title: 'Account', type: 'account', allowed: []},
@@ -52,16 +54,13 @@ export default {
     {title: 'Notifications', type: 'notification', allowed: []}
   ],
   referral: {
-    message: 'to help them in case of emergency.',
-    emailMessage: '.They help me to manage my investments and allow me to borrow money and approved instantly by other investors. It\'s awesome.'
+    message: 'to help them in case of they want to send cash online.',
+    emailMessage: '. You can send cash online and do more on financial fulfillment. It\'s awesome.'
   },
   socialMedia: {
     facebook: 'payhiram'
   },
   payments: [{
-    title: 'Banco de Oro',
-    logo: require('src/assets/img/bdo.png')
-  }, {
     title: 'UnionBank of the Philippines',
     logo: require('src/assets/img/unionbank.png')
   }, {
@@ -170,5 +169,48 @@ export default {
   ],
   countries: [
     'Philippines'
-  ]
+  ],
+  notificationSeting: [{
+    flag: true
+  }, {
+    flag: false
+  }, {
+    flag: true
+  }],
+  authorize: 'PIN',
+  faq: [{
+    title: 'What are the services we are offering?',
+    description: '<p>We are currently offering four services which are sending, withdrawal, deposit and bills and payments.</p>' +
+    '<p><b>Sending</b>, if you want to send cash to your family, friends, relatives or business related transactions.</p>' +
+    '<p><b>Withdrawal</b>,  if you want to withdraw cash from your wallet which we have two options; One by creating a <b>Request</b> by making sure that the type is Withdrawal and will be fulfilled by our partners and the other one is by creating a withdrawal request in <b>Dashboard</b>.</p>' +
+    '<p><b>Deposit</b>, you may check the FAQ on deposit.</p>' +
+    '<p><b>Bills and Payments</b>, if you want to pay your bills and payments and don\'t have time to process it. You can let our partners do that job for you by just going to <b>Requests</b> and create a request with a type of Bills and Payments.</p>'
+  }, {
+    title: 'How to become one of our Partners?',
+    description: 'We carefully check and verify information from our partners and need to follow our policies. If you want to be part you may send an inquiry to <b>' + APP_EMAIL + '</b>.'
+  }, {
+    title: 'What is the minimum and maximum amount per transaction?',
+    description: 'We are currency implementing at least <b>PHP 1,000.00</b> as minimum per transaction and a maximum of <b>PHP 500, 000.00</b> per transaction per day.'
+  }, {
+    title: 'Do you need bank account from your user?',
+    description: 'We are not requiring our users to submit this information, especially credit card and debit card details.'
+  }, {
+    title: 'How to deposit money to my wallet?',
+    description: '<p>We have two types of deposit.</p>' +
+    '<p>First is the Normal Deposit which will be processed by our partners. You need to go to <b>Request</b> then create one and make sure that the type is <b>Deposit</b>.</p>' +
+    '<p>Second is Direct Deposit which will be processed by PayHiram. Go to <b>Dashboard</b> then create a deposit request and after an email will be sent to your email address containing instructions for deposit.</p>'
+  }, {
+    title: 'Can I cancel my request?',
+    description: '<p>Sadly, you are not allowed to cancel your requests once posted. This is to protect our partners but for other reasons you want to cancel you may send an email to <b>' + APP_EMAIL + '</b>.</p>'
+  }],
+  colors: {
+    primary: '#005b96',
+    secondary: '#ffaa81',
+    gray: '#ccc',
+    white: '#ffffff',
+    warning: '#e0a800',
+    danger: '#f7786b',
+    textBlue: '#007bff',
+    black: '#000'
+  }
 }

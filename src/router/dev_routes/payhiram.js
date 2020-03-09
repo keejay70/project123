@@ -196,6 +196,27 @@ export default{
     meta: {
       tokenRequired: false
     }
+  }, {
+    path: '/systemNotification/',
+    name: 'systemNotification',
+    component: resolve => require(['components/increment/generic/system/NotificationList.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
+  }, {
+    path: '/test',
+    name: 'test',
+    component: resolve => require(['modules/test/Test.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
+  }, {
+    path: '/faq',
+    name: 'faq',
+    component: resolve => require(['modules/docs/FAQ.vue'], resolve),
+    meta: {
+      tokenRequired: false
+    }
   }
   ]
 }

@@ -30,7 +30,7 @@
               </li>
               <li><strong>Non-Personal Information Collected Using Technology:</strong></li>
               <li>
-                n addition to any information you provide directly to us, we and our third party service providers may use a variety of technologies that automatically collect certain tracking information when you interact with the Program or emails sent to you. By using our Program, you consent to our use of tracking technologies as described below:
+                In addition to any information you provide directly to us, we and our third party service providers may use a variety of technologies that automatically collect certain tracking information when you interact with the Program or emails sent to you. By using our Program, you consent to our use of tracking technologies as described below:
                 <ul class="second-ul">
                   <li><strong>Device Information</strong></li>
                   <li>

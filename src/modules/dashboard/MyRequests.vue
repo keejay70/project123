@@ -1,7 +1,7 @@
 <template>
   <div class="requested-container-item">
-    <label class="header"><b>Requested Amount</b></label>
-    <label class="content" v-if="data !== null">{{auth.displayAmountWithCurrency(data, currency)}}</label>
+    <label class="header"><b>My Pending Requests</b></label>
+    <label class="content" v-if="data !== null">{{auth.displayAmountWithCurrency(data, auth.user.ledger.currency)}}</label>
     <span style="margin-bottom: 5px;" v-if="user.type !== 'USER'">
       <button class="btn btn-primary" @click="redirect('/requests')">View requests</button>
     </span>
@@ -39,7 +39,7 @@ export default{
       auth: AUTH
     }
   },
-  props: ['data', 'currency'],
+  props: ['data'],
   methods: {
     redirect(url){
       ROUTER.push(url)

@@ -69,6 +69,7 @@
   border: solid 1px #ddd;
   padding-left: 10px;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .summary-container-item:hover{

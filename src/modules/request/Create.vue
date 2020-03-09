@@ -465,6 +465,25 @@ export default {
       }
       let location = this.request.location
       this.searchLocation = location.route
+      this.checkLocation(location.locality)
+    },
+    checkLocation(locality){
+      $('#loading').css({display: 'block'})
+      let parameter = {
+        condition: [{
+          column: 'locality',
+          clause: '=',
+          value: locality
+        }]
+      }
+      this.APIRequest('investor_locations/retrieve', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        if(response.data.length > 0){
+          this.errorMessage = null
+        }else{
+          this.errorMessage = 'Location is not allowed!'
+        }
+      })
     },
     onClearVueGoogle(){
       this.searchLocation = this.$refs.address.autocompleteText
