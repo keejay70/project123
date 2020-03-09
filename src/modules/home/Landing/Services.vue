@@ -1,5 +1,5 @@
 <template>
-	<div class="cw-features">
+	<div class="cw-features" id="services">
     <div class="header">
       <span class="title text-green">
         <h1 class="text-center text-primary">Our Services</h1>
