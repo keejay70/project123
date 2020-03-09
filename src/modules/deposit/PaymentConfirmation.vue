@@ -41,6 +41,11 @@
                 <td>Details</td>
                 <td>{{data.description}}</td>
               </tr>
+
+              <tr v-if="data.deposit_slip !== null">
+                <td>Deposit Slip #</td>
+                <td>{{data.deposit_slip}}</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -68,13 +73,13 @@
         <div class="login-message-holder login-spacer" v-if="successMessage != null">
           <span class="text-primary"><b>Yehey!</b> {{successMessage}}</span>
         </div>
-        <div class="input-group login-spacer" v-if="data.status !== 'completed'">
+        <div class="input-group login-spacer" v-if="data.status !== 'approved' && data.deposit_slip === null">
           <label>To confirm your deposit, please enter the deposit slip number or receipt number issued by the bank then click confirm button.</label>
         </div>
-        <div class="input-group login-spacer" v-if="data.status !== 'completed'">
+        <div class="input-group login-spacer" v-if="data.status !== 'approved' && data.deposit_slip === null">
           <input type="text" class="form-control form-control-login" placeholder="Enter deposit slip number" aria-describedby="addon-1" v-model="depositSlip">
         </div>
-        <button class="btn btn-primary btn-block login-spacer" v-on:click="confirm()">Confirm</button>
+        <button class="btn btn-primary btn-block login-spacer" v-on:click="confirm()" v-if="data.status !== 'approved' && data.deposit_slip === null">Confirm</button>
       </div>
     </div>
     <authenticate-otp ref="authenticateOTP"></authenticate-otp>
@@ -147,7 +152,9 @@ import CONFIG from 'src/config.js'
 export default {
   mounted(){
     $('#loading').css({display: 'block'})
-    this.retrieve()
+    setTimeout(() => {
+      this.retrieve()
+    }, 1000)
   },
   data(){
     return {
