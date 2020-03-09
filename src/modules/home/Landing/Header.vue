@@ -1,5 +1,5 @@
 <template>
-	<div class="header">
+	<div class="header" id="header">
     <div class="header-section">
       <span class="logo">
         <a class="navbar-brand" v-on:click="redirect('/')">
@@ -12,6 +12,8 @@
           <i class="fa fa-bars" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" onclick="void(0)"></i>
         </span>
         <ul class="header-primary-menu">
+          <li class="nav-item" v-on:click="scrollTo('#partner')"><a class="nav-link">Be Our Partner</a></li>
+          <li class="nav-item" v-on:click="scrollTo('#services')"><a class="nav-link">Services</a></li>          
           <li class="nav-item" v-on:click="redirect('/signup')"><a class="nav-link">Register</a></li>
           <li class="nav-item" v-on:click="redirect('/login')"><a class="nav-link">Login</a></li>
         </ul>
@@ -88,11 +90,13 @@
 .menu .header-primary-menu .nav-item{
   float: right;
   font-size: 15px;
+  margin-left: 5px;
 }
 
 .header-primary-menu .nav-item .nav-link{
   padding: .5rem;
 }
+
 .header-primary-menu .nav-item a{
   color: #fff;
   font-family: MuseoRounded700, sans-serif;
@@ -185,6 +189,7 @@
 <script>
 import ROUTER from '../../../router'
 import AUTH from '../../../services/auth'
+import Jquery from 'jquery'
 export default {
   mounted(){
   },
@@ -195,6 +200,12 @@ export default {
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
+    },
+    scrollTo (div) {
+      this.barFlag = false
+      Jquery('html, body').animate({
+        scrollTop: Jquery(div).offset().top
+      }, 1000)
     }
   }
 }

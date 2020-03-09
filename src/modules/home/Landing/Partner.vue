@@ -1,5 +1,5 @@
 <template>
-  <div class="cw-banner">
+  <div class="cw-banner" id="partner">
     <div class="text text-white">
       <span class="title">
         <h1>Be one of our Partners!</h1>
