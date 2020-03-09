@@ -122,7 +122,12 @@
         <span  class="incre-row" style="line-height: 45px;">
           <label class="pull-left">Amount</label>
           <label class="pull-right"><b>{{auth.displayAmountWithCurrency(request.amount, request.currency)}}</b></label>
-        </span>
+        </span> 
+        <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 10px; width: 100%!important;" @click="showPromoField()">Promo</button>
+        <div v-if="request.promo == true" > 
+          <input type='text' class="form-control form-control-custom" placeholder='Type promo code here' style="width: 70%!important;"/>
+          <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 10px; width: 25%!important;" @click="verifyPromo()">Verify</button>
+        </div>
         <div v-if="request.type > 100">
           <span style="line-height: 45px;" class="incre-row">
             <label class="pull-left">Interest</label>
@@ -329,7 +334,8 @@ export default {
           longitude: 0
         },
         images: [],
-        comaker: null
+        comaker: null,
+        promo: false
       },
       billingOptions: [
         {value: 0, label: 'Every end of the month'},
@@ -432,6 +438,9 @@ export default {
     },
     showMap(){
       $('#selectLocationModal').modal('show')
+    },
+    showPromoField(){
+      this.request.promo = true
     },
     getAddressData(addressData, placeResultData, id) {
       if(addressData.route === null || addressData.route === ''){
