@@ -46,9 +46,20 @@
               Add location
             </button> -->
           </div>
-          <div class="form-group" style="margin-top: 25px; width: 100%; float: left;">
+<!--           <div class="form-group" style="margin-top: 25px; width: 100%; float: left;">
             <label for="address">Needed on <b class="text-danger">*</b></label>
             <input type="date" class="form-control form-control-custom" placeholder="Type Amount" id="datePicker" v-model="request.needed_on">
+          </div> -->
+          <div class="form-group" style="margin-top: 25px;">
+            <label for="address" style="width: 100%; float: left;">Needed on <b class="text-danger">*</b></label>
+            <date-picker
+              v-model="request.needed_on"
+              type="date"
+              :disabled-date="beforeToday"
+              placeholder="Select Date"
+              value-type="format"
+              :default-value="new Date()"
+              ></date-picker>
           </div>
 
           <div class="form-group" style="margin-bottom: 100px;">
@@ -85,8 +96,15 @@
           </div>
 
           <div class="form-group" style="margin-top: 25px;">
-            <label for="address">I need this on <b class="text-danger">*</b></label>
-            <input type="date" class="form-control form-control-custom" id="datePicker" v-model="request.needed_on">
+            <label for="address" style="width: 100%; float: left;">Needed on <b class="text-danger">*</b></label>
+            <date-picker
+              v-model="request.needed_on"
+              type="date"
+              :disabled-date="beforeToday"
+              placeholder="Select Date"
+              value-type="format"
+              :default-value="new Date()"
+              ></date-picker>
           </div>
 
           <div class="form-group">
@@ -123,10 +141,17 @@
           <label class="pull-left">Amount</label>
           <label class="pull-right"><b>{{auth.displayAmountWithCurrency(request.amount, request.currency)}}</b></label>
         </span> 
-        <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 10px; width: 100%!important;" @click="showPromoField()">Promo</button>
-        <div v-if="request.promo == true" > 
-          <input type='text' class="form-control form-control-custom" placeholder='Type promo code here' style="width: 70%!important;"/>
-          <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 10px; width: 25%!important;" @click="verifyPromo()">Verify</button>
+        <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 10px; width: 100%!important;" @click="showPromoField()" v-if="couponFlag === false">Promo</button>
+        <div v-if="couponFlag == true && request.coupon === null"> 
+          <input type='text' class="form-control form-control-custom" v-model="coupon" placeholder='Type promo code here' style="width: 58%!important; float: left;"/>
+          <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 10px; width: 20%!important; float: left; margin-left: 1%;" @click="applyPromo()">Apply</button>
+          <button class="btn btn-danger pull-right btn-custom" style="margin-bottom: 10px; width: 20%!important; float: left; margin-left: 1%;" @click="cancelPromo()">Cancel</button>
+        </div>
+        <div v-if="couponFlag == true && request.coupon !== null">
+          <label class="pull-left">Discount</label>
+          <label class="text-primary pull-right">{{request.coupon.type === 'percentage' ? request.coupon.amount + '%' : auth.displayAmountWithCurrency(request.coupon.amount, request.coupon.currency)}}
+            <i class="fa fa-trash text-danger action-link" style="padding-left: 10px;" @click="cancelPromo()"></i>
+          </label>
         </div>
         <div v-if="request.type > 100">
           <span style="line-height: 45px;" class="incre-row">
@@ -163,7 +188,7 @@
             <label class="pull-right"><b>{{auth.displayAmountWithCurrency(parseInt(request.amount), request.currency)}}</b></label>
           </span>
         </div>
-        <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 100px; width: 100%!important;" @click="post()">Post</button>
+        <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 100px; width: 100%!important;" @click="post()" v-if="couponFlag === false || (couponFlag === true && request.coupon !== null)">Post</button>
       </span>
     </span>
     <browse-images-modal></browse-images-modal>
@@ -289,6 +314,8 @@ import axios from 'axios'
 import CONFIG from 'src/config.js'
 import COMMON from 'src/common.js'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
+import DatePicker from 'vue2-datepicker'
+import 'vue2-datepicker/index.css'
 export default {
   mounted(){
     this.today = new Date()
@@ -302,7 +329,7 @@ export default {
       month = '0' + month
     }
     this.today = year + '-' + month + '-' + day
-    document.getElementById('datePicker').setAttribute('min', this.today)
+    // document.getElementById('datePicker').setAttribute('min', this.today)
   },
   data(){
     return {
@@ -335,8 +362,10 @@ export default {
         },
         images: [],
         comaker: null,
-        promo: false
+        coupon: null
       },
+      coupon: null,
+      couponFlag: false,
       billingOptions: [
         {value: 0, label: 'Every end of the month'},
         {value: 1, label: 'Twice a month'},
@@ -348,7 +377,8 @@ export default {
   components: {
     'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
     'browse-map-modal': require('components/increment/generic/modal/Map.vue'),
-    VueGoogleAutocomplete
+    VueGoogleAutocomplete,
+    DatePicker
   },
   methods: {
     redirect(parameter){
@@ -439,9 +469,6 @@ export default {
     showMap(){
       $('#selectLocationModal').modal('show')
     },
-    showPromoField(){
-      this.request.promo = true
-    },
     getAddressData(addressData, placeResultData, id) {
       if(addressData.route === null || addressData.route === ''){
         this.searchLocation = null
@@ -515,6 +542,48 @@ export default {
             break
         }
       }
+    },
+    beforeToday(date){
+      return date < new Date()
+    },
+    showPromoField(){
+      this.couponFlag = true
+    },
+    applyPromo(){
+      if(this.request.location.route === null || this.searchLocation === ''){
+        this.errorMessage = 'Location is required.'
+        return
+      }
+      if(this.coupon === null || this.coupon === ''){
+        this.errorMessage = 'Coupon is required'
+        return
+      }
+      let parameter = {
+        condition: [{
+          value: this.coupon,
+          clause: '=',
+          column: 'code'
+        }, {
+          value: this.request.location.locality,
+          clause: '=',
+          column: 'locality'
+        }],
+        account_id: this.user.userID
+      }
+      this.APIRequest('coupons/validate', parameter).then(response => {
+        if(response.data !== null){
+          // true
+          this.request.coupon = response.data
+          this.errorMessage = null
+        }else{
+          this.errorMessage = response.error
+          this.request.coupon = null
+        }
+      })
+    },
+    cancelPromo(){
+      this.couponFlag = false
+      this.request.coupon = null
     }
   }
 }

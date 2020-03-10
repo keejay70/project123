@@ -7,7 +7,7 @@
       @changeSortEvent="retrieve($event.sort, $event.filter)"
       @changeStyle="manageGrid($event)"
       :grid="['list', 'th-large']"></basic-filter>
-    <table class="table table-bordered"  v-if="data !== null">
+    <table class="table table-bordered table-responsive"  v-if="data !== null">
       <thead>
         <td>Date</td>
         <td>Username</td>

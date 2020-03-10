@@ -48,7 +48,7 @@
     "vue-router": "^2.8.1",
     "vue-simple-audio": "^1.0.6",
     "vue-stripe-elements-plus": "^0.2.9",
-    "vue2-datepicker": "^3.3.1",
+    "vue2-datepicker": "^3.4.1",
     "vuejs-datepicker": "^1.6.2",
     "waveplayer": "^1.0.3",
     "wavesurfer.js": "^2.0.6",

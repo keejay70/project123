@@ -24,6 +24,9 @@
 </template>
 <style lang="scss">
 @import "~assets/style/colors.scss";
+.mx-input-wrapper, .mx-input-wrapper input{
+  height: 45px !important;
+}
 .half-width{
   width: 50%
 }

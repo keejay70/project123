@@ -34,6 +34,10 @@
             <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
             <b>{{auth.displayAmount(item.amount)}}</b>
           </label>
+          <label class="text-danger" v-if="item.coupon !== null && parseInt(item.account_id) === user.userID">
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
+            <b>{{item.coupon.type === 'percentage' ? item.coupon.amount + '%' : auth.displayAmountWithCurrency(item.coupon.amount, item.coupon.currency)}} Discount</b>
+          </label>
           <label class="pull-right" v-if="parseInt(item.account_id) !== user.userID">
             <div class="dropdown" id="dropdownMenuButtonDropdown">
               <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown" style="padding-top: 10px;">
@@ -372,7 +376,6 @@ export default{
   },
   watch: {
     '$route' (to, from) {
-      console.log(to)
       if(this.$route.params.code){
         setTimeout(() => {
           this.retrieve({created_at: 'desc'}, {column: 'code', value: this.$route.params.code})

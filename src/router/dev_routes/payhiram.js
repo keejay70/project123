@@ -217,6 +217,13 @@ export default{
     meta: {
       tokenRequired: false
     }
+  }, {
+    path: '/coupons',
+    name: 'coupons',
+    component: resolve => require(['modules/admin/Coupons.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }
