@@ -1,7 +1,7 @@
-import CONFIG from '../config'
+import CONFIG from 'src/config'
 import Vue from 'vue'
-import AUTH from '../services/auth'
-import ROUTER from '../router'
+import AUTH from 'src/services/auth'
+import ROUTER from 'src/router'
 Vue.mixin({
   mounted(){
 
@@ -56,6 +56,7 @@ Vue.mixin({
       switch(jqXHR.status){
         case 400:
           $('#connectionError').modal('show')
+          AUTH.deaunthenticate()
           break
         case 401: // Unauthorized
           if(link === 'authenticate' || 'authenticate/user'){ // if error occured during authentication request

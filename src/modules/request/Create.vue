@@ -31,6 +31,10 @@
             <input type="number" class="form-control form-control-custom" placeholder="Type Amount" v-model="request.amount" @keypress="checkBalance()">
           </div>
           <div class="form-group" style="margin-top: 25px;">
+            <label for="address">Maximum processing charge</label>
+            <input type="number" class="form-control form-control-custom" placeholder="Optional" v-model="request.max_charge" @keypress="checkBalance()">
+          </div>
+          <div class="form-group" style="margin-top: 25px;">
             <label for="address" style="width: 100%; float: left;">Location <b class="text-danger">*</b></label>
             <vue-google-autocomplete
               ref="address"
@@ -351,6 +355,7 @@ export default {
         months_payable: 1,
         needed_on: null,
         billing_per_month: 0,
+        max_charge: null,
         reason: null,
         location: {
           route: null,
