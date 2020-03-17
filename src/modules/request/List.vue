@@ -38,6 +38,10 @@
             <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
             <b>{{item.coupon.type === 'percentage' ? item.coupon.amount + '%' : auth.displayAmountWithCurrency(item.coupon.amount, item.coupon.currency)}} Discount</b>
           </label>
+          <label class="text-primary" v-if="item.max_charge !== null">
+            <i class="fas fa-circle" style="font-size: 8px; color: #555; padding-right: 5px;"></i>
+            Suggested Charge - {{auth.displayAmountWithCurrency(item.max_charge, item.currency)}}
+          </label>
           <label class="pull-right" v-if="parseInt(item.account_id) !== user.userID">
             <div class="dropdown" id="dropdownMenuButtonDropdown">
               <i class="fas fa-ellipsis-h text-gray more-options" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-target="dropdownMenuButtonDropdown" style="padding-top: 10px;">
