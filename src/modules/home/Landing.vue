@@ -57,7 +57,7 @@ export default {
     scrollTo () {
       Jquery('html, body').animate({
         scrollTop: Jquery('#header').offset().top
-      }, 1000)
+      }, 500)
     }
   }
 }

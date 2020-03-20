@@ -3,7 +3,7 @@
     <div class="cw-banner bg-primary">
       <div class="text text-white">
         <span class="title">
-          <h1>Sending cash in a new and convenient way!</h1>
+          <h1>Send cash in a new and convenient way!</h1>
         </span>
         <span class="description">
           <h4>

@@ -12,8 +12,8 @@
           <i class="fa fa-bars" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" onclick="void(0)"></i>
         </span>
         <ul class="header-primary-menu">
-          <li class="nav-item" v-on:click="scrollTo('#partner')"><a class="nav-link">Be Our Partner</a></li>
-          <li class="nav-item" v-on:click="scrollTo('#services')"><a class="nav-link">Services</a></li>          
+          <li class="nav-item" v-on:click="scrollTo('#partner')" v-if="flag === true"><a class="nav-link">Be Our Partner</a></li>
+          <li class="nav-item" v-on:click="scrollTo('#services')" v-if="flag === true"><a class="nav-link">Services</a></li>          
           <li class="nav-item" v-on:click="redirect('/signup')"><a class="nav-link">Register</a></li>
           <li class="nav-item" v-on:click="redirect('/login')"><a class="nav-link">Login</a></li>
         </ul>
@@ -195,6 +195,16 @@ export default {
   },
   data(){
     return {
+      flag: true
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      if(to.path === '/'){
+        this.flag = true
+      }else{
+        this.flag = false
+      }
     }
   },
   methods: {
@@ -205,7 +215,7 @@ export default {
       this.barFlag = false
       Jquery('html, body').animate({
         scrollTop: Jquery(div).offset().top
-      }, 1000)
+      }, 500)
     }
   }
 }
