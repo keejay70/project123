@@ -24,7 +24,8 @@
               </label>
               <span class="incre-row text-center">
                 <label>
-                  <input type="text" :id="'otp-' + index" v-for="(item, index) in otp" :key="index" class="form-control otp-form-control" v-model="item.code" @keypress="otpHandler(index)" :style="{'margin-left': index === 0 ? '2%' : 0}">
+                  <input type="text" :id="'otp-' + index" v-for="(item, index) in otp" :key="index" class="form-control otp-form-control" v-model="item.code"
+                  maxlength="1" @keypress="otpHandler(index)" :style="{'margin-left': index === 0 ? '2%' : 0}">
                 </label>
               </span>
             </div>
