@@ -216,6 +216,15 @@ export default {
     black: '#000'
   },
   ecommerce: {
-    inventoryType: 'inventory'
+    inventoryType: 'inventory',
+    editProductMenu: [{
+      title: 'Inventory',
+      flag: true
+    }, {
+      title: 'Bundled Products',
+      flag: false
+    }],
+    productUnits: ['Litres (L)', 'Millilitres (ml)', 'Kilograms (kg)', 'Grams (g)'],
+    productTitleLimit: 100
   }
 }
