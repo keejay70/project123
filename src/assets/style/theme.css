@@ -37,6 +37,10 @@
   cursor: pointer;
 }
 
+.bg-primary{
+  color: #fff !important;
+}
+
 @media (max-width: 991px) {
   .main-sidebar {
     min-height: unset;

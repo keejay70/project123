@@ -222,7 +222,13 @@ export default {
       title: 'Inventory',
       flag: true
     }, {
+      title: 'Variation',
+      flag: false
+    }, {
       title: 'Price',
+      flag: false
+    }, {
+      title: 'Comment',
       flag: false
     }],
     productUnits: null,
