@@ -221,7 +221,7 @@ export default {
       title: 'Inventory',
       flag: true
     }, {
-      title: 'Bundled Products',
+      title: 'Price',
       flag: false
     }],
     productUnits: ['Litres (L)', 'Millilitres (ml)', 'Kilograms (kg)', 'Grams (g)'],
