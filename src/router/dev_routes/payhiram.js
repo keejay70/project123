@@ -224,6 +224,13 @@ export default{
     meta: {
       tokenRequired: true
     }
+  }, {
+    path: '/products',
+    name: 'products',
+    component: resolve => require(['components/increment/imarketvue/product/Products.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }
