@@ -247,6 +247,14 @@ export default{
     meta: {
       tokenRequired: true
     }
+  },
+  {
+    path: '/marketplace/product/:code/:status?',
+    name: 'marketplaceProduct',
+    component: resolve => require(['components/increment/imarketvue/marketplace/ProductTraceag.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }

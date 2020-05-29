@@ -3,7 +3,7 @@ let APP_EMAIL = 'support@payhiram.ph'
 export default {
   sidebarMenu: [
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Requests', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
-    {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Products & Installments', icon: 'fas fa-store-alt', path: 'products', flag: false, subMenu: null},
+    {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'My Products', icon: 'fas fa-store-alt', path: 'products', flag: false, subMenu: null},
     // {accountType: 'ALL', accountStatus: 'ALL', description: 'Transfer', icon: 'fa fa-arrow-right', path: 'transfer', flag: false, subMenu: null},
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
     // {accountType: 'INVESTOR', accountStatus: 'ALL', description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
@@ -224,7 +224,7 @@ export default {
       title: 'Price',
       flag: false
     }],
-    productUnits: ['Litres (L)', 'Millilitres (ml)', 'Kilograms (kg)', 'Grams (g)'],
+    productUnits: null,
     productTitleLimit: 100
   }
 }

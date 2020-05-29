@@ -6,8 +6,8 @@ let beforeEnter = (to, from, next) => {
   let userID = parseInt(localStorage.getItem('account_id'))
   let token = localStorage.getItem('usertoken')
   if(token !== null && userID > 0){
-    if(to.path === '/' || to.path === '/'){
-      next({path: '/dashboard'})
+    if(to.path === '/' || to.meta.tokenRequired === false){
+      next({path: '/requests'})
     }else{
       next()
     }

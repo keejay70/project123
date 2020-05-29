@@ -49,7 +49,8 @@ export default {
   tokenData: {
     token: null,
     tokenTimer: false,
-    verifyingToken: false
+    verifyingToken: false,
+    loading: false
   },
   otpDataHolder: {
     userInfo: null,
@@ -80,6 +81,9 @@ export default {
     this.user.notifSetting = notifSetting
     this.user.subAccount = subAccount
     localStorage.setItem('account_id', this.user.userID)
+    setTimeout(() => {
+      this.tokenData.loading = false
+    }, 1000)
   },
   setToken(token){
     this.tokenData.token = token
@@ -131,10 +135,13 @@ export default {
       }
     })
   },
-  checkAuthentication(callback){
+  checkAuthentication(callback, flag = false){
     this.tokenData.verifyingToken = true
     let token = localStorage.getItem('usertoken')
     if(token){
+      if(flag === false){
+        this.tokenData.loading = true
+      }
       this.setToken(token)
       let vue = new Vue()
       vue.APIRequest('authenticate/user', {}, (userInfo) => {
@@ -152,6 +159,7 @@ export default {
           this.setUser(userInfo.id, userInfo.username, userInfo.email, userInfo.account_type, userInfo.status, profile, notifSetting, subAccount)
         }).done(response => {
           this.tokenData.verifyingToken = false
+          this.tokenData.loading = false
           let location = window.location.href
           if(this.currentPath){
             // ROUTER.push(this.currentPath)
@@ -178,6 +186,7 @@ export default {
 
   },
   deaunthenticate(){
+    this.tokenData.loading = false
     localStorage.removeItem('usertoken')
     localStorage.removeItem('account_id')
     localStorage.removeItem('google_code')
