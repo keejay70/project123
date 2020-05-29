@@ -251,7 +251,7 @@ export default{
   {
     path: '/marketplace/product/:code/:status?',
     name: 'marketplaceProduct',
-    component: resolve => require(['components/increment/imarketvue/marketplace/ProductTraceag.vue'], resolve),
+    component: resolve => require(['components/increment/imarketvue/marketplace/Product.vue'], resolve),
     meta: {
       tokenRequired: true
     }

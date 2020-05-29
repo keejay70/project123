@@ -3,9 +3,10 @@ let APP_EMAIL = 'support@payhiram.ph'
 export default {
   sidebarMenu: [
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Requests', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
-    {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'My Products', icon: 'fas fa-store-alt', path: 'products', flag: false, subMenu: null},
+    {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Marketplace', icon: 'fas fa-store-alt', path: 'marketplace', flag: false, subMenu: null},
     // {accountType: 'ALL', accountStatus: 'ALL', description: 'Transfer', icon: 'fa fa-arrow-right', path: 'transfer', flag: false, subMenu: null},
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
+    {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'My Products', icon: 'fas fa-store-alt', path: 'products', flag: false, subMenu: null},
     // {accountType: 'INVESTOR', accountStatus: 'ALL', description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
     // {accountType: 'ALL', accountStatus: 'ALL', description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null},
     {accountType: 'ADMIN', showOnAdmin: true, accountStatus: 'ADMIN', description: 'Coupons', icon: 'fas fa-stamp', path: 'coupons', flag: false, subMenu: null},
