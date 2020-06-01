@@ -228,10 +228,37 @@ export default {
       title: 'Price',
       flag: false
     }, {
+      title: 'Installment',
+      flag: false
+    }, {
+      title: 'Comment',
+      flag: false
+    }],
+    editProductMenuRental: [{
+      title: 'Inventory',
+      flag: true
+    }, {
+      title: 'Variation',
+      flag: false
+    }, {
+      title: 'Price',
+      flag: false
+    }, {
       title: 'Comment',
       flag: false
     }],
     productUnits: null,
-    productTitleLimit: 100
-  }
+    productTitleLimit: 100,
+    variations: ['Size', 'Color']
+  },
+  requirementOptions: [{
+    title: 'At least 1 Valid ID',
+    payload: 'id_1'
+  }, {
+    title: 'At least 2 Valid ID\'s',
+    payload: 'id_2'
+  }, {
+    title: 'Credit Card',
+    payload: 'credit_card'
+  }]
 }
