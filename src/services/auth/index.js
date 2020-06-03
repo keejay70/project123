@@ -62,6 +62,7 @@ export default {
   },
   echo: null,
   currentPath: false,
+  attachmentValue: null,
   setUser(userID, username, email, type, status, profile, notifSetting, subAccount){
     if(userID === null){
       username = null

@@ -9,7 +9,8 @@
           </button>
         </label>
         <button class="btn btn-primary pull-right" @click="redirect('/createRequest')">Post a request</button>
-        <button class="btn btn-primary pull-right" @click="showMyRequest()" style="margin-right: 10px;">View my request</button>
+        <button class="btn btn-primary pull-right" style="margin-left: 10px;margin-right: 10px;" @click="redirect('/createRequestBorrow')">Post borrow request</button>
+        <button class="btn btn-primary pull-right" @click="showMyRequest()">View my request</button>
         <!-- <button class="btn btn-primary pull-right" @click="showRequestModal('create')">Post a request</button> -->
       </div>
       <basic-filter 

@@ -123,6 +123,22 @@ export default {
   //   money_type: 'Wallet'
   // }
   ],
+  fulfillmentTypesBorrow: [{
+    value: 101,
+    label: 'Loan via Product Fulfilment',
+    description: 'Allow other peer to fulfill your transaction when you want to purchase our products from our partners.',
+    money_type: 'Wallet'
+  }, {
+    value: 102,
+    label: 'Direct Loan(Wallet)',
+    description: 'Allow other peer to fulfill your needed money via wallet.',
+    money_type: 'Cash'
+  }, {
+    value: 103,
+    label: 'Direct Loan(Cash)',
+    description: 'Allow other peer to fulfill your needed money via cash.',
+    money_type: 'Cash'
+  }],
   currencies: [{
     title: 'Philippine Peso',
     value: 'PHP'
@@ -252,10 +268,10 @@ export default {
     variations: ['Size', 'Color']
   },
   requirementOptions: [{
-    title: 'At least 1 Valid ID',
+    title: '1 Valid ID',
     payload: 'id_1'
   }, {
-    title: 'At least 2 Valid ID\'s',
+    title: '2 Valid ID\'s',
     payload: 'id_2'
   }, {
     title: 'Credit Card',

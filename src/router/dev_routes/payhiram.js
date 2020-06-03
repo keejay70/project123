@@ -183,6 +183,13 @@ export default{
       tokenRequired: true
     }
   }, {
+    path: '/createRequestBorrow',
+    name: 'createRequestBorrow',
+    component: resolve => require(['modules/request/CreateBorrow.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
+  }, {
     path: '/thread/:code?',
     name: 'thread',
     component: resolve => require(['components/increment/messengervue/Payhiram.vue'], resolve),
