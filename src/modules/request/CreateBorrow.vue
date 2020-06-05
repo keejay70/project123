@@ -22,7 +22,9 @@
           </div>
           <div style="width: 70%; float: left;" v-if="request.attachment_value !== null">
             <label for="address" style="width: 100%;">Attachments <b class="text-danger">*</b></label>
-            <product-view :data="auth.attachmentValue"></product-view>
+            <span width="width: 100%; float: left;">
+              <product-view :data="auth.attachmentValue"></product-view>
+            </span>
           </div>
         </div>
         <div class="form-group" style="float: left; width: 100%;">

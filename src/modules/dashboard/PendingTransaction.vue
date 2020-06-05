@@ -1,8 +1,9 @@
 <template>
   <div class="ledger-summary-container">
-    <div class="inputs" v-if="data !== null">
+    <div class="inputs" v-if="withdrawal !== null || installment !== null">
       <div><label><b>Pending transactions</b></label></div>
-      <div class="summary-container-item" v-for="item, index in data" v-if="data !== null" @click="setActiveIndex(index)">
+
+      <div class="summary-container-item" v-for="item, index in withdrawal" v-if="withdrawal !== null" @click="setActiveIndex(index)">
         <span class="header" style="padding-top: 10px;">
           <span style="width: 100%; float: left;">
             <label>Withdraw via {{item.bank}}</label>
@@ -49,6 +50,22 @@
             <td class="text-primary">Processing of the withdrawal will take up to 7 working days!</td>
           </tr>
         </table>
+      </div>
+
+      <div class="summary-container-item" v-for="item, index in installment"  v-if="installment !== null">
+        <span class="header" style="padding-top: 10px;">
+          <span class="badge text-uppercase" :class="{'badge-danger': item.status === 'pending'}">{{item.status}} </span>
+          <span style="width: 100%; float: left;">
+            <product-list-view :data="item.product"></product-list-view>
+            <installment-label :data="item.installment" v-if="item.installment !== null"></installment-label>
+            <b>From {{item.product.merchant.name}}</b>
+          </span>
+          <span style="width: 100%; float: left; padding-bottom: 10px;">
+            <label>
+              {{item.created_at_human}}
+            </label>
+          </span>
+        </span>
       </div>
     </div>
   </div>
@@ -140,7 +157,11 @@ export default{
       activeIndex: null
     }
   },
-  props: ['data'],
+  props: ['withdrawal', 'installment'],
+  components: {
+    'installment-label': require('components/increment/imarketvue/installment/label.vue'),
+    'product-list-view': require('components/increment/imarketvue/product/ProductListView.vue')
+  },
   methods: {
     redirect(params){
       ROUTER.push(params)
