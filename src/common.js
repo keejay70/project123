@@ -4,6 +4,7 @@ export default {
   sidebarMenu: [
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Requests', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Marketplace', icon: 'fas fa-store-alt', path: 'marketplace', flag: false, subMenu: null},
+    {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Rentals', icon: 'fas fa-store-alt', path: 'rentals', flag: false, subMenu: null},
     // {accountType: 'ALL', accountStatus: 'ALL', description: 'Transfer', icon: 'fa fa-arrow-right', path: 'transfer', flag: false, subMenu: null},
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'My Products', icon: 'fas fa-store-alt', path: 'products', flag: false, subMenu: null},
@@ -276,5 +277,12 @@ export default {
   }, {
     title: 'Credit Card',
     payload: 'credit_card'
+  }],
+  rentalCategories: [{
+    title: 'Cars',
+    payload: 'cars'
+  }, {
+    title: 'Bikes',
+    payload: 'bikes'
   }]
 }
