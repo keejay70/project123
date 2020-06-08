@@ -250,6 +250,9 @@ export default {
     }, {
       title: 'Comment',
       flag: false
+    }, {
+      title: 'Location',
+      flag: false
     }],
     editProductMenuRental: [{
       title: 'Inventory',
@@ -262,6 +265,9 @@ export default {
       flag: false
     }, {
       title: 'Comment',
+      flag: false
+    }, {
+      title: 'Location',
       flag: false
     }],
     productUnits: null,

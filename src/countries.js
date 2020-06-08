@@ -7,19 +7,19 @@ export default{
   }],
   cities: [{
     title: 'Cebu City',
-    reqion: 'Cebu',
+    region: 'Cebu',
     country: 'Philippines'
   }, {
     title: 'Mandaue City',
-    reqion: 'Cebu',
+    region: 'Cebu',
     country: 'Philippines'
   }, {
     title: 'Consolacion',
-    reqion: 'Cebu',
+    region: 'Cebu',
     country: 'Philippines'
   }, {
     title: 'Talisay',
-    reqion: 'Cebu',
+    region: 'Cebu',
     country: 'Philippines'
   }]
 }
