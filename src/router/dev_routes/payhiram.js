@@ -270,6 +270,14 @@ export default{
     meta: {
       tokenRequired: true
     }
+  },
+  {
+    path: '/rental/booking/:code/:startDate/:endDate/:status?',
+    name: 'rentalBooking',
+    component: resolve => require(['components/increment/imarketvue/rental/Product.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }
