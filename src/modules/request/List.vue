@@ -215,6 +215,8 @@
   overflow: hidden;
   display: table-cell;
   vertical-align: middle;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .rl-container-item .header label{
   margin-bottom: 0px;
