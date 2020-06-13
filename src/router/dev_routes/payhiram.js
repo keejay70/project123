@@ -278,6 +278,14 @@ export default{
     meta: {
       tokenRequired: true
     }
+  },
+  {
+    path: '/rentalRequests',
+    name: 'rentalRequests',
+    component: resolve => require(['components/increment/imarketvue/rental/Requests.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }
