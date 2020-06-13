@@ -46,6 +46,7 @@ export default {
   }],
   USER_TYPE_SETTING: false,
   plan: false,
+  broadcastingFlag: true,
   header: ['status', 'notification'], // 'messenger', '',
   settingsMenu: [
     {title: 'Profile', type: 'profile', allowed: ['cellular_number', 'address', 'sex', 'birth_date']},
@@ -79,7 +80,7 @@ export default {
   MAXIMUM_WITHDRAWAL: 500000,
   pusher: {
     channel: 'payhiram',
-    notifications: 'Notifications',
+    notifications: 'App\\Event\\Notifications',
     messages: 'Message',
     messageGroup: 'MessageGroup',
     typing: 'typing'
