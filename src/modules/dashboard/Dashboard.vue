@@ -10,7 +10,7 @@
       <!-- <available :data="data.ledger.available"></available> -->
     </div>
     <div class="dashboard-right-container">
-      <pending-transaction :withdrawal="data.ledger.withdrawal" :installment="data.ledger.installment_request"></pending-transaction>
+      <pending-transaction :withdrawal="data.ledger.withdrawal" :installment="data.ledger.installment_request" :rental="data.ledger.rental_request"></pending-transaction>
       <label style="margin-top: 15px;"><b>Ledger Summary</b></label>
       <summary-ledger :data="data.data"></summary-ledger>
     </div>

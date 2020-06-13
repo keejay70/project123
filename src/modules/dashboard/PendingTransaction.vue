@@ -1,9 +1,9 @@
 <template>
   <div class="ledger-summary-container">
-    <div class="inputs" v-if="withdrawal !== null || installment !== null">
+    <div class="inputs" v-if="withdrawal !== null || installment !== null || rental !== null">
       <div><label><b>Pending transactions</b></label></div>
 
-      <div class="summary-container-item" v-for="item, index in withdrawal" v-if="withdrawal !== null" @click="setActiveIndex(index)">
+      <div class="summary-container-item" v-for="item, index in withdrawal" v-if="withdrawal !== null" @click="setActiveIndex(index)" :key="'withdrawal' + index">
         <span class="header" style="padding-top: 10px;">
           <span style="width: 100%; float: left;">
             <label>Withdraw via {{item.bank}}</label>
@@ -52,8 +52,11 @@
         </table>
       </div>
 
-      <div class="summary-container-item" v-for="item, index in installment"  v-if="installment !== null">
+      <div class="summary-container-item" v-for="item, index in installment"  v-if="installment !== null" :key="'installment' + index">
         <span class="header" style="padding-top: 10px;">
+          <span style="width: 100%; float: left;">
+            <b>Installment request</b>
+          </span>
           <span class="badge text-uppercase" :class="{'badge-danger': item.status === 'pending'}">{{item.status}} </span>
           <span style="width: 100%; float: left;">
             <product-list-view :data="item.product"></product-list-view>
@@ -67,6 +70,28 @@
           </span>
         </span>
       </div>
+
+
+       <div class="summary-container-item" v-for="item, index in rental"  v-if="rental !== null" :key="'rental' + index">
+        <span class="header" style="padding-top: 10px;">
+          <span style="width: 100%; float: left;">
+            <b>Booking request</b>
+          </span>
+          <span class="badge text-uppercase" :class="{'badge-danger': item.status === 'pending'}">{{item.status}} </span>
+          <span style="width: 100%; float: left;">
+            <product-list-view :data="item.product"></product-list-view>
+            <b>From {{item.product.merchant.name}}</b>
+          </span>
+          <span style="width: 100%; float: left; padding-bottom: 10px;">
+            <label>
+              Transaction date on {{item.start_human}} - {{item.end_human}}
+            </label>
+          </span>
+        </span>
+      </div>
+
+
+
     </div>
   </div>
 </template>
@@ -157,7 +182,7 @@ export default{
       activeIndex: null
     }
   },
-  props: ['withdrawal', 'installment'],
+  props: ['withdrawal', 'installment', 'rental'],
   components: {
     'installment-label': require('components/increment/imarketvue/installment/label.vue'),
     'product-list-view': require('components/increment/imarketvue/product/ProductListView.vue')
