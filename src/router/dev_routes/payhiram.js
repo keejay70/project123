@@ -286,6 +286,14 @@ export default{
     meta: {
       tokenRequired: true
     }
+  },
+  {
+    path: '/installmentRequests',
+    name: 'installmentRequests',
+    component: resolve => require(['components/increment/imarketvue/installment/Requests.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }

@@ -9,6 +9,7 @@ export default {
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
     {accountType: 'MERCHANT', showOnAdmin: true, accountStatus: 'ALL', description: 'My Products', icon: 'fas fa-store-alt', path: 'products', flag: false, subMenu: null},
     {accountType: 'MERCHANT', showOnAdmin: true, accountStatus: 'ALL', description: 'Rental Requests', icon: 'fas fa-store-alt', path: 'rentalRequests', flag: false, subMenu: null},
+    {accountType: 'MERCHANT', showOnAdmin: true, accountStatus: 'ALL', description: 'Installments Requests', icon: 'fas fa-store-alt', path: 'InstallmentRequests', flag: false, subMenu: null},
     // {accountType: 'INVESTOR', accountStatus: 'ALL', description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
     // {accountType: 'ALL', accountStatus: 'ALL', description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null},
     {accountType: 'ADMIN', showOnAdmin: true, accountStatus: 'ADMIN', description: 'Coupons', icon: 'fas fa-stamp', path: 'coupons', flag: false, subMenu: null},
