@@ -80,7 +80,7 @@ export default {
   MAXIMUM_WITHDRAWAL: 500000,
   pusher: {
     channel: 'payhiram',
-    notifications: 'App\\Event\\Notifications',
+    notifications: 'Notifications',
     messages: 'Message',
     messageGroup: 'MessageGroup',
     typing: 'typing'

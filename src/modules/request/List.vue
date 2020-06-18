@@ -566,7 +566,7 @@ export default{
           let messengerParams = {
             member: peerItem.account_id,
             title: item.code,
-            payload: item.id,
+            payload: 'request',
             creator: this.user.userID
           }
           this.APIRequest('custom_messenger_groups/create', messengerParams).then(response => {
