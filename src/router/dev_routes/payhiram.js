@@ -294,6 +294,14 @@ export default{
     meta: {
       tokenRequired: true
     }
+  },
+  {
+    path: '/connection',
+    name: 'connection',
+    component: resolve => require(['modules/request/Connection.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }
