@@ -8,6 +8,7 @@
       <requests :data="data.ledger.total_requests" :currency="data.ledger.currency"></requests>
       <!-- <approved :data="data.ledger.approved"></approved> -->
       <!-- <available :data="data.ledger.available"></available> -->
+      <scanner></scanner>
     </div>
     <div class="dashboard-right-container">
       <pending-transaction :withdrawal="data.ledger.withdrawal" :installment="data.ledger.installment_request" :rental="data.ledger.rental_request"></pending-transaction>
@@ -118,6 +119,7 @@
 import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
+import Scanner from 'modules/request/Scanner.vue'
 export default{
   mounted(){
     this.retrieve({column: 'created_at', value: 'desc'}, {column: 'created_at', value: ''})
@@ -136,7 +138,8 @@ export default{
     'available': require('modules/dashboard/Available.vue'),
     'approved': require('modules/dashboard/Approved.vue'),
     'summary-ledger': require('modules/dashboard/Summary.vue'),
-    'pending-transaction': require('modules/dashboard/PendingTransaction.vue')
+    'pending-transaction': require('modules/dashboard/PendingTransaction.vue'),
+    'scanner': Scanner
   },
   methods: {
     redirect(parameter){
