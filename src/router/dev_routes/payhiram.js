@@ -294,6 +294,14 @@ export default{
     meta: {
       tokenRequired: true
     }
+  },
+  {
+    path: '/invitation/:code',
+    name: 'scannedConfirm',
+    component: resolve => require(['modules/request/ScannedConfirm.vue'], resolve),
+    meta: {
+      tokenRequired: true
+    }
   }
   ]
 }

@@ -7,7 +7,7 @@
         </div>
         <div class="form-group">
           <label for="address" style="width: 100%;">Select type of fulfilment <b class="text-danger">*</b></label>
-          <div class="card" v-for="(item, index) in common.fulfillmentTypes" :key="index" :class="{'bg-primary': request.type == item.value}" @click="request.type = item.value, request.money_type = item.money_type">
+          <div class="card" v-for="(item, index) in common.fulfillmentTypes" :key="index" :class="{'bg-secondary': request.type == item.value}" @click="request.type = item.value, request.money_type = item.money_type">
             <div class="card-body">
               <label class="card-title"><b>{{item.label}}</b></label>
               <p class="card-text" style="text-align: justify; font-size: 13px;"><i>{{item.description}}</i></p>
@@ -16,8 +16,8 @@
         </div>
         <div>
           <label for="address" style="width: 100%;">I need <b class="text-danger">*</b></label>
-          <button class="btn btn-primary" v-if="request.money_type === 'Cash'" style="width: 25% !important; height: 75px !important;">Cash</button>
-          <button class="btn btn-primary" v-else style="width: 25% !important; height: 75px !important;" >E-Money</button>
+          <button class="btn btn-secondary" v-if="request.money_type === 'Cash'" style="width: 25% !important; height: 75px !important;">Cash</button>
+          <button class="btn btn-secondary" v-else style="width: 25% !important; height: 75px !important;" >E-Money</button>
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Select Currency</label>
@@ -87,7 +87,7 @@
           <label class="pull-left">Amount</label>
           <label class="pull-right"><b>{{auth.displayAmountWithCurrency(request.amount, request.currency)}}</b></label>
         </span> 
-        <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 10px; width: 100%!important;" @click="showPromoField()" v-if="couponFlag === false">Promo</button>
+        <button class="btn btn-secondary pull-right btn-custom" style="margin-bottom: 10px; width: 100%!important;" @click="showPromoField()" v-if="couponFlag === false">Promo</button>
         <div v-if="couponFlag == true && request.coupon === null"> 
           <input type='text' class="form-control form-control-custom" v-model="coupon" placeholder='Type promo code here' style="width: 58%!important; float: left;"/>
           <button class="btn btn-primary pull-right btn-custom" style="margin-bottom: 10px; width: 20%!important; float: left; margin-left: 1%;" @click="applyPromo()">Apply</button>
@@ -119,6 +119,10 @@
 @import "~assets/style/colors.scss";
 .bg-primary{
   background-color: $primary !important;
+}
+.bg-secondary{
+  background-color: $secondary !important;
+  color:white;
 }
 .profile-holder{
   width: 100%;
