@@ -1,8 +1,8 @@
 <template>
   <div class="incre-row">
-    <label class="title"><b>Work Experiences</b></label>
+    <label class="title"><b>WORK EXPERIENCES</b></label>
     <div class="incre-row">
-      <div class="rl-container-item" v-for="(item, index) in data" :key="index" v-bind:class="{'bordered': index > 0}">
+      <div class="rl-container-item" v-for="(item, index) in data" :key="index">
         <span class="header">
           <i class="fas fa-check" v-if="item.verified === true"></i>
           {{item.position}}
@@ -79,7 +79,7 @@
     border: none;
 }
 .rl-container-item{
-  width: 100%;
+  width: 50%;
   float: left;
   min-height: 50px;
   overflow-y: hidden;
