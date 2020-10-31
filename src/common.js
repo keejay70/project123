@@ -58,7 +58,11 @@ export default {
     // {title: 'Payment Accounts', type: 'payment_method', allowed: []},
     // {title: 'Billing Information', type: 'billing_information', allowed: []},
     {title: 'Business Setting', type: 'merchant', allowed: ['prefix']},
-    {title: 'Notifications', type: 'notification', allowed: []}
+    {title: 'Notifications', type: 'notification', allowed: []},
+    {title: 'Educational Background', type: 'educations', allowed: []},
+    {title: 'Work Experiences', type: 'work-experience', allowed: []},
+    {title: 'Identifications', type: 'identifications', allowed: []},
+    {title: 'Guarantor', type: 'guarantor', allowed: []}
   ],
   referral: {
     message: 'to help them in case of they want to send cash online.',

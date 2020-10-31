@@ -7,7 +7,8 @@
     </span>
   </div>
 </template>
-<style scoped>
+<style lang="scss" scoped>
+  @import "~assets/style/colors.scss";
 .requested-container-item{
   width: 100%;
   float: left;

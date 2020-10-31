@@ -64,7 +64,7 @@
                 <div v-else style="word-break: break-all; font-color: 555;">
                   {{ showDescription === true &&  showDescriptionIndex === index ? item.work_description : item.work_description.substring(0, 400) }}
                   <a :class="showDescription === true &&  showDescriptionIndex === index ? 'see-more clicked' : 'see-more'" @click="setShowDescription(index)">
-                    {{ showDescription === true &&  showDescriptionIndex === index ? '<<<' : '>>>'}}
+                    {{ showDescription === true &&  showDescriptionIndex === index ? 'test' : '>>>'}}
                   </a>
                 </div>
                 <!-- <div v-if="item.work_description.length >= 400" title="See more" style="margin: 5px 47%">

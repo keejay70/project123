@@ -1,29 +1,40 @@
 <template>
   <div class="profile-header-wrapper" v-if="item.account !== null">
     <div class="incre-row text-center">
-      <span class="image text-center" v-if="item.account.profile !== null">
+      <span class="image text-center mt-4" v-if="item.account.profile !== null">
         <img :src="config.BACKEND_URL + item.account.profile.url">
       </span>
       <span class="image text-center" v-else>
         <i class="fa fa-user-circle-o" ></i>
       </span>
     </div>
-    <div class="incre-row text-center" style="text-transform: capitalize">
-      <h2 class="text-primary" v-if="item.account.information !== null && item.account.information.first_name !== null">
-        <b v-if="item.account.information.first_name !== null">{{item.account.information.first_name}}</b>
-        <b v-if="item.account.information.last_name !== null">{{item.account.information.last_name}}</b>
-      </h2>
-      <h2 v-else class="text-primary">{{item.account.username}}</h2>
-      <label v-if="item.account.information !== null"><b>{{item.account.information.address}}</b></label>
+    <div class="incre-row text-center" style="text-transform: capitalize"><br>
+      <div class="text-white" v-if="item.account.information !== null && item.account.information.first_name !== null">
+        <span v-if="item.account.information.first_name !== null">{{item.account.information.first_name}}</span>
+        <span v-if="item.account.information.last_name !== null">{{item.account.information.last_name}}</span>
+      </div>
+      <p v-else class="text-white">{{item.account.username}}</p>
+      <ratings class="text-white" :ratings="item.rating" v-if="item.rating !== null"></ratings>
+      <p class="text-white"><i class="far fa-check-circle" color="primary"></i><i> {{item.status === 'NOT_VERIFIED' ? item.status : 'Verified'}}</i></p>
+      <br>
+      <!-- <label class="text-white" v-if="item.account.information !== null"><b>{{item.account.information.address}}</b></label> -->
+
     </div>
   </div>
 </template>
 <style scoped>
+.fa-check-circle {
+  color: #00bfff;
+}
+.fa-user-circle-o {
+  color: #ffffff;
+}
 .profile-header-wrapper{
   width: 100%;
   float: left;
   min-height: 100px;
   overflow-y: hidden;
+  background-color: #3F0050;
 }
 .image{
   width: 100%;
@@ -79,6 +90,9 @@ export default{
     redirect(parameter){
       ROUTER.push(parameter)
     }
+  },
+  components: {
+    'ratings': require('components/increment/generic/rating/DirectRatings.vue')
   }
 }
 </script>

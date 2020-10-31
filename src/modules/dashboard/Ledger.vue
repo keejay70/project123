@@ -1,20 +1,17 @@
 <template>
-  <div class="ledgers-container-item bg-primary" > 
+  <div class="ledgers-container-item" > 
     <label><b>Account Balance</b></label>
     <label>{{auth.displayAmountWithCurrency(auth.user.ledger.amount, auth.user.ledger.currency)}}</label>
     <span style="margin-bottom: 5px;">
-      <button class="btn btn-warning pull-left" style="margin-top: 4px;" @click="redirect('/withdrawals')">Withdraw</button>
-      <button class="btn btn-warning pull-right" style="margin-top: 4px;" @click="showDepositModal(data)">Deposit</button>
+      <button class="btn btn-primary pull-left" style="margin-top: 4px;" @click="redirect('/withdrawals')">Withdraw</button>
+      <button class="btn btn-primary pull-right" style="margin-top: 4px;" @click="showDepositModal(data)">Deposit</button>
     </span>
     <deposit :item="selecteditem"></deposit>
     <withdraw :item="selecteditem"></withdraw>
   </div>
 </template>
-<style scoped lang="scss">
-@import "~assets/style/colors.scss";
-.bg-primary{
-  background: $primary !important;
-}
+<style lang="scss" scoped>
+  @import "~assets/style/colors.scss";
 .ledgers-container-item{
   width: 100%;
   float: left;

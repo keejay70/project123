@@ -1,8 +1,9 @@
 <template>
   <div class="incre-row">
-    <label class="title"><b>Guarantors</b></label>
+    <label class="title"><b>GUARANTORS</b></label>
     <div class="incre-row">
       <div class="item" v-for="(item, index) in data" :key="index">
+        <i class="fas fa-user-friends"></i>
         {{item.account.username}}
         <i class="fas fa-check text-primary pull-right" v-if="item.status === 'approved'"></i>
       </div>
