@@ -19,6 +19,15 @@
         <span class="link">
           <a target="_BLANK" class="text-gray" :href="'https://www.facebook.com/' + common.socialMedia.facebook" ><i class="fab fa-facebook"></i></a>
         </span>
+        <span class="link">
+          <a target="_BLANK" class="text-gray" :href="'https://www.twitter.com/' + common.socialMedia.facebook" ><i class="fab fa-twitter"></i></a>
+        </span>
+        <span class="link">
+          <a target="_BLANK" class="text-gray" :href="'https://www.instagram.com/' + common.socialMedia.facebook" ><i class="fab fa-instagram"></i></a>
+        </span>
+        <span class="link">
+          <a target="_BLANK" class="text-gray" :href="'https://www.linkedin.com/' + common.socialMedia.facebook" ><i class="fab fa-linkedin"></i></a>
+        </span>
       </span>
       
       <span class="copyright">

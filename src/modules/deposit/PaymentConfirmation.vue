@@ -90,12 +90,10 @@
 .bg-primary{
   background: $primary !important; 
 }
-
 .login-wrapper{
   width: 100%;
   margin: 0 0% 50px 0%;
 }
-
 .login-header{
   height: 100px;
   color: #006600;
@@ -103,40 +101,31 @@
   float: left;
   text-align: center;
 }
-
 .login-header img{
   height: 100px !important;
   width: 100px !important;
 }
-
 .login-header img:hover{
   cursor: pointer;
 }
-
 .login-message-holder{
   min-height: 30px;
   font-size: 12px;
   float: left;
   overflow: hidden;
 }
-
 .login-spacer{
   margin-bottom: 10px;
 }
-
 .btn{
   height: 50px !important;
 }
-
 .input-group-addon{
   width: 50px;
 }
-
 .form-control-login{
   height: 45px !important;
 }
-
-
 @media (max-width: 992px){
   .login-wrapper{
     width: 96%;
