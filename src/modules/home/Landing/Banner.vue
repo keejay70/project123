@@ -10,16 +10,16 @@
             In Payhiram, we have partners to fulfill your cash needed in any locations you want. Start sending today!
           </h4>
         </span>
-        <span>
-          <button class="btn btn-warning custom-btn" @click="redirect('/login')">Login</button>
-          <button class="btn custom-btn" style="color: #000;" @click="redirect('/signup')">Register</button>
-          <span style="width: 100%; float: left;" >
+          <div class="row">
+              <img width="200" class="mt-4 mr-2 app" :src="require('assets/img/playstoreblack.png')" @click="externalLink('https://play.google.com/store/apps/details?id=com.payhiram')"/>
+              <img width="200" class="mt-4 mr-2 app" :src="require('assets/img/appstoreblack.png')" @click="externalLink('appstore.test')"/>
+          </div>
+          <!-- <span style="width: 100%; float: left;" >
             <button class="btn custom-btn bg-black" @click="externalLink('https://play.google.com/store/apps/details?id=com.payhiram')">
               <i class="fab fa-google-play"></i>
               Get on Play Store Now!
             </button>
-          </span>
-        </span>
+          </span> -->
       </div>
       <img :src="require('assets/img/Banner.png')" class="image">
     </div>
@@ -27,6 +27,9 @@
 </template>
 <style scoped lang="scss">
 @import "~assets/style/colors.scss";
+.app{
+  cursor: pointer;
+}
 .custom-btn{
   height: 50px !important;
   border-radius: 5px !important;
