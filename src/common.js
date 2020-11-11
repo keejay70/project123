@@ -3,13 +3,13 @@ let APP_EMAIL = 'support@payhiram.ph'
 export default {
   sidebarMenu: [
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Requests', icon: 'fa fa-arrow-right', path: 'requests', flag: false, subMenu: null},
-    {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Marketplace', icon: 'fas fa-store-alt', path: 'marketplace', flag: false, subMenu: null},
-    {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Rentals', icon: 'fas fa-hand-holding-heart', path: 'rentals', flag: false, subMenu: null},
+    // {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Marketplace', icon: 'fas fa-store-alt', path: 'marketplace', flag: false, subMenu: null},
+    // {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Rentals', icon: 'fas fa-hand-holding-heart', path: 'rentals', flag: false, subMenu: null},
     // {accountType: 'ALL', accountStatus: 'ALL', description: 'Transfer', icon: 'fa fa-arrow-right', path: 'transfer', flag: false, subMenu: null},
     {accountType: 'ALL', showOnAdmin: true, accountStatus: 'ALL', description: 'Dashboard', icon: 'fa fa-tachometer', path: 'dashboard', flag: false, subMenu: null},
-    {accountType: 'MERCHANT', showOnAdmin: true, accountStatus: 'ALL', description: 'My Products', icon: 'fas fa-store-alt', path: 'products', flag: false, subMenu: null},
-    {accountType: 'MERCHANT', showOnAdmin: true, accountStatus: 'ALL', description: 'Rental Requests', icon: 'fas fa-store-alt', path: 'rentalRequests', flag: false, subMenu: null},
-    {accountType: 'MERCHANT', showOnAdmin: true, accountStatus: 'ALL', description: 'Installments Requests', icon: 'fas fa-store-alt', path: 'InstallmentRequests', flag: false, subMenu: null},
+    // {accountType: 'MERCHANT', showOnAdmin: true, accountStatus: 'ALL', description: 'My Products', icon: 'fas fa-store-alt', path: 'products', flag: false, subMenu: null},
+    // {accountType: 'MERCHANT', showOnAdmin: true, accountStatus: 'ALL', description: 'Rental Requests', icon: 'fas fa-store-alt', path: 'rentalRequests', flag: false, subMenu: null},
+    // {accountType: 'MERCHANT', showOnAdmin: true, accountStatus: 'ALL', description: 'Installments Requests', icon: 'fas fa-store-alt', path: 'InstallmentRequests', flag: false, subMenu: null},
     // {accountType: 'INVESTOR', accountStatus: 'ALL', description: 'Invested', icon: 'fa fa-arrow-left', path: 'investments', flag: false, subMenu: null},
     // {accountType: 'ALL', accountStatus: 'ALL', description: 'Payments', icon: 'fa fa-money', path: 'payments', flag: false, subMenu: null},
     {accountType: 'ADMIN', showOnAdmin: true, accountStatus: 'ADMIN', description: 'Coupons', icon: 'fas fa-stamp', path: 'coupons', flag: false, subMenu: null},
@@ -58,7 +58,11 @@ export default {
     // {title: 'Payment Accounts', type: 'payment_method', allowed: []},
     // {title: 'Billing Information', type: 'billing_information', allowed: []},
     {title: 'Business Setting', type: 'merchant', allowed: ['prefix']},
-    {title: 'Notifications', type: 'notification', allowed: []}
+    {title: 'Notifications', type: 'notification', allowed: []},
+    {title: 'Educational Background', type: 'educations', allowed: []},
+    {title: 'Work Experiences', type: 'work-experience', allowed: []},
+    {title: 'Identifications', type: 'identifications', allowed: []},
+    {title: 'Guarantor', type: 'guarantor', allowed: []}
   ],
   referral: {
     message: 'to help them in case of they want to send cash online.',

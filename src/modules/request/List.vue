@@ -1,4 +1,4 @@
- <template>
+<template>
   <div class="request-list-wrapper">
     <div class="request-list-left-container">
       <div class="incre-row" style="margin-bottom: 10px;">
@@ -171,14 +171,12 @@
   margin-top: 25px;
   margin-bottom: 100px;
 }
-
 .rl-container-header{
   width: 100%;
   float: left;
   height: 70px;
   border: solid 1px #ddd;
 }
-
 .rl-container-item{
   width: 100%;
   float: left;
@@ -206,7 +204,6 @@
   color: $white;
   margin-bottom: 5px;
 }
-
 .rl-container-item .summary-header label{
   text-align: center;
   width: 100%;
@@ -228,12 +225,10 @@
   min-height: 10px;
   overflow-y: hidden;
 }
-
 .rl-container-item .body label{
   margin-bottom: 0px;
   width: 100%;
 }
-
 .rl-container-item .footer{
   width: 100%;
   float: left;
@@ -242,7 +237,6 @@
   line-height: 40px;
   overflow-y: hidden;
 }
-
 .footer button{
   float: left;
   height: 50px !important;
@@ -251,14 +245,12 @@
   margin-bottom: 25px;
   width: 150px !important;
 }
-
 .request-list-left-container{
   float: left;
   width: 68%;
   min-height: 50px;
   overflow-y: hidden;
 }
-
 .request-list-right-container{
   float: left;
   width: 30%;
@@ -270,7 +262,6 @@
   height: 40px !important;
   line-height: 40px;
 }
-
 .dropdown-item{
   width: 100% !important;
   height: 40px !important;
@@ -279,34 +270,28 @@
   padding-top: 0px !important;
   line-height: 40px !important;
 }
-
 .dropdown-item:hover{
   background: #ddd !important;
 }
-
 .request-image{
   float: left;
   margin-right: 1%;
   max-height: auto;
   margin-bottom: 10px;
 }
-
 .request-image:hover{
   cursor: pointer;
   border: solid 1px $secondary;
 }
-
 .peer-requests{
   width: 100%;
   float: left;
   min-height: 10px;
   overflow-y: hidden;
 }
-
 .peer-header{
   line-height: 50px;
 }
-
 .peer-item{
   width: 100%;
   float: left;
@@ -315,7 +300,6 @@
   border-top: solid 1px $gray;
   line-height: 50px;
 }
-
 @media (max-width: 992px){
   .request-list-wrapper{
     margin-bottom: 200px;
@@ -327,13 +311,11 @@
   .footer button{
     float: left;
   }
-
   .rl-container-item .summary-header{
     width: 100%;
     margin-right: 0%;
   }
 }
-
 </style>
 <script>
 import ROUTER from 'src/router'
@@ -581,6 +563,5 @@ export default{
       })
     }
   }
-
 }
 </script>
