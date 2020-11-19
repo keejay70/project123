@@ -312,9 +312,9 @@ export default{
     }
   },
   {
-    path: '/resolutions',
-    name: 'resolution',
-    component: resolve => require(['modules/resolutions/Resolutions.vue'], resolve),
+    path: '/tickets',
+    name: 'tickets',
+    component: resolve => require(['components/increment/support/Resolution/Ticket.vue'], resolve),
     meta: {
       tokenRequired: true
     }
